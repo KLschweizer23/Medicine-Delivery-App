@@ -11,11 +11,11 @@ Database: MySQL
 Requirements:
 1. Java 11.0 (https://www.oracle.com/sg/java/technologies/javase/jdk11-archive-downloads.html)
    - To run the application
-2a. Maven (https://maven.apache.org/)
+2. Maven (https://maven.apache.org/)
    - To start the website with only a simple command
-2b. Java Plugin Package in VS Code
+3. Java Plugin Package in VS Code
    - To start the website in VS Code
-3. MySQL 8.0
+4. MySQL 8.0
    - v8.0 or above since old version is not applicable
 
 
