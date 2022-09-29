@@ -30,6 +30,6 @@ spring.datasource.url=jdbc:mysql://localhost:3308/YOUR_SCHEMA_NAME
 spring.datasource.username=YOUR_USERNAME
 spring.datasource.password=YOUR_PASSWORD
 ```
-Change the schema name to the schema name (and port if not 3308) in your database along with your username and password.
+Change the schema name to your schema name (and port if not 3308) in your database along with your username and password.
 
 Have fun and enjoy!
