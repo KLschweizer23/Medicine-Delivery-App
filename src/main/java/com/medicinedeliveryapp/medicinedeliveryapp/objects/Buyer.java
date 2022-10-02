@@ -13,16 +13,18 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "users")
+@Table(name = "buyers")
 public @Data class Buyer extends User{
 
-    public Buyer(Long id, String firstname, String lastName, String sex, String email, String password, String role) {
-        super(id, firstname, lastName, sex, email, password, role);
+    public Buyer(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long buyer_id, List<Cart> carts) {
+        super(id, firstname, lastName, sex, email, password, address, role);
+        this.buyer_id = buyer_id;
+        this.carts = carts;
     }
     
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private Long id;
+    private Long buyer_id;
 
     @OneToMany( cascade = CascadeType.ALL )
     private List<Cart> carts;
