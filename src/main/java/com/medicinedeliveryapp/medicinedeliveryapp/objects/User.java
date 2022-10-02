@@ -1,18 +1,21 @@
-package com.medicinedeliveryapp.medicinedeliveryapp.objects.abstractObjects;
+package com.medicinedeliveryapp.medicinedeliveryapp.objects;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 import javax.persistence.GenerationType;
 
-@MappedSuperclass
-public @Data class AbstractPerson {
+@Entity
+@Table( name = "users" )
+public @Data class User {
     
-    public AbstractPerson(Long id, String firstname, String lastName, String sex, String email, String password, String role){
+    public User(Long id, String firstname, String lastName, String sex, String email, String password, String role){
         this.id = id;
         this.firstName = firstname;
         this.lastName = lastName;
