@@ -16,8 +16,8 @@ import lombok.Data;
 @Table(name = "buyers")
 public @Data class Buyer extends User{
 
-    public Buyer(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long buyer_id, List<Cart> carts) {
-        super(id, firstname, lastName, sex, email, password, address, role);
+    public Buyer(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long role_id, Long buyer_id, List<Cart> carts) {
+        super(id, firstname, lastName, sex, email, password, address, role, role_id);
         this.buyer_id = buyer_id;
         this.carts = carts;
     }

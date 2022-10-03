@@ -16,8 +16,8 @@ import lombok.Data;
 @Table( name = "drivers" )
 public @Data class Driver extends User {
     
-    public Driver(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long driver_id, List<DeliveryNotifications> deliveryNotifications) {
-        super(id, firstname, lastName, sex, email, password, address, role);
+    public Driver(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long role_id, Long driver_id, List<DeliveryNotification> deliveryNotifications) {
+        super(id, firstname, lastName, sex, email, password, address, role, role_id);
         this.driver_id = driver_id;
         this.deliveryNotifications = deliveryNotifications;
     }
@@ -27,6 +27,6 @@ public @Data class Driver extends User {
     private Long driver_id;
 
     @ManyToMany( cascade = CascadeType.ALL )
-    private List<DeliveryNotifications> deliveryNotifications;
+    private List<DeliveryNotification> deliveryNotifications;
 
 }

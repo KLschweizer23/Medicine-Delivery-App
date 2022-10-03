@@ -13,8 +13,8 @@ import lombok.Data;
 @Table( name = "pharmacists" )
 public @Data class Pharmacist extends User {
     
-    public Pharmacist(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long pharmacist_id, String license_id) {
-        super(id, firstname, lastName, sex, email, password, address, role);
+    public Pharmacist(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long role_id, Long pharmacist_id, String license_id) {
+        super(id, firstname, lastName, sex, email, password, address, role, role_id);
         this.pharmacist_id = pharmacist_id;
         this.license_id = license_id;
     }
