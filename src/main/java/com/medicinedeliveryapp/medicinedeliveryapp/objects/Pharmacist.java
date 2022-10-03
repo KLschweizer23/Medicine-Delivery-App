@@ -1,6 +1,10 @@
 package com.medicinedeliveryapp.medicinedeliveryapp.objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -15,7 +19,11 @@ public @Data class Pharmacist extends User {
         this.license_id = license_id;
     }
     
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long pharmacist_id;
+
+    @Column( nullable = false, length = 255)
     private String license_id;
 
 }
