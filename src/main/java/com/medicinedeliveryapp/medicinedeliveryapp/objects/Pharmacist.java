@@ -1,10 +1,12 @@
 package com.medicinedeliveryapp.medicinedeliveryapp.objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,5 +26,8 @@ public class Pharmacist {
 
     @Column( nullable = false, length = 255)
     private String license_id;
+
+    @OneToOne( cascade = CascadeType.ALL )
+    private User user;
 
 }

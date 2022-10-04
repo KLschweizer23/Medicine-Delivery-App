@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.Buyer;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Driver;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.User;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.BuyerRepo;
@@ -42,24 +43,19 @@ public class RepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Test
-    public void testDriver(){
+    public void testBuyer(){
         
-        Driver driver = new Driver();
-        driver.setDriver_id(1L);
-
-        Driver savedDriver = driverRepo.save(driver);
-
-        Driver existDriver = testEntityManager.find(Driver.class, savedDriver.getDriver_id());
-
-        assertThat(existDriver.getDriver_id()).isEqualTo(driver.getDriver_id());
-
+        Buyer buyer = new Buyer();
         User user = new User(1L, "Ken", "Bill", "Male", "Bill@gmail.com", "password", "Tagum City", "driver", 1L);
+        
+        buyer.setBuyer_id(1L);
+        buyer.setUser(user);
+        
+        Buyer savedBuyer = buyerRepo.save(buyer);
 
-        User savedUser = userRepo.save(user);
+        Buyer existBuyer = testEntityManager.find(Buyer.class, savedBuyer.getBuyer_id());
 
-        User existUser = testEntityManager.find(User.class, savedUser.getId());
-
-        assertThat(existUser.getFirstName()).isEqualTo(user.getFirstName());
+        assertThat(existBuyer.getBuyer_id()).isEqualTo(buyer.getBuyer_id());
 
     }
 

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,5 +28,8 @@ public class Driver{
 
     @ManyToMany( cascade = CascadeType.ALL )
     private List<DeliveryNotification> deliveryNotifications;
+
+    @OneToOne( cascade = CascadeType.ALL )
+    private User user;
 
 }
