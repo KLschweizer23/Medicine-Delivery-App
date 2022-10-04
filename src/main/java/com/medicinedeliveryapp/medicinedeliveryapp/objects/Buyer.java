@@ -10,18 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "buyers")
-public @Data class Buyer extends User{
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Buyer{
 
-    public Buyer(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long role_id, Long buyer_id, List<Cart> carts) {
-        super(id, firstname, lastName, sex, email, password, address, role, role_id);
-        this.buyer_id = buyer_id;
-        this.carts = carts;
-    }
-    
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long buyer_id;

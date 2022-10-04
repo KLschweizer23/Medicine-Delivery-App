@@ -7,17 +7,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table( name = "doctors" )
-public @Data class Doctor extends User {
-    
-    public Doctor(Long id, String firstname, String lastName, String sex, String email, String password, String address, String role, Long role_id, Long doctor_id, String license_id) {
-        super(id, firstname, lastName, sex, email, password, address, role, role_id);
-        this.doctor_id = doctor_id;
-        this.license_id = license_id;
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Doctor {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
