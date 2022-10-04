@@ -44,7 +44,4 @@ public class User {
     @Column( nullable = false, length = 255 )
     private String role;
 
-    @Column( nullable = false, length = 255 )
-    private Long role_id;
-
 }
