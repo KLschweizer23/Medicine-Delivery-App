@@ -19,7 +19,6 @@ import com.medicinedeliveryapp.medicinedeliveryapp.repositories.BuyerRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DoctorRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DriverRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.PharmacistRepo;
-import com.medicinedeliveryapp.medicinedeliveryapp.repositories.UserRepo;
 
 @DataJpaTest
 @AutoConfigureTestDatabase( replace = Replace.NONE )
