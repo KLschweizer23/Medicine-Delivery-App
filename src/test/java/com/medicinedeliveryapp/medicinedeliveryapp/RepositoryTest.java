@@ -39,9 +39,6 @@ public class RepositoryTest {
     private PharmacistRepo pharmacistRepo;
 
     @Autowired
-    private UserRepo userRepo;
-
-    @Autowired
     private TestEntityManager testEntityManager;
 
     @Test
