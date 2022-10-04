@@ -1,13 +1,44 @@
+@font-face {
+    font-family: pulse;
+    src: url(../fonts/pulse_font/Pulse.otf);
+}
+
+.bg-dark-primary-theme {
+    background-color: #121213;
+}
+.text-dark-primary-theme {
+    color: #121213;
+}
 .bg-primary-theme {
-    background-color: #202124;
+    background-color: #1f2024;
 }
 .text-primary-theme {
-    color: #202124;
+    color: #1f2024;
 }
 .bg-secondary-theme {
-    background-color: #6099AE;
+    background-color: #b9e9fa;
 }
 
 .text-secondary-theme {
     color:#6099AE;
+}
+
+.pulse-font {
+    font-family: pulse;
+}
+
+.h3-header {
+    font-size: 2rem;
+}
+.h1-header {
+    font-size: 3rem;
+}
+
+@media (min-width: 768px){
+    .h3-header{
+        font-size: 5rem;
+    }
+    .h1-header {
+        font-size: 6rem;
+    }
 }
