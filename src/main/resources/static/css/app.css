@@ -2,6 +2,18 @@
     font-family: pulse;
     src: url(../fonts/pulse_font/Pulse.otf);
 }
+@font-face {
+    font-family: allura;
+    src: url(../fonts/allura_font/Allura-Regular.ttf);
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
 
 .bg-dark-primary-theme {
     background-color: #121213;
@@ -27,11 +39,19 @@
     font-family: pulse;
 }
 
+.allura-font {
+    font-family: allura;
+}
+
 .h3-header {
     font-size: 2rem;
 }
 .h1-header {
     font-size: 3rem;
+}
+
+.p-header {
+    font-size: 2rem;
 }
 
 @media (min-width: 768px){
