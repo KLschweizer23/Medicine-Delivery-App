@@ -15,4 +15,12 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/login")
+    public ModelAndView loginPage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("login.html");
+
+        return mav;
+    }
+
 }

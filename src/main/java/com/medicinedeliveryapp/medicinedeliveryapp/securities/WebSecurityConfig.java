@@ -1,6 +1,7 @@
 package com.medicinedeliveryapp.medicinedeliveryapp.securities;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -11,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.medicinedeliveryapp.medicinedeliveryapp.details.service.CustomUserDetailsService;
 
+@Configuration
 public class WebSecurityConfig {
 
     @Bean
@@ -46,7 +48,7 @@ public class WebSecurityConfig {
         .formLogin()
             .loginPage("/login")
             .usernameParameter("email")
-            .failureForwardUrl("")
+            .failureForwardUrl("/login-fail")
             .defaultSuccessUrl("/dashboard")
             .permitAll()
         .and().logout().logoutSuccessUrl("/").permitAll();
