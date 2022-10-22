@@ -54,11 +54,22 @@ body {
     font-size: 2rem;
 }
 
+.small-card {
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+}
+
 @media (min-width: 768px){
     .h3-header{
         font-size: 5rem;
     }
     .h1-header {
         font-size: 6rem;
+    }
+
+    .small-card {
+        width: 40%;
     }
 }
