@@ -43,7 +43,7 @@ public class AppController {
     @PostMapping("/process-user")
     public ModelAndView processUserRegistration(User user, Model model){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("register_user_role.html");
+        mav.setViewName("register_role.html");
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(user.getPassword());
