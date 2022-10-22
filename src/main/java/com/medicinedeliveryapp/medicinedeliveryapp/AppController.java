@@ -28,4 +28,14 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/register")
+    public ModelAndView registerPage(Model model){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("register.html");
+
+        model.addAttribute("user", new User());
+
+        return mav;
+    }
+
 }
