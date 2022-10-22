@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <th:block th:replace="components/header :: header"></th:block>
+        <title>Register Your Role! - Medicine Delivery Site</title>
+    </head>
+    
+    <body class="bg-primary-theme" style="background-color: black;">
+        
+        <div class="bg-primary-theme text-white small-card" style="margin-top: 100px;">
+            <div class="m-0 p-0 text-center">
+                <h2>Register as <th:block th:text="${user.getRole}"></th:block></h2>
+            </div>
+            <div class="m-0 p-0">
+                <form th:action="@{/process-user}" method="POST" th:object="${user}">
+
+                    <div class="mt-5">
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </div>
+                </form>
+                <div class="mt-2">
+                    <a th:href="@{/}">
+                        <button class="btn btn-secondary btn-block">
+                            Cancel
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
