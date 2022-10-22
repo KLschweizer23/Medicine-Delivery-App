@@ -16,36 +16,36 @@
                 <h2>Register</h2>
             </div>
             <div class="m-0 p-0">
-                <form th:action="@{/process-user}" method="POST" th:object="${user}">
+                <form th:action="@{/process-user}" method="POST">
                     <div class="form-group text-left">
                         <label for="firstName">First Name</label>
-                        <input th:field="*{firstName}" type="text" class="form-control form-control-sm" id="firstName" placeholder="Enter firstname" required>
+                        <input th:field="${user.firstName}" type="text" class="form-control form-control-sm" id="firstName" placeholder="Enter firstname" required>
                     </div>
                     <div class="form-group text-left">
                         <label for="lastnName">Last Name</label>
-                        <input th:field="*{lastName}" type="text" class="form-control form-control-sm" id="lastName" placeholder="Enter lastname" required>
+                        <input th:field="${user.lastName}" type="text" class="form-control form-control-sm" id="lastName" placeholder="Enter lastname" required>
                     </div>
                     <div class="form-group text-left">
                         <label for="email">Email</label>
-                        <input th:field="*{email}" type="text" class="form-control form-control-sm" id="email" placeholder="Enter email" required>
+                        <input th:field="${user.email}" type="text" class="form-control form-control-sm" id="email" placeholder="Enter email" required>
                     </div>
                     <div class="form-group text-left">
                         <label for="password">Password</label>
-                        <input th:field="*{password}" type="password" class="form-control form-control-sm" id="password" placeholder="Enter password" required>
+                        <input th:field="${user.password}" type="password" class="form-control form-control-sm" id="password" placeholder="Enter password" required>
                     </div>
                     <div class="form-group text-left">
                         <label for="address">Address</label>
-                        <input th:field="*{address}" type="text" class="form-control form-control-sm" id="address" placeholder="Enter address" required>
+                        <input th:field="${user.address}" type="text" class="form-control form-control-sm" id="address" placeholder="Enter address" required>
                     </div>
                     <div class="row">
                         <div class="col-md-3 col-12">
                             <label for="">Sex</label><br>
                             <div class="form-check form-check-inline">
-                                <input th:field="*{sex}" type="radio" class="form-check-input" name="sexOptions" id="male" value="male" required>
+                                <input th:field="${user.sex}" type="radio" class="form-check-input" name="sexOptions" id="male" value="male" required>
                                 <label class="form-check-label" for="male">Male</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input th:field="*{sex}" type="radio" class="form-check-input" name="sexOptions" id="female" value="female" required>
+                                <input th:field="${user.sex}" type="radio" class="form-check-input" name="sexOptions" id="female" value="female" required>
                                 <label class="form-check-label" for="female">Female</label>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                         <div class="input-group-prepend">
                           <label class="input-group-text" for="inputGroupSelect01">Account Type</label>
                         </div>
-                        <select th:field="*{role}" class="custom-select" id="inputGroupSelect01">
+                        <select th:field="${user.role}" class="custom-select" id="inputGroupSelect01">
                           <option selected value="buyer">I'm a buyer</option>
                           <option value="doctor">I'm a Doctor</option>
                           <option value="pharmacist">I'm a Pharmacist</option>
