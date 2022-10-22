@@ -55,13 +55,24 @@
                         <div class="input-group-prepend">
                           <label class="input-group-text" for="inputGroupSelect01">Account Type</label>
                         </div>
-                        <select th:field="${user.role}" class="custom-select" id="inputGroupSelect01">
+                        <select th:field="${user.role}" class="custom-select" id="inputGroupSelect01" onchange="showInput(value);">
                           <option selected value="buyer">I'm a buyer</option>
                           <option value="doctor">I'm a Doctor</option>
                           <option value="pharmacist">I'm a Pharmacist</option>
                           <option value="driver">I'm a Driver</option>
                         </select>
-                      </div>
+                    </div>
+                    <div class="text-white">
+                        <div id="doctorDiv" hidden>
+                            Doctor
+                        </div>
+                        <div id="pharmacistDiv" hidden>
+                            Pharmacist
+                        </div>
+                        <div id="driverDiv" hidden>
+                            Driver
+                        </div>
+                    </div>
                     <div class="mt-5">
                         <button type="submit" class="btn btn-primary btn-block">Register</button>
                     </div>
@@ -81,4 +92,26 @@
         </div>
 
     </body>
+    <script type="text/javascript" th:inline="javascript">
+        
+        var doctorDiv = document.getElementById("doctorDiv");
+        var pharmacistDiv = document.getElementById("pharmacistDiv");
+        var driverDiv = document.getElementById("driverDiv");
+
+        function showInput(value){
+            hideAnything();
+            if(value == "doctor"){
+                doctorDiv.removeAttribute("hidden");
+            }else if(value == "pharmacist"){
+                pharmacistDiv.removeAttribute("hidden");
+            }else if(value == "driver"){
+                driverDiv.removeAttribute("hidden");
+            }
+        }
+        function hideAnything(){
+            doctorDiv.setAttribute("hidden", true);
+            pharmacistDiv.setAttribute("hidden", true);
+            driverDiv.setAttribute("hidden", true);
+        }
+    </script>
 </html>
