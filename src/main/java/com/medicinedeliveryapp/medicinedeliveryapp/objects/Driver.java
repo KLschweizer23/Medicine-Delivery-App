@@ -3,6 +3,7 @@ package com.medicinedeliveryapp.medicinedeliveryapp.objects;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,9 @@ public class Driver{
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long driver_id;
+
+    @Column(nullable = false, length = 255)
+    private String license_id;
 
     @ManyToMany( cascade = CascadeType.ALL )
     private List<DeliveryNotification> deliveryNotifications;

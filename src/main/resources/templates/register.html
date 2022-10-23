@@ -64,13 +64,22 @@
                     </div>
                     <div class="text-white">
                         <div id="doctorDiv" hidden>
-                            Doctor
+                            <div class="form-group text-left">
+                                <label for="doctorlicense">Doctor License ID Number</label>
+                                <input th:field="${doctor.license_id}" type="text" class="form-control form-control-sm" id="doctorlicense" placeholder="Enter license number" required>
+                            </div>
                         </div>
                         <div id="pharmacistDiv" hidden>
-                            Pharmacist
+                            <div class="form-group text-left">
+                                <label for="pharmacistlicense">Pharmacist License ID Number</label>
+                                <input th:field="${pharmacist.license_id}" type="text" class="form-control form-control-sm" id="pharmacistlicense" placeholder="Enter license number" required>
+                            </div>
                         </div>
                         <div id="driverDiv" hidden>
-                            Driver
+                            <div class="form-group text-left">
+                                <label for="driverlicense">Driver License ID Number</label>
+                                <input th:field="${driver.license_id}" type="text" class="form-control form-control-sm" id="driverlicense" placeholder="Enter license number" required>
+                            </div>
                         </div>
                     </div>
                     <div class="mt-5">
