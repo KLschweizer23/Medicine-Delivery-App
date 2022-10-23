@@ -77,30 +77,31 @@ public class AppController {
         if(user.getRole().equals("buyer")){
 
             buyer.setUser(user);
-            System.out.println(user.getEmail());
-            System.out.println(user.getRole());
-            //buyerRepo.save(buyer);
+            buyerRepo.save(buyer);
 
         }else if(user.getRole().equals("doctor")){
 
             doctor.setUser(user);
-            System.out.println(user.getEmail());
-            System.out.println(user.getRole());
-            //doctorRepo.save(doctor);
+
+            doctor.setLicense_id(doctor.getLicense_id().split(",")[0]);
+
+            doctorRepo.save(doctor);
             
         }else if(user.getRole().equals("pharmacist")){
 
             pharmacist.setUser(user);
-            System.out.println(user.getEmail());
-            System.out.println(user.getRole());
-            //pharmacistRepo.save(pharmacist);
+
+            pharmacist.setLicense_id(pharmacist.getLicense_id().split(",")[1]);
+
+            pharmacistRepo.save(pharmacist);
             
         }else if(user.getRole().equals("driver")){
 
             driver.setUser(user);
-            System.out.println(user.getEmail());
-            System.out.println(user.getRole());
-            //driverRepo.save(driver);
+
+            driver.setLicense_id(driver.getLicense_id().split(",")[2]);
+
+            driverRepo.save(driver);
             
         }
 
