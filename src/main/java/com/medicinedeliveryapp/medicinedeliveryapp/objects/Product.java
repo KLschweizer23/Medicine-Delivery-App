@@ -31,4 +31,10 @@ public class Product {
     @Column( nullable = false, length = 255 )
     private String brandName;
 
+    @Column( nullable = false, length = 255 )
+    private Double price;
+
+    @Column( nullable = false, length = 255 )
+    private int stock;
+
 }
