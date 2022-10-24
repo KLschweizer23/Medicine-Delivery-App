@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -141,6 +142,16 @@ public class AppController {
         mav.addObject("products", products);
         mav.addObject("count", products.size());
         mav.addObject("keyword", keyword);
+
+        return mav;
+    }
+
+    @GetMapping("/product/{id}")
+    public ModelAndView productPage(@PathVariable("id") int id){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("product.html");
+
+        System.out.println(id);
 
         return mav;
     }
