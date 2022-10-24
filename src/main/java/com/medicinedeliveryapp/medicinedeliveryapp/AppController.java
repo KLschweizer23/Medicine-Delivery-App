@@ -119,4 +119,12 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/store")
+    public ModelAndView storePage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("store.html");
+
+        return mav;
+    }
+
 }
