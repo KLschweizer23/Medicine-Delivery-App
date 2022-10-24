@@ -32,9 +32,18 @@ public class Product {
     private String brandName;
 
     @Column( nullable = false, length = 255 )
-    private Double price;
+    private String dosageStrength;
 
     @Column( nullable = false, length = 255 )
+    private String description;
+
+    @Column( nullable = false, length = 255 )
+    private String form;
+
+    @Column( nullable = false )
+    private Double price;
+
+    @Column( nullable = false )
     private int stock;
 
 }
