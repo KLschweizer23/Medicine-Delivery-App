@@ -1,5 +1,7 @@
 package com.medicinedeliveryapp.medicinedeliveryapp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
@@ -13,11 +15,13 @@ import com.medicinedeliveryapp.medicinedeliveryapp.objects.Buyer;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Doctor;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Driver;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Pharmacist;
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.Product;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.User;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.BuyerRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DoctorRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DriverRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.PharmacistRepo;
+import com.medicinedeliveryapp.medicinedeliveryapp.repositories.ProductRepo;
 
 @RestController
 public class AppController {
@@ -33,6 +37,9 @@ public class AppController {
 
     @Autowired
     private DriverRepo driverRepo;
+
+    @Autowired
+    private ProductRepo productRepo;
 
     @GetMapping("")
     public ModelAndView homePage(){
@@ -123,6 +130,11 @@ public class AppController {
     public ModelAndView storePage(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store.html");
+
+        List<Product> products = productRepo.findAll();
+
+        mav.addObject("products", products);
+        mav.addObject("count", products.size());
 
         return mav;
     }

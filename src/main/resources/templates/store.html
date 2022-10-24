@@ -17,15 +17,12 @@
                         <button class="btn btn-outline-light my-2 my-sm-0 mr-1" type="submit">Search</button>
                     </form>
                 </div>
-                <div class="row w-100 m-0 p-0">
-                    <div th:replace="fragments/item :: item"></div>
-                    <div th:replace="fragments/item :: item"></div>
-                    <div th:replace="fragments/item :: item"></div>
-                    <div th:replace="fragments/item :: item"></div>
-                    <div th:replace="fragments/item :: item"></div>
-                    <div th:replace="fragments/item :: item"></div>
+                <div th:if="${count > 0}" class="row w-100 m-0 p-0">
+                    <th:block th:each="product : ${products}">
+                        <div th:replace="fragments/item :: item"></div>
+                    </th:block>
                 </div>
-                <div class="w-100 m-0 p-5 text-center text-white">
+                <div th:if="${count == 0}" class="w-100 m-0 p-5 text-center text-white">
                     <h1>No available product</h1>
                 </div>
             </div>
