@@ -27,11 +27,16 @@
         </a>
       </li>
     </ul>
-    <ul class="m-0 p-0">
+    <ul class="m-0 p-0" th:switch="${#request.userPrincipal}">
     
-      <li class="nav-item" style="list-style-type: none;">
+      <li class="nav-item" style="list-style-type: none;" th:case="null">
         <a class="text-light nav-link" th:href="@{/login}">
           Login
+        </a>
+      </li>
+      <li class="nav-item" style="list-style-type: none;" th:case="*">
+        <a class="text-light nav-link" th:href="@{/dashboard}">
+          Dashboard
         </a>
       </li>
     

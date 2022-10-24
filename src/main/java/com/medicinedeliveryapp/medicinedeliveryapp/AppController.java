@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Buyer;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Doctor;
@@ -66,9 +67,10 @@ public class AppController {
     }
 
     @PostMapping("/process-user")
-    public ModelAndView processUserRegistration(User user, Buyer buyer, Doctor doctor, Pharmacist pharmacist, Driver driver){
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("index.html");
+    public RedirectView processUserRegistration(User user, Buyer buyer, Doctor doctor, Pharmacist pharmacist, Driver driver){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/login");
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(user.getPassword());
@@ -105,6 +107,14 @@ public class AppController {
             
         }
 
+
+        return rv;
+    }
+
+    @GetMapping("/dashboard")
+    public ModelAndView dashboardPage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("dashboard.html");
 
         return mav;
     }
