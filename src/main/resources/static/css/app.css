@@ -61,6 +61,27 @@ body {
     border-radius: 8px;
 }
 
+.item-card {
+    width: 250px; 
+    height:300px;
+}
+
+.item-card-description {
+    padding-top: 5px;
+    padding-left:10px;
+    padding-right:10px;
+    height: 50px;
+    font-size: 1rem
+}
+
+.item-card-price {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    height:50px;
+    font-size: 1.3rem;
+}
+
 @media (min-width: 768px){
     .h3-header{
         font-size: 5rem;
