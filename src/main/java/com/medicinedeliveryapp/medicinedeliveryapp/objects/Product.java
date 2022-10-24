@@ -26,9 +26,9 @@ public class Product {
     private String code;
 
     @Column( nullable = false, length = 255 )
-    private String generic_name;
+    private String genericName;
 
     @Column( nullable = false, length = 255 )
-    private String brand_name;
+    private String brandName;
 
 }

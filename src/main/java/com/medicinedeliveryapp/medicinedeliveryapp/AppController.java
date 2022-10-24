@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -127,14 +128,19 @@ public class AppController {
     }
 
     @GetMapping("/store")
-    public ModelAndView storePage(){
+    public ModelAndView storePage(@RequestParam(value = "keyword", required = false) String keyword){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("store.html");
 
         List<Product> products = productRepo.findAll();
+        
+        if(keyword != null && !keyword.equals("")){
+            products = productRepo.findAllByGenericNameContaining(keyword);
+        }
 
         mav.addObject("products", products);
         mav.addObject("count", products.size());
+        mav.addObject("keyword", keyword);
 
         return mav;
     }
