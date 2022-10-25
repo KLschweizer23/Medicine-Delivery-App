@@ -50,6 +50,9 @@ public class CustomUserDetails extends AbstractDetails{
         return null;
     }
 
-    
+    @Override
+    public Long getId(){
+        return user.getId();
+    }
     
 }

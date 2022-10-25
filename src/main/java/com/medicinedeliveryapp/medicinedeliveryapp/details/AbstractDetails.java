@@ -36,6 +36,7 @@ public abstract class AbstractDetails implements UserDetails{
         return true;
     }
 
+    public abstract Long getId();
     public abstract String getFirstName();
     public abstract String getLastName();
     public abstract String getSex();

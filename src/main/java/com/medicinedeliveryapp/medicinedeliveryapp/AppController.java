@@ -3,6 +3,8 @@ package com.medicinedeliveryapp.medicinedeliveryapp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.medicinedeliveryapp.medicinedeliveryapp.details.AbstractDetails;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Buyer;
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.Cart;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Doctor;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Driver;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Pharmacist;
@@ -24,9 +28,13 @@ import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DoctorRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DriverRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.PharmacistRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.ProductRepo;
+import com.medicinedeliveryapp.medicinedeliveryapp.repositories.UserRepo;
 
 @RestController
 public class AppController {
+
+    @Autowired
+    private UserRepo userRepo;
     
     @Autowired
     private BuyerRepo buyerRepo;
@@ -88,6 +96,7 @@ public class AppController {
         if(user.getRole().equals("buyer")){
 
             buyer.setUser(user);
+            buyer.setCart(new Cart());
             buyerRepo.save(buyer);
 
         }else if(user.getRole().equals("doctor")){
@@ -156,6 +165,35 @@ public class AppController {
         mav.addObject("product", product);
 
         return mav;
+    }
+
+    @GetMapping("/add-to-cart")
+    public boolean addToCart(@RequestParam( value = "prod_id", required = true ) long prod_id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(!auth.getPrincipal().toString().equals("anonymousUser")){
+            AbstractDetails abstractDetails = (AbstractDetails) auth.getPrincipal();
+            User user = userRepo.findById(abstractDetails.getId()).get();
+
+            if(!user.getRole().equals("buyer")){
+                return false;
+            }
+            Buyer buyer = buyerRepo.findByUser(user);
+            Cart cart = buyer.getCart();
+            
+            if(cart == null){
+                cart = new Cart();
+            }
+
+            List<Product> products = cart.getProducts();
+            Product product = productRepo.findById(prod_id).get();
+            products.add(product);
+            cart.setProducts(products);
+            buyer.setCart(cart);
+            buyerRepo.save(buyer);
+        }
+
+        return !auth.getPrincipal().toString().equals("anonymousUser");
     }
 
 }
