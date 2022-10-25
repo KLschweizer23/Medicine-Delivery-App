@@ -81,6 +81,8 @@
 
         if(quantity > maxStock){
             $("#quantity").val(maxStock);
+        }else if (quantity < 1){
+            $("#quantity").val(1);
         }
       });
     });
