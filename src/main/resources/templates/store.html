@@ -9,13 +9,15 @@
     </head>
     <body class="bg-primary-theme" style="background-color: black;">
         <nav th:replace="fragments/navbar :: navbar"></nav>
-        <div class="py-5 px-5">
+        <div class="py-5 px-5 w-100">
             <div class="w-100 m-0 p-0 bg-secondary">
-                <div class="bg-dark w-100 p-1 m-0 row" style="height: 50px;">
-                    <form class="form-inline">
-                        <input class="form-control mr-sm-2" th:value="${keyword}" style="width: 500px;" name="keyword" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-light my-2 my-sm-0 mr-1" type="submit" onclick="search(keyword);">Search</button>
-                    </form>
+                <div class="bg-dark w-100 p-0 m-0 row" style="height: 50px; width:100%;">
+                    <div class="col-12 col-md-6 m-0 p-0">
+                        <form class="form-inline m-0 p-0">
+                            <input class="form-control mr-sm-2 m-1" th:value="${keyword}" style="width: 50%;" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-light my-2 my-sm-0 mr-1" type="submit" onclick="search(keyword);">Search</button>
+                        </form>
+                    </div>
                 </div>
                 <div th:if="${count > 0}" class="row w-100 m-0 p-0">
                     <th:block th:each="product : ${products}">
