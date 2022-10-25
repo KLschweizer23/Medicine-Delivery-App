@@ -82,6 +82,10 @@ body {
     font-size: 1.3rem;
 }
 
+.custom-quantity-size {
+    width: 50%;
+}
+
 @media (min-width: 768px){
     .h3-header{
         font-size: 5rem;
@@ -92,5 +96,11 @@ body {
 
     .small-card {
         width: 40%;
+    }
+}
+
+@media (min-width: 900px){
+    .custom-quantity-size {
+        width: 25%;
     }
 }

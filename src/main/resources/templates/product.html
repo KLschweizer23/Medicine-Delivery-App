@@ -19,7 +19,7 @@
           <h4 th:text="${product.genericName}">Generic Name</h4>
           <br />
           <h1 th:text="₱ + ${product.price}">Price</h1>
-          <div class="input-group w-25">
+          <div class="input-group custom-quantity-size">
             <span class="input-group-btn">
               <button type="button" class="quantity-left-minus btn btn-secondary btn-number" data-type="minus" data-field="">
               -
@@ -32,6 +32,9 @@
               </button>
             </span>
           </div>
+          <span class="input-group-btn">
+              <p class="text-secondary" style="font-size: 1rem;"><th:block th:text="${product.stock}">1</th:block> available left</p>
+          </span>
         </div>
       </div>
     </div>
