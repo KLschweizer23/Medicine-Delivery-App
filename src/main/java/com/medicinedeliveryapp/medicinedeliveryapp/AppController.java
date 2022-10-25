@@ -147,11 +147,13 @@ public class AppController {
     }
 
     @GetMapping("/product/{id}")
-    public ModelAndView productPage(@PathVariable("id") int id){
+    public ModelAndView productPage(@PathVariable("id") long id){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("product.html");
+        
+        Product product = productRepo.findById(id).get();
 
-        System.out.println(id);
+        mav.addObject("product", product);
 
         return mav;
     }
