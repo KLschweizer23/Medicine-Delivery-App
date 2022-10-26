@@ -172,8 +172,7 @@ public class AppController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(!auth.getPrincipal().toString().equals("anonymousUser")){
-            AbstractDetails abstractDetails = (AbstractDetails) auth.getPrincipal();
-            User user = userRepo.findById(abstractDetails.getId()).get();
+            User user = getCurrentUser();
 
             if(!user.getRole().equals("buyer")){
                 return false;
@@ -201,7 +200,19 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("cart.html");
 
+        
+
         return mav;
+    }
+
+    private User getCurrentUser(){
+        User user = new User();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AbstractDetails abstractDetails = (AbstractDetails) auth.getPrincipal();
+        user = userRepo.findById(abstractDetails.getId()).get();
+
+        return user;
     }
 
 }
