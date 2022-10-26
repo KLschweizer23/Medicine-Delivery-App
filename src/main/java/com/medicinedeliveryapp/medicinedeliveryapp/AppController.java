@@ -177,7 +177,7 @@ public class AppController {
             if(!user.getRole().equals("buyer")){
                 return false;
             }
-            Buyer buyer = buyerRepo.findByUser(user);
+            Buyer buyer = getBuyer(user);
             Cart cart = buyer.getCart();
             
             if(cart == null){
@@ -200,7 +200,7 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("cart.html");
 
-        
+
 
         return mav;
     }
@@ -213,6 +213,14 @@ public class AppController {
         user = userRepo.findById(abstractDetails.getId()).get();
 
         return user;
+    }
+
+    private Buyer getBuyer(User user){
+        Buyer buyer = new Buyer();
+
+        buyer = buyerRepo.findByUser(user);
+
+        return buyer;
     }
 
 }
