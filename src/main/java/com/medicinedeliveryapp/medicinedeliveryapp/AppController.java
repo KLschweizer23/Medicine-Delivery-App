@@ -202,6 +202,7 @@ public class AppController {
 
         Buyer currentBuyer = getBuyer(getCurrentUser());
         mav.addObject("buyer", currentBuyer);
+        mav.addObject("count", currentBuyer.getCart().getProducts().size());
 
         return mav;
     }

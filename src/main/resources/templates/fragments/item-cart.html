@@ -4,11 +4,11 @@
             
         </div>
         <div class="col-12 col-lg-8 col-md-6 col-sm-4 bg-white text-left py-2">
-            <h3 th:text="${buyer.cart.products.get(0).brandName}" class="text-dark">Brand name</h3>
-            <h4 th:text="${buyer.cart.products.get(0).genericName}" class="text-dark">Generic name</h4>
-            <h4 th:text="${buyer.cart.products.get(0).dosageStrength} + ':' + ${buyer.cart.products.get(0).form}" class="text-dark">Dosage:Form</h4>
-            <h3 th:text="₱ + ${buyer.cart.products.get(0).price}" class="text-dark">Price</h3>
-            <a th:href="@{/product/} + ${buyer.cart.products.get(0).id}" style="font-size: 0.9rem;">View Product</a>
+            <h3 th:text="${product.brandName}" class="text-dark">Brand name</h3>
+            <h4 th:text="${product.genericName}" class="text-dark">Generic name</h4>
+            <h4 th:text="${product.dosageStrength} + ':' + ${product.form}" class="text-dark">Dosage:Form</h4>
+            <h3 th:text="₱ + ${product.price}" class="text-dark">Price</h3>
+            <a th:href="@{/product/} + ${product.id}" style="font-size: 0.9rem;">View Product</a>
         </div>
         <button class="btn btn-danger col-12 col-lg-2 col-md-3 col-sm-4">
             Remove product

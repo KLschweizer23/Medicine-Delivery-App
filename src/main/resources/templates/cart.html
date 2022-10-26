@@ -10,7 +10,22 @@
     <body class="bg-primary-theme" style="background-color: black;">
         <nav th:replace="fragments/navbar :: navbar"></nav>
         <div class="text-center py-5 px-3">
-            <div th:replace="fragments/item-cart :: item-cart"></div>
+            <div class="m-0 p-2 bg-dark ">
+                <div class="w-10 m-2 p-2 text-right">
+                    <button type="submit" class="btn btn-success">
+                        Check out
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        Remove all
+                    </button>
+                </div>
+                <th:block th:if="${buyer.cart.products.size > 0}" th:each="product : ${buyer.cart.products}">
+                    <div th:replace="fragments/item-cart :: item-cart"></div>
+                </th:block>
+                <th:block th:if="${buyer.cart.products.size == 0}">
+                    <h1 class="text-white mb-5">No products to check out . . .</h1>
+                </th:block>
+            </div>
         </div>
     </body>
 </html>
