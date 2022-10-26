@@ -200,7 +200,8 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("cart.html");
 
-
+        Buyer currentBuyer = getBuyer(getCurrentUser());
+        mav.addObject("buyer", currentBuyer);
 
         return mav;
     }
