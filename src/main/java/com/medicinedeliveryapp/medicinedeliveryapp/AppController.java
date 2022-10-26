@@ -207,6 +207,36 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/remove-product")
+    public RedirectView removeProduct(@RequestParam( value = "prod_id", required = true ) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/cart");
+
+        Buyer currentBuyer = getBuyer(getCurrentUser());
+
+        if(id == 0){
+            currentBuyer.setCart(new Cart());
+        }else{
+            Cart currentCart = currentBuyer.getCart();
+            List<Product> products = currentCart.getProducts();
+            
+            for(Product product : products){
+                if(product.getId() == id){
+                    products.remove(product);
+                    break;
+                }
+            }
+
+            currentCart.setProducts(products);
+            currentBuyer.setCart(currentCart);
+        }
+
+        buyerRepo.save(currentBuyer);
+
+        return rv;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 

@@ -12,10 +12,10 @@
         <div class="text-center py-5 px-3">
             <div class="m-0 p-2 bg-dark ">
                 <div class="w-10 m-2 p-2 text-right">
-                    <button type="submit" class="btn btn-success">
+                    <button type="button" class="btn btn-success">
                         Check out
                     </button>
-                    <button type="submit" class="btn btn-danger">
+                    <button type="button" onclick="removeProduct(0);" class="btn btn-danger">
                         Remove all
                     </button>
                 </div>
@@ -28,4 +28,12 @@
             </div>
         </div>
     </body>
+    <script th:inline="javascript">
+        function removeProduct(id){
+            var parameter = "?prod_id=" + id;
+            $.get("/remove-product" + parameter, function(data){
+                window.location.assign("/cart");
+            });
+        }
+    </script>
 </html>
