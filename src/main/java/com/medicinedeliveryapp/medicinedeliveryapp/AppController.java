@@ -196,4 +196,12 @@ public class AppController {
         return !auth.getPrincipal().toString().equals("anonymousUser");
     }
 
+    @GetMapping("/cart")
+    public ModelAndView cartPage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("cart.html");
+
+        return mav;
+    }
+
 }
