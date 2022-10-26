@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.medicinedeliveryapp.medicinedeliveryapp.details.AbstractDetails;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Buyer;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Cart;
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.CartProduct;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Doctor;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Driver;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Pharmacist;
@@ -168,7 +169,7 @@ public class AppController {
     }
 
     @GetMapping("/add-to-cart")
-    public boolean addToCart(@RequestParam( value = "prod_id", required = true ) long prod_id){
+    public boolean addToCart(@RequestParam( value = "prod_id", required = true ) long prod_id, @RequestParam( value = "quantity", required = true ) int quantity){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(!auth.getPrincipal().toString().equals("anonymousUser")){
@@ -184,11 +185,15 @@ public class AppController {
                 cart = new Cart();
             }
 
-            List<Product> products = cart.getProducts();
+            List<CartProduct> cartProducts = cart.getCartProducts();
             Product product = productRepo.findById(prod_id).get();
-            products.add(product);
-            cart.setProducts(products);
+            CartProduct cartProduct = new CartProduct();
+            cartProduct.setProduct(product);
+            cartProduct.setQuantity(quantity);
+            cartProducts.add(cartProduct);
+            cart.setCartProducts(cartProducts);
             buyer.setCart(cart);
+
             buyerRepo.save(buyer);
         }
 
@@ -202,7 +207,7 @@ public class AppController {
 
         Buyer currentBuyer = getBuyer(getCurrentUser());
         mav.addObject("buyer", currentBuyer);
-        mav.addObject("count", currentBuyer.getCart().getProducts().size());
+        mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
 
         return mav;
     }
@@ -219,16 +224,16 @@ public class AppController {
             currentBuyer.setCart(new Cart());
         }else{
             Cart currentCart = currentBuyer.getCart();
-            List<Product> products = currentCart.getProducts();
+            List<CartProduct> cartProducts = currentCart.getCartProducts();
             
-            for(Product product : products){
-                if(product.getId() == id){
-                    products.remove(product);
+            for(CartProduct cartProduct : cartProducts){
+                if(cartProduct.getProduct().getId() == id){
+                    cartProducts.remove(cartProduct);
                     break;
                 }
             }
 
-            currentCart.setProducts(products);
+            currentCart.setCartProducts(cartProducts);
             currentBuyer.setCart(currentCart);
         }
 

@@ -19,10 +19,10 @@
                         Remove all
                     </button>
                 </div>
-                <th:block th:if="${buyer.cart.products.size > 0}" th:each="product : ${buyer.cart.products}">
+                <th:block th:if="${buyer.cart.cartProducts.size > 0}" th:each="cartProduct : ${buyer.cart.cartProducts}">
                     <div th:replace="fragments/item-cart :: item-cart"></div>
                 </th:block>
-                <th:block th:if="${buyer.cart.products.size == 0}">
+                <th:block th:if="${buyer.cart.cartProducts.size == 0}">
                     <h1 class="text-white mb-5">No products to check out . . .</h1>
                 </th:block>
             </div>
