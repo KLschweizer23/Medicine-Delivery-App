@@ -192,8 +192,11 @@ public class AppController {
             List<CartProduct> cartProducts = cart.getCartProducts();
             Product product = productRepo.findById(prod_id).get();
             CartProduct cartProduct = new CartProduct();
+
             cartProduct.setProduct(product);
             cartProduct.setQuantity(quantity);
+            cartProduct.setFixedPrice(product.getPrice());
+
             cartProducts.add(cartProduct);
             cart.setCartProducts(cartProducts);
             buyer.setCart(cart);
