@@ -223,6 +223,9 @@ public class AppController {
             totalPrice += product.getPrice() * cartProduct.getQuantity();
         }
 
+        currentBuyer.getCart().setCartProducts(cartProducts);
+        buyerRepo.save(currentBuyer);
+
         mav.addObject("buyer", currentBuyer);
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
         mav.addObject("total", totalPrice);
@@ -268,26 +271,36 @@ public class AppController {
 
         Buyer currentBuyer = getBuyer(getCurrentUser());
         List<CartProduct> cartProducts = currentBuyer.getCart().getCartProducts();
-
+        
         double totalPrice = 0;
         for(CartProduct cartProduct : cartProducts){
             Product product = cartProduct.getProduct();
-
+            
             if(cartProduct.getQuantity() > product.getStock()){
                 cartProduct.setQuantity(product.getStock());
-            }
-
-            if(product.getStock() == 0){
-                cartProducts.remove(cartProduct);
-                continue;
             }
 
             if(product.getStock() != 0 && cartProduct.getQuantity() == 0){
                 cartProduct.setQuantity(1);
             }
+        }
+        
+        currentBuyer.getCart().setCartProducts(cartProducts);
+        buyerRepo.save(currentBuyer);
 
+        
+        List<CartProduct> cartProductsCopy = cartProducts;
+
+        for(CartProduct cartProduct : cartProductsCopy){   
+            Product product = cartProduct.getProduct();
+            if(product.getStock() == 0){
+                cartProducts.remove(cartProduct);
+                continue;
+            }
             totalPrice += product.getPrice() * cartProduct.getQuantity();
         }
+
+        currentBuyer.getCart().setCartProducts(cartProductsCopy);
 
         mav.addObject("buyer", currentBuyer);
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
