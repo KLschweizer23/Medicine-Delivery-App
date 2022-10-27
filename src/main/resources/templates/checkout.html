@@ -1,18 +1,115 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <th:block th:replace="components/header :: header"></th:block>
-        <title>Checkout Page</title>
-    </head>
-    <body class="bg-primary-theme" style="background-color: black;">
-        <nav th:replace="fragments/navbar :: navbar"></nav>
-        <div class="text-center py-5 px-3">
-            <div class="m-0 p-2 bg-dark ">
-                
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="components/header :: header"></th:block>
+    <title>Checkout Page</title>
+  </head>
+  <body class="bg-primary-theme" style="background-color: black">
+    <nav th:replace="fragments/navbar :: navbar"></nav>
+    <div class="py-5 px-3">
+      <div class="m-0 p-0 p-3 bg-dark">
+        <h4 class="text-white">Delivery Address</h4>
+        <div class="text-left text-white w-100 m-0 p-2">
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <h6 class="m-0 p-0"><b>Name</b></h6>
+              <h6 class="m-0 p-0"><b>Number</b></h6>
             </div>
+            <div class="col-12 col-md-8">
+              <h6 class="m-0 p-0">Address</h6>
+            </div>
+          </div>
         </div>
-    </body>
+        <hr class="bg-white" />
+        <h4 class="text-white">Products Ordered</h4>
+        <th:block
+          th:if="${buyer.cart.cartProducts.size > 0}"
+          th:each="cartProduct : ${buyer.cart.cartProducts}"
+        >
+          <div th:replace="fragments/item-cart :: item-cart"></div>
+        </th:block>
+        <div class="text-right text-white mt-2">
+          <h6 class="text-white">Order Total:</h6>
+          <h4 th:text="₱ + ${total}">₱0.0</h4>
+        </div>
+        <hr class="bg-white" />
+        <h4 class="text-white">Payment Method</h4>
+        <div class="w-100 m-0 p-0 text-white">
+          <div class="form-check form-check-inline">
+            <input onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cod" checked/>
+            <label class="form-check-label" for="exampleRadios1">
+              Cash On Delivery
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="ewallet" /><label class="form-check-label" for="exampleRadios2">
+              Payment Center / e-Wallet
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input onchange="show(value);"  class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="card" /><label class="form-check-label" for="exampleRadios3">
+              Credit / Debit Card
+            </label>
+          </div>
+          <div class="w-100 m-0 px-5 py-3">
+            <div id="cod">
+                Cash on Delivery
+            </div>
+            <div id="ewallet" hidden="true">
+                E-WALLET
+            </div>
+            <div id="card" hidden="true">
+                CARD
+            </div>
+          </div>
+          <div class="text-right w-100 m-0 p-2 text-white">
+            <div class="row m-0 p-0">
+              <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+              <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                <h6 style="float: left">Order Subtotal: </h6>
+                <h6 th:text="₱ + ${total}" style="float: right">₱ 0.0</h6>
+              </div>
+              <hr />
+              <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+              <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                <h6 style="float: left">Shpping total: </h6>
+                <h6 style="float: right">₱ 0.0</h6>
+              </div>
+              <hr />
+              <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+              <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                <h6 style="float: left">Total Payment: </h6>
+                <h4 th:text="₱ + ${total}" style="float: right">₱ 0.0</h4>
+              </div>
+              <hr />
+            </div>
+          </div>
+          <div class="w-100 m-0 p-2 text-right">
+            <button class="btn btn-success">Place Order</button>
+          </div>
+        </div>
+        <hr class="bg-white" />
+      </div>
+    </div>
+  </body>
+  <script th:inline="javascript">
+
+    var codDiv = document.getElementById("cod");
+    var ewalletDiv = document.getElementById("ewallet");
+    var cardDiv = document.getElementById("card");
+
+    function show(value){
+        hide();
+        var element = document.getElementById(value);
+        element.removeAttribute("hidden");
+    }
+    function hide(){
+        codDiv.setAttribute("hidden", true);
+        ewalletDiv.setAttribute("hidden", true);
+        cardDiv.setAttribute("hidden", true);
+    }
+  </script>
 </html>

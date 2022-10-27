@@ -226,6 +226,7 @@ public class AppController {
         mav.addObject("buyer", currentBuyer);
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
         mav.addObject("total", totalPrice);
+        mav.addObject("cart", true);
 
         return mav;
     }
@@ -264,6 +265,29 @@ public class AppController {
     public ModelAndView checkoutPage(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("checkout.html");
+
+        Buyer currentBuyer = getBuyer(getCurrentUser());
+        List<CartProduct> cartProducts = currentBuyer.getCart().getCartProducts();
+
+        double totalPrice = 0;
+        for(CartProduct cartProduct : cartProducts){
+            Product product = cartProduct.getProduct();
+
+            if(cartProduct.getQuantity() > product.getStock()){
+                cartProduct.setQuantity(product.getStock());
+            }
+
+            if(product.getStock() != 0 && cartProduct.getQuantity() == 0){
+                cartProduct.setQuantity(1);
+            }
+
+            totalPrice += product.getPrice() * cartProduct.getQuantity();
+        }
+
+        mav.addObject("buyer", currentBuyer);
+        mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
+        mav.addObject("total", totalPrice);
+        mav.addObject("cart", false);
 
         return mav;
     }

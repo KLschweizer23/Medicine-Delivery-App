@@ -14,8 +14,9 @@
             <h4 th:text="₱ + ${cartProduct.product.price}" class="text-dark">Price</h4>
             <h6 th:text="${cartProduct.quantity} + ' item/s = ' + ₱ + (${cartProduct.quantity} * ${cartProduct.product.price}) + ' total'">Quantity</h6>
         </div>
-        <button th:id="${cartProduct.product.id}" onclick="removeProduct(id);" class="btn btn-danger col-12 col-lg-2 col-md-3 col-sm-4">
+        <button th:if="${cart}" th:id="${cartProduct.product.id}" onclick="removeProduct(id);" class="btn btn-danger col-12 col-lg-2 col-md-3 col-sm-4">
             Remove product
         </button>
+        <div th:if="${!cart}" class="bg-white col-12 col-lg-2 col-md-3 col-sm-4"></div>
     </div>
 </div>
