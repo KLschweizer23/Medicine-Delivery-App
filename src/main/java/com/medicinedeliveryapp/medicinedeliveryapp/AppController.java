@@ -277,6 +277,11 @@ public class AppController {
                 cartProduct.setQuantity(product.getStock());
             }
 
+            if(product.getStock() == 0){
+                cartProducts.remove(cartProduct);
+                continue;
+            }
+
             if(product.getStock() != 0 && cartProduct.getQuantity() == 0){
                 cartProduct.setQuantity(1);
             }
