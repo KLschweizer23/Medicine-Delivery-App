@@ -297,6 +297,14 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/my-order")
+    public ModelAndView orderPage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("order.html");
+
+        return mav;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 
