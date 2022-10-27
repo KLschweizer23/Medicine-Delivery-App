@@ -243,7 +243,9 @@ public class AppController {
         Buyer currentBuyer = getBuyer(getCurrentUser());
 
         if(id == 0){
-            currentBuyer.setCart(new Cart());
+            Cart cart = currentBuyer.getCart();
+            cart.getCartProducts().clear();
+            currentBuyer.setCart(cart);
         }else{
             Cart currentCart = currentBuyer.getCart();
             List<CartProduct> cartProducts = currentCart.getCartProducts();
