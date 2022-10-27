@@ -260,6 +260,14 @@ public class AppController {
         return rv;
     }
 
+    @GetMapping("checkout")
+    public ModelAndView checkoutPage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("checkout.html");
+
+        return mav;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 
