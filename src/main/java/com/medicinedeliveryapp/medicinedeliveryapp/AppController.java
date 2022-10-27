@@ -25,6 +25,7 @@ import com.medicinedeliveryapp.medicinedeliveryapp.objects.Pharmacist;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Product;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.User;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.BuyerRepo;
+import com.medicinedeliveryapp.medicinedeliveryapp.repositories.CartProductRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DoctorRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DriverRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.PharmacistRepo;
@@ -51,6 +52,9 @@ public class AppController {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private CartProductRepo cartProductRepo;
 
     @GetMapping("")
     public ModelAndView homePage(){
@@ -246,6 +250,7 @@ public class AppController {
             Cart cart = currentBuyer.getCart();
             cart.getCartProducts().clear();
             currentBuyer.setCart(cart);
+            cartProductRepo.deleteAll();
         }else{
             Cart currentCart = currentBuyer.getCart();
             List<CartProduct> cartProducts = currentCart.getCartProducts();
@@ -253,6 +258,7 @@ public class AppController {
             for(CartProduct cartProduct : cartProducts){
                 if(cartProduct.getProduct().getId() == id){
                     cartProducts.remove(cartProduct);
+                    cartProductRepo.deleteById(id);;
                     break;
                 }
             }
