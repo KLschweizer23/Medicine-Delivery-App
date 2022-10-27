@@ -206,8 +206,26 @@ public class AppController {
         mav.setViewName("cart.html");
 
         Buyer currentBuyer = getBuyer(getCurrentUser());
+        List<CartProduct> cartProducts = currentBuyer.getCart().getCartProducts();
+
+        double totalPrice = 0;
+        for(CartProduct cartProduct : cartProducts){
+            Product product = cartProduct.getProduct();
+
+            if(cartProduct.getQuantity() > product.getStock()){
+                cartProduct.setQuantity(product.getStock());
+            }
+
+            if(product.getStock() != 0 && cartProduct.getQuantity() == 0){
+                cartProduct.setQuantity(1);
+            }
+
+            totalPrice += product.getPrice() * cartProduct.getQuantity();
+        }
+
         mav.addObject("buyer", currentBuyer);
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
+        mav.addObject("total", totalPrice);
 
         return mav;
     }

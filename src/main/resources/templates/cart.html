@@ -12,12 +12,7 @@
         <div class="text-center py-5 px-3">
             <div class="m-0 p-2 bg-dark ">
                 <div class="w-10 m-2 p-2 text-right">
-                    <button type="button" class="btn btn-success">
-                        Check out
-                    </button>
-                    <button type="button" onclick="removeProduct(0);" class="btn btn-danger">
-                        Remove all
-                    </button>
+                    <h4 th:text="'Total: ₱' + ${total}" class="text-white">₱0.0</h4>
                 </div>
                 <th:block th:if="${buyer.cart.cartProducts.size > 0}" th:each="cartProduct : ${buyer.cart.cartProducts}">
                     <div th:replace="fragments/item-cart :: item-cart"></div>
@@ -25,6 +20,16 @@
                 <th:block th:if="${buyer.cart.cartProducts.size == 0}">
                     <h1 class="text-white mb-5">No products to check out . . .</h1>
                 </th:block>
+                <div class="w-10 m-2 p-2 text-right">
+                    <a th:href="@{/checkout}" class="text-white">
+                        <button type="button" class="btn btn-success">
+                            Check out
+                        </button>
+                    </a>
+                    <button type="button" onclick="removeProduct(0);" class="btn btn-danger">
+                        Remove all
+                    </button>
+                </div>
             </div>
         </div>
     </body>
