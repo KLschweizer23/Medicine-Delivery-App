@@ -31,6 +31,7 @@ import com.medicinedeliveryapp.medicinedeliveryapp.objects.Transaction;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.User;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.BuyerRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.CartProductRepo;
+import com.medicinedeliveryapp.medicinedeliveryapp.repositories.CartRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DoctorRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DriverRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.PharmacistRepo;
@@ -58,6 +59,9 @@ public class AppController {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private CartRepo cartRepo;
 
     @Autowired
     private CartProductRepo cartProductRepo;
@@ -368,7 +372,12 @@ public class AppController {
         transaction.setDateTransaction(dateTime);
         transaction.setDeliveryStatus("To deliver and pay");
 
+        Cart currentCart = getBuyer(user).getCart();
+        currentCart.getCartProducts().clear();
+        
         transactionRepo.save(transaction);
+        cartRepo.save(currentCart);
+        cartProductRepo.deleteAll();
 
         return rv;
     }
