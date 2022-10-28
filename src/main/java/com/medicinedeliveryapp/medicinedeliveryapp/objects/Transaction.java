@@ -37,10 +37,10 @@ public class Transaction {
     private String paymentMethod;
 
     @Column( nullable = false )
-    private double shppingTotal;
+    private double shippingTotal;
 
     @ManyToOne( cascade = CascadeType.ALL )
-    private Order order;
+    private OrderList orderList;
 
     @Column( nullable = false )
     private LocalDateTime dateTransaction;

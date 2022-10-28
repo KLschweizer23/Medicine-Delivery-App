@@ -1,6 +1,8 @@
 package com.medicinedeliveryapp.medicinedeliveryapp;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,8 +23,11 @@ import com.medicinedeliveryapp.medicinedeliveryapp.objects.Cart;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.CartProduct;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Doctor;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Driver;
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.Order;
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.OrderList;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Pharmacist;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Product;
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.Transaction;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.User;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.BuyerRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.CartProductRepo;
@@ -30,6 +35,7 @@ import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DoctorRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DriverRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.PharmacistRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.ProductRepo;
+import com.medicinedeliveryapp.medicinedeliveryapp.repositories.TransactionRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.UserRepo;
 
 @RestController
@@ -55,6 +61,9 @@ public class AppController {
 
     @Autowired
     private CartProductRepo cartProductRepo;
+
+    @Autowired
+    private TransactionRepo transactionRepo;
 
     @GetMapping("")
     public ModelAndView homePage(){
@@ -275,7 +284,7 @@ public class AppController {
         return rv;
     }
 
-    @GetMapping("checkout")
+    @GetMapping("/checkout")
     public ModelAndView checkoutPage(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("checkout.html");
@@ -317,6 +326,7 @@ public class AppController {
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
         mav.addObject("total", totalPrice);
         mav.addObject("cart", false);
+        mav.addObject("transaction", new Transaction());
 
         return mav;
     }
@@ -327,6 +337,39 @@ public class AppController {
         mav.setViewName("order.html");
 
         return mav;
+    }
+
+    @PostMapping("/place-order")
+    public RedirectView orderProcess(Transaction transaction){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/my-order");
+
+        User user = getCurrentUser();
+        OrderList orderList = new OrderList();
+
+        List<CartProduct> cartProducts = getBuyer(getCurrentUser()).getCart().getCartProducts();
+        List<Order> orders = new ArrayList<>();
+
+        for(CartProduct cartProduct : cartProducts){
+            Order order = new Order();
+            order.setProduct(cartProduct.getProduct());
+            order.setQuantity(cartProduct.getQuantity());
+            order.setFixedPrice(cartProduct.getFixedPrice());
+            orders.add(order);
+        }
+        orderList.setOrders(orders);
+
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        transaction.setUser(user);
+        transaction.setAddress(user.getAddress());
+        transaction.setOrderList(orderList);
+        transaction.setDateTransaction(dateTime);
+
+        transactionRepo.save(transaction);
+
+        return rv;
     }
 
     private User getCurrentUser(){

@@ -10,6 +10,7 @@
   <body class="bg-primary-theme" style="background-color: black">
     <nav th:replace="fragments/navbar :: navbar"></nav>
     <div class="py-5 px-3">
+      <form th:action="@{/place-order}" th:object="${transaction}" method="POST">
       <div class="m-0 p-0 p-3 bg-dark">
         <h4 class="text-white">Delivery Address</h4>
         <div class="text-left text-white w-100 m-0 p-2">
@@ -25,10 +26,7 @@
         </div>
         <hr class="bg-white" />
         <h4 class="text-white">Products Ordered</h4>
-        <th:block
-          th:if="${buyer.cart.cartProducts.size > 0}"
-          th:each="cartProduct : ${buyer.cart.cartProducts}"
-        >
+        <th:block th:if="${buyer.cart.cartProducts.size > 0}" th:each="cartProduct : ${buyer.cart.cartProducts}">
           <div th:replace="fragments/item-cart :: item-cart"></div>
         </th:block>
         <div class="text-right text-white mt-2">
@@ -36,64 +34,65 @@
           <h4 th:text="₱ + ${total}">₱0.0</h4>
         </div>
         <hr class="bg-white" />
-        <h4 class="text-white">Payment Method</h4>
-        <div class="w-100 m-0 p-0 text-white">
-          <div class="form-check form-check-inline">
-            <input onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cod" checked/>
-            <label class="form-check-label" for="exampleRadios1">
-              Cash On Delivery
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="ewallet" /><label class="form-check-label" for="exampleRadios2">
-              Payment Center / e-Wallet
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input onchange="show(value);"  class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="card" /><label class="form-check-label" for="exampleRadios3">
-              Credit / Debit Card
-            </label>
-          </div>
-          <div class="w-100 m-0 px-5 py-3">
-            <div id="cod">
-                Cash on Delivery
+          <h4 class="text-white">Payment Method</h4>
+          <div class="w-100 m-0 p-0 text-white">
+            <div class="form-check form-check-inline">
+              <input th:field="*{paymentMethod}" onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cod" checked/>
+              <label class="form-check-label" for="exampleRadios1">
+                Cash On Delivery
+              </label>
             </div>
-            <div id="ewallet" hidden="true">
-                E-WALLET
+            <div class="form-check form-check-inline">
+              <input th:field="*{paymentMethod}" onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="ewallet" /><label class="form-check-label" for="exampleRadios2">
+                Payment Center / e-Wallet
+              </label>
             </div>
-            <div id="card" hidden="true">
-                CARD
+            <div class="form-check form-check-inline">
+              <input th:field="*{paymentMethod}" onchange="show(value);"  class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="card" /><label class="form-check-label" for="exampleRadios3">
+                Credit / Debit Card
+              </label>
+            </div>
+            <div class="w-100 m-0 px-5 py-3">
+              <div id="cod">
+                  Cash on Delivery
+              </div>
+              <div id="ewallet" hidden="true">
+                  E-WALLET
+              </div>
+              <div id="card" hidden="true">
+                  CARD
+              </div>
+            </div>
+            <hr class="bg-white" />
+            <div class="text-right w-100 m-0 p-2 text-white">
+              <div class="row m-0 p-0">
+                <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                  <h6 style="float: left">Order Subtotal: </h6>
+                  <h6 th:text="'₱ ' + ${total}" style="float: right">₱ 0.0</h6>
+                </div>
+                <hr />
+                <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                  <h6 style="float: left">Shpping total: </h6>
+                  <h6 th:field="*{shippingTotal}" style="float: right">0.0</h6><h6 style="float: right">₱</h6>
+                </div>
+                <hr />
+                <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                  <h6 style="float: left">Total Payment: </h6>
+                  <h4 th:text="'₱ ' + ${total}" style="float: right">₱ 0.0</h4>
+                </div>
+                <hr />
+              </div>
+            </div>
+            <div class="w-100 m-0 p-2 text-right">
+              <button type="submit" class="btn btn-success">Place Order</button>
             </div>
           </div>
           <hr class="bg-white" />
-          <div class="text-right w-100 m-0 p-2 text-white">
-            <div class="row m-0 p-0">
-              <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-              <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                <h6 style="float: left">Order Subtotal: </h6>
-                <h6 th:text="₱ + ${total}" style="float: right">₱ 0.0</h6>
-              </div>
-              <hr />
-              <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-              <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                <h6 style="float: left">Shpping total: </h6>
-                <h6 style="float: right">₱ 0.0</h6>
-              </div>
-              <hr />
-              <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-              <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                <h6 style="float: left">Total Payment: </h6>
-                <h4 th:text="₱ + ${total}" style="float: right">₱ 0.0</h4>
-              </div>
-              <hr />
-            </div>
-          </div>
-          <div class="w-100 m-0 p-2 text-right">
-            <button type="button" class="btn btn-success">Place Order</button>
-          </div>
         </div>
-        <hr class="bg-white" />
-      </div>
+      </form>
     </div>
   </body>
   <script th:inline="javascript">
