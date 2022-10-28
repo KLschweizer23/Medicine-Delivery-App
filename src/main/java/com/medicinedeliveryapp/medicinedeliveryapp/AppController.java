@@ -361,6 +361,10 @@ public class AppController {
             order.setQuantity(cartProduct.getQuantity());
             order.setFixedPrice(cartProduct.getFixedPrice());
             orders.add(order);
+
+            Product product = cartProduct.getProduct();
+            product.setStock(product.getStock() - order.getQuantity());
+            productRepo.save(product);
         }
         orderList.setOrders(orders);
 
