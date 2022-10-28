@@ -45,4 +45,7 @@ public class Transaction {
     @Column( nullable = false )
     private LocalDateTime dateTransaction;
 
+    @Column( nullable = false )
+    private String deliveryStatus;
+
 }

@@ -366,6 +366,7 @@ public class AppController {
         transaction.setAddress(user.getAddress());
         transaction.setOrderList(orderList);
         transaction.setDateTransaction(dateTime);
+        transaction.setDeliveryStatus("To deliver and pay");
 
         transactionRepo.save(transaction);
 
