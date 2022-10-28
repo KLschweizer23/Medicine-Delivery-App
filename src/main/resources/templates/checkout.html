@@ -37,7 +37,7 @@
           <h4 class="text-white">Payment Method</h4>
           <div class="w-100 m-0 p-0 text-white">
             <div class="form-check form-check-inline">
-              <input th:field="*{paymentMethod}" onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cod" checked/>
+              <input th:field="*{paymentMethod}" onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cod"/>
               <label class="form-check-label" for="exampleRadios1">
                 Cash On Delivery
               </label>
@@ -96,6 +96,9 @@
     </div>
   </body>
   <script th:inline="javascript">
+
+    $("#exampleRadios1").attr('checked', 'checked');
+
     var codDiv = document.getElementById("cod");
     var ewalletDiv = document.getElementById("ewallet");
     var cardDiv = document.getElementById("card");
