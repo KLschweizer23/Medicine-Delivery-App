@@ -70,7 +70,16 @@
   </body>
   <script th:inline="javascript">
     /*<![CDATA[*/
-    function addToCart(){
+      function addToCart(){
+
+        var stocks = '[[${product.stock}]]';
+        if(stocks == 0){
+          $("#exampleModalLabel").text("No available stocks!");
+          $("#exampleModalBody").text("No stocks available for this product!");
+          $('#exampleModal').modal({ show: true });
+          return;
+        }
+
       var product_id = '[[${product.id}]]';
       var quantity = $("#quantity").val();
       var parameter = "?prod_id=" + product_id + "&" + "quantity=" + quantity;
@@ -87,6 +96,15 @@
     }
 
     function buy(){
+
+      var stocks = '[[${product.stock}]]';
+      if(stocks == 0){
+        $("#exampleModalLabel").text("No available stocks!");
+        $("#exampleModalBody").text("No stocks available for this product!");
+        $('#exampleModal').modal({ show: true });
+        return;
+      }
+
       var product_id = '[[${product.id}]]';
       var quantity = $("#quantity").val();
       var parameter = "?prod_id=" + product_id + "&" + "quantity=" + quantity;
