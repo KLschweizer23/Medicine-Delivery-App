@@ -274,7 +274,7 @@ public class AppController {
             for(CartProduct cartProduct : cartProducts){
                 if(cartProduct.getProduct().getId() == id){
                     cartProducts.remove(cartProduct);
-                    cartProductRepo.deleteById(id);;
+                    cartProductRepo.delete(cartProduct);
                     break;
                 }
             }
