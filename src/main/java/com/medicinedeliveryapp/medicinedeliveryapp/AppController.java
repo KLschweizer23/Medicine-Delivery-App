@@ -229,6 +229,7 @@ public class AppController {
         List<CartProduct> cartProducts = currentBuyer.getCart().getCartProducts();
 
         double totalPrice = 0;
+        boolean hasOutOfStock = false;
         for(CartProduct cartProduct : cartProducts){
             Product product = cartProduct.getProduct();
 
@@ -238,6 +239,10 @@ public class AppController {
 
             if(product.getStock() != 0 && cartProduct.getQuantity() == 0){
                 cartProduct.setQuantity(1);
+            }
+            
+            if(cartProduct.getQuantity() == 0){
+                hasOutOfStock = true;
             }
 
             totalPrice += product.getPrice() * cartProduct.getQuantity();
@@ -250,6 +255,7 @@ public class AppController {
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
         mav.addObject("total", totalPrice);
         mav.addObject("cart", true);
+        mav.addObject("hasOutOfStock", hasOutOfStock);
 
         return mav;
     }
