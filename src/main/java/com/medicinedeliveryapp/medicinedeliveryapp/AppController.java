@@ -346,6 +346,8 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("order.html");
 
+        
+
         return mav;
     }
 
