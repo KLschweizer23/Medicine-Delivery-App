@@ -346,7 +346,13 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("order.html");
 
-        
+        List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatus("To deliver and pay");
+        List<Transaction> received = transactionRepo.findAllByDeliveryStatus("Received");
+        List<Transaction> cancelled = transactionRepo.findAllByDeliveryStatus("Cancelled");
+
+        mav.addObject("deliveries", deliveries);
+        mav.addObject("received", received);
+        mav.addObject("cancelled", cancelled);
 
         return mav;
     }

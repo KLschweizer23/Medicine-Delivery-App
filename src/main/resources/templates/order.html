@@ -24,13 +24,13 @@
                   </ul>
                   <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
-                        Delivery
+                        <div th:replace="fragments/delivery-tab :: delivery-tab"></div>
                     </div>
                     <div class="tab-pane fade" id="received" role="tabpanel" aria-labelledby="received-tab">
-                        Received
+                        <div th:replace="fragments/received-tab :: received-tab"></div>
                     </div>
                     <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
-                        Cancelled
+                        <div th:replace="fragments/cancelled-tab :: cancelled-tab"></div>
                     </div>
                   </div>
             </div>
