@@ -419,6 +419,19 @@ public class AppController {
         return rv;
     }
 
+    @GetMapping("/cancel-order")
+    public RedirectView cancelOrder(@RequestParam( value = "transaction", required = true ) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/my-order");
+
+        Transaction transaction = transactionRepo.findById(id).get();
+        transaction.setDeliveryStatus("Cancelled");
+        transactionRepo.save(transaction);
+
+        return rv;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 

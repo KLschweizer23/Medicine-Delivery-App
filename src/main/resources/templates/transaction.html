@@ -47,11 +47,21 @@
                             <h6 style="float: left">Total Payment: </h6>
                             <h4 th:text="₱ + ' ' + (${total} + ${transaction.shippingTotal})" style="float: right">₱ 0.0</h4>
                         </div>
-                        <hr />
                     </div>
                 </div>
                 <hr>
+                <div th:if="${transaction.deliveryStatus} == 'To deliver and pay'" class="w-100 text-right m-0 p-3">
+                    <button type="button" onclick="cancelOrder(id)" th:id="${transaction.id}" class="btn btn-danger">Cancel Order</button>
+                </div>
             </div>
         </div>
     </body>
+    <script th:inline="javascript">
+        function cancelOrder(id){
+            var parameter = "?transaction=" + id;
+            $.get("/cancel-order" + parameter, function(data){
+                window.location.assign("/my-order");
+            });
+        }
+    </script>
 </html>

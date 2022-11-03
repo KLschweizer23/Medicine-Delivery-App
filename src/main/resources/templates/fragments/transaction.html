@@ -1,14 +1,14 @@
 <div th:fragment="transaction" class="w-0 p-0"  style="border-bottom: 1px solid rgb(184, 184, 184);">
-    <a th:href="@{transaction/} + ${delivery.id}" class="text-dark" style="text-decoration: none;">
+    <a th:href="@{transaction/} + ${transaction.id}" class="text-dark" style="text-decoration: none;">
         <div class="row m-0 p-1">
             <div class="col-12 col-md-4 m-0 p-1 text-left">
-                <h5 th:text="'#' + ${delivery.id}">Transaction Number</h5>
+                <h5 th:text="'#' + ${transaction.id}">Transaction Number</h5>
             </div>
             <div class="col-12 col-md-4 m-0 p-1 text-left">
-                <h5 th:text="${delivery.address}">Address</h5>
+                <h5 th:text="${transaction.address}">Address</h5>
             </div>
             <div class="col-12 col-md-4 m-0 p-1 text-left">
-                <h5 th:text="${delivery.dateTransaction}">Order Date</h5>
+                <h5 th:text="${transaction.dateTransaction}">Order Date</h5>
             </div>
         </div>
     </a>

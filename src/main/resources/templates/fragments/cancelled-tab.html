@@ -1,8 +1,10 @@
 <div th:fragment="cancelled-tab" class="p-1">
-    <div class="m-0 p-0">
-        
+    <div th:if="${cancelled.size() > 0}" class="m-0 p-0">
+        <th:block th:each="transaction : ${cancelled}">
+            <div th:replace="fragments/transaction :: transaction"></div>
+        </th:block>
     </div>
-    <div class="m-0 p-0">
+    <div th:if="${cancelled.size() == 0}" class="m-0 p-0">
         <h3 class="p-5">Nothing in here . . .</h3>
     </div>
 </div>
