@@ -357,6 +357,25 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/transaction/{id}")
+    public ModelAndView transactionPage(@PathVariable("id") long id){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("transaction.html");
+
+        Transaction transaction = transactionRepo.findById(id).get();
+
+        OrderList orderList = transaction.getOrderList();
+        double total = 0;
+        for(Order order : orderList.getOrders()){
+            total += order.getFixedPrice() * order.getQuantity();
+        }
+
+        mav.addObject("transaction", transaction);
+        mav.addObject("total", total);
+
+        return mav;
+    }
+
     @PostMapping("/place-order")
     public RedirectView orderProcess(Transaction transaction){
         RedirectView rv = new RedirectView();
