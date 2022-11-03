@@ -85,6 +85,9 @@ body {
 .custom-quantity-size {
     width: 50%;
 }
+.dropdown-position {
+    left: 0px;
+}
 
 @media (min-width: 768px){
     .h3-header{
@@ -102,5 +105,11 @@ body {
 @media (min-width: 900px){
     .custom-quantity-size {
         width: 25%;
+    }
+}
+
+@media (min-width: 992px){
+    .dropdown-position {
+        left: -80px;
     }
 }
