@@ -1,10 +1,8 @@
 <div th:fragment="delivery-tab" class="p-1">
-    <div class="m-0 p-0">
-        <h1 th:text="${deliveries.get(0).deliveryStatus}">
-
-        </h1>
+    <div th:if="${deliveries.size() > 0}" class="m-0 p-0">
+        <div th:replace="fragments/item-order :: item-order"></div>
     </div>
-    <div class="m-0 p-0">
+    <div th:if="${deliveries.size() == 0}" class="m-0 p-0">
         <h3 class="p-5">Nothing in here . . .</h3>
     </div>
 </div>
