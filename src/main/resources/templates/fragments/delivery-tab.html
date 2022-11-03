@@ -1,6 +1,8 @@
 <div th:fragment="delivery-tab" class="p-1">
     <div th:if="${deliveries.size() > 0}" class="m-0 p-0">
-        <div th:replace="fragments/item-order :: item-order"></div>
+        <th:block th:each="delivery : ${deliveries}">
+            <div th:replace="fragments/transaction :: transaction"></div>
+        </th:block>
     </div>
     <div th:if="${deliveries.size() == 0}" class="m-0 p-0">
         <h3 class="p-5">Nothing in here . . .</h3>
