@@ -38,7 +38,7 @@
         <a th:text="${#request.userPrincipal.principal.getFirstName}" class="label d-inline nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Me
         </a>
-        <span th:if="${#request.userPrincipal.principal.getRole} == 'driver'" class="button__badge">
+        <span th:if="${#request.userPrincipal.principal.getRole} == 'driver'" th:text="${notif_count}" class="button__badge">
           1
         </span>
         <div th:switch="${#request.userPrincipal.principal.getRole}" class="dropdown-menu dropdown-position" aria-labelledby="navbarDropdown">

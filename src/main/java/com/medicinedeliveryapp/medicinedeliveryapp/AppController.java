@@ -74,6 +74,8 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("index.html");
 
+        mav.addObject("notif_count", getDriverNotifCount());
+
         return mav;
     }
 
@@ -152,6 +154,8 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("dashboard.html");
 
+        mav.addObject("notif_count", getDriverNotifCount());
+
         return mav;
     }
 
@@ -166,6 +170,8 @@ public class AppController {
             products = productRepo.findAllByGenericNameContaining(keyword);
         }
 
+
+        mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("products", products);
         mav.addObject("count", products.size());
         mav.addObject("keyword", keyword);
@@ -180,6 +186,8 @@ public class AppController {
         
         Product product = productRepo.findById(id).get();
 
+
+        mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("product", product);
 
         return mav;
@@ -251,6 +259,8 @@ public class AppController {
         currentBuyer.getCart().setCartProducts(cartProducts);
         buyerRepo.save(currentBuyer);
 
+
+        mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("buyer", currentBuyer);
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
         mav.addObject("total", totalPrice);
@@ -332,6 +342,8 @@ public class AppController {
 
         currentBuyer.getCart().setCartProducts(cartProductsCopy);
 
+
+        mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("buyer", currentBuyer);
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
         mav.addObject("total", totalPrice);
@@ -350,6 +362,8 @@ public class AppController {
         List<Transaction> received = transactionRepo.findAllByDeliveryStatus("Received");
         List<Transaction> cancelled = transactionRepo.findAllByDeliveryStatus("Cancelled");
 
+
+        mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("deliveries", deliveries);
         mav.addObject("received", received);
         mav.addObject("cancelled", cancelled);
@@ -370,6 +384,8 @@ public class AppController {
             total += order.getFixedPrice() * order.getQuantity();
         }
 
+
+        mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("transaction", transaction);
         mav.addObject("total", total);
 
@@ -448,6 +464,21 @@ public class AppController {
         buyer = buyerRepo.findByUser(user);
 
         return buyer;
+    }
+
+    private int getDriverNotifCount(){
+        int count = 0;
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(!auth.getPrincipal().toString().equals("anonymousUser")){
+            if(getCurrentUser().getRole().equals("driver")){
+                List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatus("To deliver and pay");
+                count = deliveries.size();
+            }
+        }
+
+        return count;
     }
 
 }
