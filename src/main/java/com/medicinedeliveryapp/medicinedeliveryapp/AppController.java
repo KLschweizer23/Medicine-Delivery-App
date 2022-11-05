@@ -443,6 +443,14 @@ public class AppController {
 
         Transaction transaction = transactionRepo.findById(id).get();
         transaction.setDeliveryStatus("Cancelled");
+
+        OrderList orderList = transaction.getOrderList();
+        for(Order order : orderList.getOrders()){
+            Product product = productRepo.findById(order.getProduct().getId()).get();
+            product.setStock(product.getStock() + order.getQuantity());
+            productRepo.save(product);
+        }
+
         transactionRepo.save(transaction);
 
         return rv;
