@@ -463,6 +463,7 @@ public class AppController {
 
         List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatus("To deliver and pay");
 
+        mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("deliveries", deliveries);
 
         return mav;
