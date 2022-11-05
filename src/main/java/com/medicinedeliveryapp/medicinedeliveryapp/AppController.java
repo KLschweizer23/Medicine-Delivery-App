@@ -359,7 +359,7 @@ public class AppController {
         mav.setViewName("order.html");
 
         List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatus("To deliver and pay");
-        List<Transaction> received = transactionRepo.findAllByDeliveryStatus("Received");
+        List<Transaction> received = transactionRepo.findAllByDeliveryStatus("Delivered");
         List<Transaction> cancelled = transactionRepo.findAllByDeliveryStatus("Cancelled");
 
 
@@ -450,6 +450,20 @@ public class AppController {
             product.setStock(product.getStock() + order.getQuantity());
             productRepo.save(product);
         }
+
+        transactionRepo.save(transaction);
+
+        return rv;
+    }
+
+    @GetMapping("/delivered-order")
+    public RedirectView orderDelivered(@RequestParam( value = "transaction", required = true ) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/deliveries");
+
+        Transaction transaction = transactionRepo.findById(id).get();
+        transaction.setDeliveryStatus("Delivered");
 
         transactionRepo.save(transaction);
 

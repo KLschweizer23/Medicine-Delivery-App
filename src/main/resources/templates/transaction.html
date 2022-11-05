@@ -50,9 +50,14 @@
                     </div>
                 </div>
                 <hr>
-                <div th:if="${transaction.deliveryStatus} == 'To deliver and pay'" class="w-100 text-right m-0 p-3">
-                    <button type="button" onclick="cancelOrder(id)" th:id="${transaction.id}" class="btn btn-danger">Cancel Order</button>
-                </div>
+                <th:block th:switch="${#request.userPrincipal.principal.getRole}">
+                    <div th:if="${transaction.deliveryStatus} == 'To deliver and pay'" th:case="buyer" class="w-100 text-right m-0 p-3">
+                        <button type="button" onclick="cancelOrder(id)" th:id="${transaction.id}" class="btn btn-danger">Cancel Order</button>
+                    </div>
+                    <div th:if="${transaction.deliveryStatus} == 'To deliver and pay'" th:case="driver" class="w-100 text-right m-0 p-3">
+                        <button type="button" onclick="deliveredOrder(id)" th:id="${transaction.id}" class="btn btn-success">Order Delivered</button>
+                    </div>
+                </th:block>
             </div>
         </div>
     </body>
@@ -61,6 +66,12 @@
             var parameter = "?transaction=" + id;
             $.get("/cancel-order" + parameter, function(data){
                 window.location.assign("/my-order");
+            });
+        }
+        function deliveredOrder(id){
+            var parameter = "?transaction=" + id;
+            $.get("/delivered-order" + parameter, function(data){
+                window.location.assign("/deliveries");
             });
         }
     </script>
