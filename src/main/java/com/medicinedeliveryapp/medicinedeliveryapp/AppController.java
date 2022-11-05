@@ -456,6 +456,18 @@ public class AppController {
         return rv;
     }
 
+    @GetMapping("/deliveries")
+    public ModelAndView deliveryPage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("deliveries.html");
+
+        List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatus("To deliver and pay");
+
+        mav.addObject("deliveries", deliveries);
+
+        return mav;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 
