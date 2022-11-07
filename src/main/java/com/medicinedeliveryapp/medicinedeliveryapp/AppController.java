@@ -574,6 +574,33 @@ public class AppController {
         return true;
     }
 
+    @GetMapping("/confirm-consultation")
+    public RedirectView confirmConsultation(@RequestParam( value = "consultation", required = true ) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/dashboard");
+
+        Consultation consultation = consultationRepo.findById(id).get();
+        consultation.setStatus("pending");
+
+        consultationRepo.save(consultation);
+
+        return rv;
+    }
+
+    @GetMapping("/delete-consultation")
+    public RedirectView deleteConsultation(@RequestParam( value = "consultation", required = true ) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/dashboard");
+
+        Consultation consultation = consultationRepo.findById(id).get();
+
+        consultationRepo.delete(consultation);
+
+        return rv;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 
