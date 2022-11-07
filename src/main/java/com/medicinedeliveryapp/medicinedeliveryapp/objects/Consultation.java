@@ -48,7 +48,7 @@ public class Consultation {
     private List<Medicine> medicines;
 
     @Column( nullable = true )
-    private double price;
+    private double total;
 
     @Column( nullable = true )
     private double shippingFee;

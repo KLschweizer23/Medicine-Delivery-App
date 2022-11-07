@@ -97,6 +97,38 @@
                         </th:block>
                     </div>
                     <hr>
+                    <div class="text-right w-100 m-0 p-2 text-dark">
+                        <div class="row m-0 p-0">
+                            <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                            <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                                <h6 style="float: left">Order Subtotal: </h6>
+                                <h6 th:text="'₱ ' + ${total}" style="float: right">₱ 0.0</h6>
+                            </div>
+                            <hr />
+                            <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                            <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                                <h6 style="float: left">Shpping total: </h6>
+                                <h6 th:text="'₱ ' + ${consultation.shippingFee}" style="float: right">0.0</h6>
+                            </div>
+                            <hr />
+                            <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                            <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                                <h6 style="float: left">Total Payment: </h6>
+                                <h4 th:text="'₱ ' + (${total} + ${consultation.shippingFee})" style="float: right">₱ 0.0</h4>
+                            </div>
+                            <th:block th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist' and ${consultation.status} == 'pending'">
+                                <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                                <form th:action="@{/update-total?id=} + ${consultation.id}" method="POST" th:object="${new_consultation}" class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                                    <div class="form-group text-left">
+                                        <label for="subtotal">New Subtotal</label>
+                                        <input th:field="*{total}" type="number" class="form-control form-control-sm" id="subtotal" placeholder="Enter subtotal" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Update Total</button>
+                                </form>
+                            </th:block>
+                            <hr />
+                        </div>
+                      </div>
                 </th:block>
                 <th:block th:if="${consultation.status} != 'confirmed'">
                     <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">

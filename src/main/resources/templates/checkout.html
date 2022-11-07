@@ -74,14 +74,14 @@
                 <hr />
                 <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
                 <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                  <h6 style="float: left">Shpping total: </h6>
-                  <h6 th:field="*{shippingTotal}" style="float: right">0.0</h6><h6 style="float: right">₱</h6>
+                  <h6 style="float: left">Shipping total: </h6>
+                  <h6 th:value="${shippingTotal}" th:text="'₱ ' + ${shippingTotal}" style="float: right">₱ 0.0</h6>
                 </div>
                 <hr />
                 <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
                 <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
                   <h6 style="float: left">Total Payment: </h6>
-                  <h4 th:text="'₱ ' + ${total}" style="float: right">₱ 0.0</h4>
+                  <h4 th:text="'₱ ' + (${total} + ${shippingTotal})" style="float: right">₱ 0.0</h4>
                 </div>
                 <hr />
               </div>

@@ -79,6 +79,8 @@ public class AppController {
     @Autowired
     private MedicineRepo medicineRepo;
 
+    private double shippingFeeValue = 50.0;
+
     @GetMapping("")
     public ModelAndView homePage(){
         ModelAndView mav = new ModelAndView();
@@ -366,6 +368,7 @@ public class AppController {
         mav.addObject("buyer", currentBuyer);
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
         mav.addObject("total", totalPrice);
+        mav.addObject("shippingTotal", shippingFeeValue);
         mav.addObject("cart", false);
         mav.addObject("transaction", new Transaction());
 
@@ -443,6 +446,7 @@ public class AppController {
         transaction.setOrderList(orderList);
         transaction.setDateTransaction(dateTime);
         transaction.setDeliveryStatus("To deliver and pay");
+        transaction.setShippingTotal(shippingFeeValue);
 
         Cart currentCart = getBuyer(user).getCart();
         currentCart.getCartProducts().clear();
@@ -522,6 +526,7 @@ public class AppController {
 
         consultation.setStatus("consulting");
         consultation.setDeliveryStatus("Not ready for delivery");
+        consultation.setShippingFee(shippingFeeValue);
         Consultation savedConsult = consultationRepo.save(consultation);
 
         rv.setUrl("dashboard/consultation/" + savedConsult.getId());
@@ -546,9 +551,26 @@ public class AppController {
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("consultation", consultation);
         mav.addObject("medicine", new Medicine());
-        mav.addObject("ready", ready);
+        mav.addObject("total", consultation.getTotal());
+        mav.addObject("new_consultation", new Consultation());
+        mav.addObject("ready", ready && consultation.getTotal() > 0 && consultation.getShippingFee() > 0);
 
         return mav;
+    }
+
+    @PostMapping("/update-total")
+    public RedirectView updateSubtotal(Consultation consultation, @RequestParam( value = "id", required = true) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/dashboard/consultation/" + id);
+
+        Consultation currentConsultation = consultationRepo.findById(id).get();
+
+        currentConsultation.setTotal(consultation.getTotal());
+
+        consultationRepo.save(currentConsultation);
+
+        return rv;
     }
 
     @PostMapping("/process-medicine")
