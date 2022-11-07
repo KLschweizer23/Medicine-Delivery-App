@@ -358,9 +358,9 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("order.html");
 
-        List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatus("To deliver and pay");
-        List<Transaction> received = transactionRepo.findAllByDeliveryStatus("Delivered");
-        List<Transaction> cancelled = transactionRepo.findAllByDeliveryStatus("Cancelled");
+        List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatusAndUser("To deliver and pay", getCurrentUser());
+        List<Transaction> received = transactionRepo.findAllByDeliveryStatusAndUser("Delivered", getCurrentUser());
+        List<Transaction> cancelled = transactionRepo.findAllByDeliveryStatusAndUser("Cancelled", getCurrentUser());
 
 
         mav.addObject("notif_count", getDriverNotifCount());
