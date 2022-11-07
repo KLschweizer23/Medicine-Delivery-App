@@ -21,8 +21,10 @@ import com.medicinedeliveryapp.medicinedeliveryapp.details.AbstractDetails;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Buyer;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Cart;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.CartProduct;
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.Consultation;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Doctor;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Driver;
+import com.medicinedeliveryapp.medicinedeliveryapp.objects.Medicine;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Order;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.OrderList;
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.Pharmacist;
@@ -32,8 +34,10 @@ import com.medicinedeliveryapp.medicinedeliveryapp.objects.User;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.BuyerRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.CartProductRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.CartRepo;
+import com.medicinedeliveryapp.medicinedeliveryapp.repositories.ConsultationRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DoctorRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.DriverRepo;
+import com.medicinedeliveryapp.medicinedeliveryapp.repositories.MedicineRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.PharmacistRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.ProductRepo;
 import com.medicinedeliveryapp.medicinedeliveryapp.repositories.TransactionRepo;
@@ -68,6 +72,12 @@ public class AppController {
 
     @Autowired
     private TransactionRepo transactionRepo;
+
+    @Autowired
+    private ConsultationRepo consultationRepo;
+
+    @Autowired
+    private MedicineRepo medicineRepo;
 
     @GetMapping("")
     public ModelAndView homePage(){
@@ -154,7 +164,14 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("dashboard.html");
 
+        List<Consultation> consultations = consultationRepo.findAllByStatus("consulting");
+        List<Consultation> pendingConsultations = consultationRepo.findAllByStatus("pending");
+        List<Consultation> confirmedConsultations = consultationRepo.findAllByStatus("confirmed");
+
         mav.addObject("notif_count", getDriverNotifCount());
+        mav.addObject("consultations", consultations);
+        mav.addObject("pendingConsultations", pendingConsultations);
+        mav.addObject("confirmedConsultations", confirmedConsultations);
 
         return mav;
     }
@@ -483,14 +500,65 @@ public class AppController {
         return mav;
     }
 
-    @GetMapping("/consultation")
+    @GetMapping("/dashboard/consultation")
     public ModelAndView consultationPage(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("consult.html");
         
         mav.addObject("notif_count", getDriverNotifCount());
+        mav.addObject("consult", new Consultation());
 
         return mav;
+    }
+
+    @PostMapping("/process-consult")
+    public RedirectView processConsultation(Consultation consultation){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+
+        consultation.setStatus("consulting");
+        Consultation savedConsult = consultationRepo.save(consultation);
+
+        rv.setUrl("dashboard/consultation/" + savedConsult.getId());
+        return rv;
+    }
+
+    @GetMapping("/dashboard/consultation/{id}")
+    public ModelAndView consultPage(@PathVariable("id") long id){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("consultation.html");
+
+        Consultation consultation = consultationRepo.findById(id).get();
+
+        mav.addObject("notif_count", getDriverNotifCount());
+        mav.addObject("consultation", consultation);
+        mav.addObject("medicine", new Medicine());
+
+        return mav;
+    }
+
+    @PostMapping("/process-medicine")
+    public RedirectView processMedicine(@RequestParam( value = "consultation", required = true ) long id, Medicine medicine){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/dashboard/consultation/" + id);
+
+        Consultation consultation = consultationRepo.findById(id).get();
+        List<Medicine> medicines = consultation.getMedicines();
+        
+        if(medicines == null){
+            medicines = new ArrayList<>();
+        }
+
+        Medicine savedMedicine = medicineRepo.save(medicine);
+
+        medicines.add(savedMedicine);
+
+        consultation.setMedicines(medicines);
+
+        consultationRepo.save(consultation);
+
+        return rv;
     }
 
     private User getCurrentUser(){

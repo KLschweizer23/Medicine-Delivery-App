@@ -52,4 +52,7 @@ public class Consultation {
     @Column( nullable = true )
     private double shippingFee;
 
+    @Column( nullable = false, length = 255)
+    private String status;
+
 }

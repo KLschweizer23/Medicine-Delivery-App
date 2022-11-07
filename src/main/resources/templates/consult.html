@@ -12,7 +12,50 @@
         <div class="text-center py-5">
             <div class="bg-white p-3 mx-5">
                 <form th:action="@{/process-consult}" method="POST">
-                    
+                    <h3>Fill up form</h3>
+                    <hr>
+                    <div class="form-group text-left">
+                        <label for="fullname">Full Name</label>
+                        <input th:field="${consult.fullName}" type="text" class="form-control form-control-sm" id="fullname" placeholder="Enter fullname" required>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="age">Age</label>
+                        <input th:field="${consult.age}" type="number" class="form-control form-control-sm" id="age" placeholder="Enter age" required>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="address">Address</label>
+                        <input th:field="${consult.address}" type="text" class="form-control form-control-sm" id="address" placeholder="Enter address" required>
+                    </div>
+                    <div class="form-group mb-3 text-left">
+                        <label for="phoneNumber">Phone Number</label>
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="phoneNumber">+63</label>
+                          <input th:field="${consult.phoneNumber}" type="text" class="form-control form-control-sm" id="phoneNumber" placeholder="9123456789" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-12 text-left">
+                            <label for="">Sex</label><br>
+                            <div class="form-check form-check-inline">
+                                <input th:field="${consult.sex}" type="radio" class="form-check-input" name="sexOptions" id="male" value="male" required>
+                                <label class="form-check-label" for="male">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input th:field="${consult.sex}" type="radio" class="form-check-input" name="sexOptions" id="female" value="female" required>
+                                <label class="form-check-label" for="female">Female</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="diagnosis">Diagnosis</label>
+                        <textarea th:field="${consult.diagnosis}" class="form-control" id="diagnosis" rows="3"></textarea>
+                    </div>
+                    <div class="m-0 p-0 text-right">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a th:href="@{/dashboard}">
+                            <button type="button" class="btn btn-danger">Cancel</button>
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>

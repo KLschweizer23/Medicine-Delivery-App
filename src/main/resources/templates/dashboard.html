@@ -12,21 +12,27 @@
         <div class="text-center py-5">
             <div class="bg-white p-2">
                 <div class="text-right m-0 p-0">
-                    <a th:href="@{/consultation}">
+                    <a th:href="@{/dashboard/consultation}">
                         <button type="button" class="btn btn-success">+ New Consult</button>
                     </a>
                 </div>
                 <hr>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">Pending Consultations</a>
+                    <a class="nav-link active" id="consult-tab" data-toggle="tab" href="#consult" role="tab" aria-controls="consult" aria-selected="true">Consultations</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending Consultations</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="confirmed-tab" data-toggle="tab" href="#confirmed" role="tab" aria-controls="confirmed" aria-selected="false">Confirmed Consultations</a>
                   </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                  <div class="tab-pane fade show active" id="consult" role="tabpanel" aria-labelledby="pending-tab">
+                      <div th:replace="fragments/consult-tab :: consult-tab"></div>
+                  </div>
+                  <div class="tab-pane fade show" id="pending" role="tabpanel" aria-labelledby="pending-tab">
                       <div th:replace="fragments/pending-tab :: pending-tab"></div>
                   </div>
                   <div class="tab-pane fade" id="confirmed" role="tabpanel" aria-labelledby="confirmed-tab">

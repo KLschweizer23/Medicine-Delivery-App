@@ -1,12 +1,12 @@
 <div th:fragment="pending-tab" class="p-1">
-    <!-- <div class="m-0 p-0">
-        <div th:if="${received.size() > 0}" class="m-0 p-0">
-            <th:block th:each="transaction : ${received}">
-                <div th:replace="fragments/transaction :: transaction"></div>
+    <div class="m-0 p-0">
+        <div th:if="${pendingConsultations.size() > 0}" class="m-0 p-0">
+            <th:block th:each="consultation : ${pendingConsultations}">
+                <div th:replace="fragments/consultation :: consultation"></div>
             </th:block>
         </div>
-    </div> -->
-    <div class="m-0 p-0">
+    </div>
+    <div th:if="${pendingConsultations.size() == 0}" class="m-0 p-0">
         <h3 class="p-5">Nothing in here . . .</h3>
     </div>
 </div>
