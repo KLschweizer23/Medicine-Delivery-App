@@ -689,6 +689,16 @@ public class AppController {
         return rv;
     }
 
+    @GetMapping("/profile")
+    public ModelAndView profilePage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("profile.html");
+
+        mav.addObject("notif_count", getDriverNotifCount());
+        
+        return mav;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 
