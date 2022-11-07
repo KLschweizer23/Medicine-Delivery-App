@@ -8,6 +8,6 @@ import com.medicinedeliveryapp.medicinedeliveryapp.objects.Consultation;
 
 public interface ConsultationRepo extends JpaRepository<Consultation, Long>{
     
-    List<Consultation> findAllByStatus(String status);
+    List<Consultation> findAllByStatusAndDeliveryStatus(String status, String deliveryStatus);
 
 }

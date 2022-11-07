@@ -113,6 +113,11 @@
                         </div>
                     </th:block>
                 </th:block>
+                <th:block th:if="${#request.userPrincipal.principal.getRole} == 'driver'">
+                    <div class="m-0 mt-2 p-0 text-right">
+                        <button onclick="orderDelivered(id);" th:id="${consultation.id}" type="button" class="btn btn-success">Order Delivered</button>
+                    </div>
+                </th:block>
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -195,6 +200,12 @@
             var parameter = "?id=" + id + "&status=" + parameter_status;
             $.get("/medicine-status" + parameter, function(data){
                 window.location.assign("/dashboard");
+            });
+        }
+        function orderDelivered(id){
+            var parameter = "?consultation=" + id;
+            $.get("/consultation-delivered" + parameter, function(data){
+                window.location.assign("/deliveries");
             });
         }
     </script>

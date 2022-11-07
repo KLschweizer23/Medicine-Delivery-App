@@ -164,14 +164,16 @@ public class AppController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("dashboard.html");
 
-        List<Consultation> consultations = consultationRepo.findAllByStatus("consulting");
-        List<Consultation> pendingConsultations = consultationRepo.findAllByStatus("pending");
-        List<Consultation> confirmedConsultations = consultationRepo.findAllByStatus("confirmed");
+        List<Consultation> consultations = consultationRepo.findAllByStatusAndDeliveryStatus("consulting", "Not ready for delivery");
+        List<Consultation> pendingConsultations = consultationRepo.findAllByStatusAndDeliveryStatus("pending", "Not ready for delivery");
+        List<Consultation> confirmedConsultations = consultationRepo.findAllByStatusAndDeliveryStatus("confirmed", "Ready for delivery");
+        List<Consultation> deliveredConsultations = consultationRepo.findAllByStatusAndDeliveryStatus("confirmed", "Delivered");
 
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("consultations", consultations);
         mav.addObject("pendingConsultations", pendingConsultations);
         mav.addObject("confirmedConsultations", confirmedConsultations);
+        mav.addObject("deliveredConsultations", deliveredConsultations);
 
         return mav;
     }
@@ -493,9 +495,11 @@ public class AppController {
         mav.setViewName("deliveries.html");
 
         List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatus("To deliver and pay");
+        List<Consultation> confirmedConsultations = consultationRepo.findAllByStatusAndDeliveryStatus("confirmed", "Ready for delivery");
 
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("deliveries", deliveries);
+        mav.addObject("confirmedConsultations", confirmedConsultations);
 
         return mav;
     }
@@ -517,6 +521,7 @@ public class AppController {
         rv.setContextRelative(true);
 
         consultation.setStatus("consulting");
+        consultation.setDeliveryStatus("Not ready for delivery");
         Consultation savedConsult = consultationRepo.save(consultation);
 
         rv.setUrl("dashboard/consultation/" + savedConsult.getId());
@@ -619,6 +624,22 @@ public class AppController {
 
         Consultation consultation = consultationRepo.findById(id).get();
         consultation.setStatus("confirmed");
+        consultation.setDeliveryStatus("Ready for delivery");
+
+        consultationRepo.save(consultation);
+
+        return rv;
+    }
+
+    @GetMapping("/consultation-delivered")
+    public RedirectView consultationDelivered(@RequestParam( value = "consultation", required = true ) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/dashboard");
+
+        Consultation consultation = consultationRepo.findById(id).get();
+        consultation.setStatus("confirmed");
+        consultation.setDeliveryStatus("Delivered");
 
         consultationRepo.save(consultation);
 
@@ -672,7 +693,9 @@ public class AppController {
         if(!auth.getPrincipal().toString().equals("anonymousUser")){
             if(getCurrentUser().getRole().equals("driver")){
                 List<Transaction> deliveries = transactionRepo.findAllByDeliveryStatus("To deliver and pay");
-                count = deliveries.size();
+                count += deliveries.size();
+                List<Consultation> confirmedConsultations = consultationRepo.findAllByStatusAndDeliveryStatus("confirmed", "Ready for delivery");
+                count += confirmedConsultations.size();
             }
         }
 

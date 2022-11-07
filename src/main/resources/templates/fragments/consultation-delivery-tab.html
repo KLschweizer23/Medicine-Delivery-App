@@ -1,0 +1,10 @@
+<div th:fragment="consultation-delivery-tab" class="p-1">
+    <div th:if="${confirmedConsultations.size() > 0}" class="m-0 p-0">
+        <th:block th:each="consultation : ${confirmedConsultations}">
+            <div th:replace="fragments/consultation :: consultation"></div>
+        </th:block>
+    </div>
+    <div th:if="${confirmedConsultations.size() == 0}" class="m-0 p-0">
+        <h3 class="p-5">Nothing in here . . .</h3>
+    </div>
+</div>

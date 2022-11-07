@@ -1,4 +1,4 @@
-<div th:fragment="delivery-tab" class="p-1">
+<div th:fragment="store-delivery-tab" class="p-1">
     <div th:if="${deliveries.size() > 0}" class="m-0 p-0">
         <th:block th:each="transaction : ${deliveries}">
             <div th:replace="fragments/transaction :: transaction"></div>

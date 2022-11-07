@@ -40,6 +40,9 @@
                   <li class="nav-item">
                     <a class="nav-link" id="confirmed-tab" data-toggle="tab" href="#confirmed" role="tab" aria-controls="confirmed" aria-selected="false">Confirmed Consultations</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="delivered-tab" data-toggle="tab" href="#delivered" role="tab" aria-controls="delivered" aria-selected="false">Delivered Consultations</a>
+                  </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                   <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
@@ -55,6 +58,9 @@
                   </div>
                   <div class="tab-pane fade" id="confirmed" role="tabpanel" aria-labelledby="confirmed-tab">
                       <div th:replace="fragments/confirmed-tab :: confirmed-tab"></div>
+                  </div>
+                  <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="delivered-tab">
+                      <div th:replace="fragments/delivered-tab :: delivered-tab"></div>
                   </div>
                 </div>
             </div>
