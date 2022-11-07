@@ -695,7 +695,14 @@ public class AppController {
         mav.setViewName("profile.html");
 
         mav.addObject("notif_count", getDriverNotifCount());
-        
+        if(getCurrentUser().getRole().equals("driver")){
+            mav.addObject("license_id", driverRepo.findByUser(getCurrentUser()).getLicense_id());
+        }else if(getCurrentUser().getRole().equals("doctor")){
+            mav.addObject("license_id", doctorRepo.findByUser(getCurrentUser()).getLicense_id());
+        }else if(getCurrentUser().getRole().equals("pharmacist")){
+            mav.addObject("license_id", pharmacistRepo.findByUser(getCurrentUser()).getLicense_id());
+        }
+
         return mav;
     }
 

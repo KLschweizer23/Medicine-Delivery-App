@@ -54,5 +54,10 @@ public class CustomUserDetails extends AbstractDetails{
     public Long getId(){
         return user.getId();
     }
+
+    @Override
+    public String getPhoneNumber() {
+        return user.getPhoneNumber();
+    }
     
 }
