@@ -51,11 +51,14 @@
                     <div class="col-12 col-lg-3">
                         <h5>Generic</h5>
                     </div>
-                    <div class="col-12 col-lg-3">
+                    <div class="col-12 col-lg-2">
                         <h5>Dosage Strength</h5>
                     </div>
                     <div class="col-12 col-lg-2">
                         <h5>Form</h5>
+                    </div>
+                    <div th:if="${consultation.status} == 'pending'" class="col-12 col-lg-1">
+                        <h5>Status</h5>
                     </div>
                     <div class="col-12 col-lg-1">
                         <h5>Action</h5>
@@ -70,11 +73,14 @@
                         <div class="col-12 col-lg-3">
                             <h6 th:text="${medicine.genericName}">Generic</h6>
                         </div>
-                        <div class="col-12 col-lg-3">
+                        <div class="col-12 col-lg-2">
                             <h6 th:text="${medicine.dosageStrength}">Dosage Strength</h6>
                         </div>
                         <div class="col-12 col-lg-2">
                             <h6 th:text="${medicine.form}">Form</h6>
+                        </div>
+                        <div th:if="${consultation.status} == 'pending'" class="col-12 col-lg-1">
+                            <h6 th:text="${medicine.status}">Pending</h6>
                         </div>
                         <div class="col-12 col-lg-1 m-0 p-1 text-left">
                             <button type="button" onclick="removeMedicine(id, name);" th:id="${medicine.id}" th:name="${consultation.id}" class="btn btn-danger">Remove</button>
@@ -82,7 +88,7 @@
                     </div>
                     <hr>
                 </th:block>
-                <div class="m-0 mt-3 p-0 text-right">
+                <div th:if="${consultation.status} == 'consulting'" class="m-0 mt-3 p-0 text-right">
                     <button onclick="confirmConsultation(id);" th:id="${consultation.id}" type="button" class="btn btn-info">Confirm Consultation</button>
                 </div>
                 <div class="m-0 mt-2 p-0 text-right">

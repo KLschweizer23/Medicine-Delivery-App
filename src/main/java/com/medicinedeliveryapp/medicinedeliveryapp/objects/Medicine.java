@@ -34,4 +34,7 @@ public class Medicine {
     @Column( nullable = false, length = 255 )
     private String form;
 
+    @Column( nullable = false, length = 255 )
+    private String status;
+
 }

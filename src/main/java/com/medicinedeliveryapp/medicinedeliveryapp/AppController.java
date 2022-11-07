@@ -550,6 +550,7 @@ public class AppController {
             medicines = new ArrayList<>();
         }
 
+        medicine.setStatus("Pending");
         Medicine savedMedicine = medicineRepo.save(medicine);
 
         medicines.add(savedMedicine);
