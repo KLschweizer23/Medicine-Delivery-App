@@ -487,6 +487,8 @@ public class AppController {
     public ModelAndView consultationPage(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("consult.html");
+        
+        mav.addObject("notif_count", getDriverNotifCount());
 
         return mav;
     }
