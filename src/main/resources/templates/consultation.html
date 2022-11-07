@@ -34,13 +34,13 @@
                         <h5>Phone Number</h5>
                         <h6 th:text="'+63' + ${consultation.phoneNumber}">Phone Number</h6>
                     </div>
-                    <div class="col-12">
+                    <div th:if="${#request.userPrincipal.principal.getRole} == 'doctor'" class="col-12">
                         <h5>Diagnosis</h5>
                         <textarea th:text="${consultation.diagnosis}" class="form-control" id="diagnosis" rows="3" readonly></textarea>
                     </div>
                 </div>
                 <h3 class="mt-5">Medicine</h3>
-                <div class="m-0 p-0 text-right">
+                <div th:if="${#request.userPrincipal.principal.getRole} == 'doctor' and ${consultation.status} != 'confirmed'" class="m-0 p-0 text-right">
                     <button onclick="addMedicine();" type="button" class="btn btn-success">+ Add Medicine</button>
                 </div>
                 <hr>
@@ -60,7 +60,7 @@
                     <div th:if="${consultation.status} == 'pending'" class="col-12 col-lg-1">
                         <h5>Status</h5>
                     </div>
-                    <div class="col-12 col-lg-1">
+                    <div th:if="${consultation.status} != 'confirmed'" class="col-12 col-lg-1">
                         <h5>Action</h5>
                     </div>
                 </div>
@@ -82,18 +82,37 @@
                         <div th:if="${consultation.status} == 'pending'" class="col-12 col-lg-1">
                             <h6 th:text="${medicine.status}">Pending</h6>
                         </div>
-                        <div class="col-12 col-lg-1 m-0 p-1 text-left">
-                            <button type="button" onclick="removeMedicine(id, name);" th:id="${medicine.id}" th:name="${consultation.id}" class="btn btn-danger">Remove</button>
-                        </div>
+                        <th:block th:if="${consultation.status} != 'confirmed'">
+                            <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
+                                <div class="col-12 col-lg-1 m-0 p-1 text-left">
+                                    <button type="button" onclick="removeMedicine(id, name);" th:id="${medicine.id}" th:name="${consultation.id}" class="btn btn-danger">Remove</button>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist'">
+                                <div class="col-12 col-lg-1 m-0 p-1 text-center">
+                                    <button type="button" onclick="hasMedicine(id, true);" th:id="${medicine.id}" class="btn btn-success">Confirm</button>
+                                    <button type="button" onclick="hasMedicine(id, false);" th:id="${medicine.id}" class="btn btn-danger">N/A</button>
+                                </div>
+                            </th:block>
+                        </th:block>
                     </div>
                     <hr>
                 </th:block>
-                <div th:if="${consultation.status} == 'consulting'" class="m-0 mt-3 p-0 text-right">
-                    <button onclick="confirmConsultation(id);" th:id="${consultation.id}" type="button" class="btn btn-info">Confirm Consultation</button>
-                </div>
-                <div class="m-0 mt-2 p-0 text-right">
-                    <button onclick="deleteConsultation(id);" th:id="${consultation.id}" type="button" class="btn btn-danger">Delete Consultation</button>
-                </div>
+                <th:block th:if="${consultation.status} != 'confirmed'">
+                    <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
+                        <div th:if="${consultation.status} == 'consulting'" class="m-0 mt-3 p-0 text-right">
+                            <button onclick="confirmConsultation(id);" th:id="${consultation.id}" type="button" class="btn btn-info">Confirm Consultation</button>
+                        </div>
+                        <div class="m-0 mt-2 p-0 text-right">
+                            <button onclick="deleteConsultation(id);" th:id="${consultation.id}" type="button" class="btn btn-danger">Delete Consultation</button>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist' and ${ready}">
+                        <div class="m-0 mt-2 p-0 text-right">
+                            <button onclick="proceedDelivery(id);" th:id="${consultation.id}" type="button" class="btn btn-success">Proceed to Delivery</button>
+                        </div>
+                    </th:block>
+                </th:block>
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -157,6 +176,24 @@
         function deleteConsultation(id){
             var parameter = "?consultation=" + id;
             $.get("/delete-consultation" + parameter, function(data){
+                window.location.assign("/dashboard");
+            });
+        }
+        function proceedDelivery(id){
+            var parameter = "?consultation=" + id;
+            $.get("/proceed-consultation" + parameter, function(data){
+                window.location.assign("/dashboard");
+            });
+        }
+        function hasMedicine(id, status){
+            var parameter_status = '';
+            if(status){
+                parameter_status = '1';
+            }else{
+                parameter_status = '0'
+            }
+            var parameter = "?id=" + id + "&status=" + parameter_status;
+            $.get("/medicine-status" + parameter, function(data){
                 window.location.assign("/dashboard");
             });
         }

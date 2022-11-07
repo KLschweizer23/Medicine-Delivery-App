@@ -530,9 +530,18 @@ public class AppController {
 
         Consultation consultation = consultationRepo.findById(id).get();
 
+        boolean ready = true;
+        for(Medicine med : consultation.getMedicines()){
+            if(!med.getStatus().equals("Confirmed")){
+                ready = false;
+                break;
+            }
+        }
+
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("consultation", consultation);
         mav.addObject("medicine", new Medicine());
+        mav.addObject("ready", ready);
 
         return mav;
     }
@@ -598,6 +607,41 @@ public class AppController {
         Consultation consultation = consultationRepo.findById(id).get();
 
         consultationRepo.delete(consultation);
+
+        return rv;
+    }
+
+    @GetMapping("/proceed-consultation")
+    public RedirectView proceedConsultation(@RequestParam( value = "consultation", required = true ) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/dashboard");
+
+        Consultation consultation = consultationRepo.findById(id).get();
+        consultation.setStatus("confirmed");
+
+        consultationRepo.save(consultation);
+
+        return rv;
+    }
+
+    @GetMapping("/medicine-status")
+    public RedirectView confirmedicine(@RequestParam( value = "id", required = true ) long id, @RequestParam( value = "status", required = true ) int status){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/dashboard");
+        
+        Medicine medicine = medicineRepo.findById(id).get();
+        String med_status = "";
+        if(status == 1){
+            med_status = "Confirmed";
+        }else{
+            med_status = "N/A";
+        }
+
+        medicine.setStatus(med_status);
+
+        medicineRepo.save(medicine);
 
         return rv;
     }

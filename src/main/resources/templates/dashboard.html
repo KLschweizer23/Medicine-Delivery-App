@@ -11,28 +11,46 @@
         <nav th:replace="fragments/navbar :: navbar"></nav>
         <div class="text-center py-5">
             <div class="bg-white p-2">
-                <div class="text-right m-0 p-0">
+                <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
+                  <div class="text-right m-0 p-0">
                     <a th:href="@{/dashboard/consultation}">
-                        <button type="button" class="btn btn-success">+ New Consult</button>
+                      <button type="button" class="btn btn-success">+ New Consult</button>
                     </a>
-                </div>
-                <hr>
+                  </div>
+                  <hr>
+                </th:block>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="consult-tab" data-toggle="tab" href="#consult" role="tab" aria-controls="consult" aria-selected="true">
+                          Consultations
+                      </a>
+                    </li>
+                  </th:block>
                   <li class="nav-item">
-                    <a class="nav-link active" id="consult-tab" data-toggle="tab" href="#consult" role="tab" aria-controls="consult" aria-selected="true">Consultations</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pending Consultations</a>
+                    <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
+                      <a class="nav-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">
+                    </th:block>
+                    <th:block th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist'">
+                      <a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">
+                    </th:block>
+                      Pending Consultations
+                    </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" id="confirmed-tab" data-toggle="tab" href="#confirmed" role="tab" aria-controls="confirmed" aria-selected="false">Confirmed Consultations</a>
                   </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="consult" role="tabpanel" aria-labelledby="pending-tab">
+                  <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
+                    <div class="tab-pane fade show active" id="consult" role="tabpanel" aria-labelledby="pending-tab">
                       <div th:replace="fragments/consult-tab :: consult-tab"></div>
-                  </div>
-                  <div class="tab-pane fade show" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                    </div>
+                    <div class="tab-pane fade show" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                  </th:block>
+                  <th:block th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist'">
+                    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                  </th:block>
                       <div th:replace="fragments/pending-tab :: pending-tab"></div>
                   </div>
                   <div class="tab-pane fade" id="confirmed" role="tabpanel" aria-labelledby="confirmed-tab">
