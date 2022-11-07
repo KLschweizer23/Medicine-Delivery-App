@@ -483,6 +483,14 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/consultation")
+    public ModelAndView consultationPage(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("consult.html");
+
+        return mav;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 
