@@ -10,7 +10,11 @@
     <body class="bg-primary-theme" style="background-color: black;">
         <nav th:replace="fragments/navbar :: navbar"></nav>
         <div class="text-center py-5">
-            
+            <div class="bg-white p-3 mx-5">
+                <form th:action="@{/process-consult}" method="POST">
+                    
+                </form>
+            </div>
         </div>
     </body>
 </html>
