@@ -2,6 +2,7 @@ package com.medicinedeliveryapp.medicinedeliveryapp.objects;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class Consultation {
     @Column( nullable = false, length = 255 )
     private String diagnosis;
 
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL )
     private List<Medicine> medicines;
 
     @Column( nullable = true )

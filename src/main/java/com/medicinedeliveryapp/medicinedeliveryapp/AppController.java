@@ -561,6 +561,19 @@ public class AppController {
         return rv;
     }
 
+    @GetMapping("/remove-medicine")
+    public boolean removeMedicine(@RequestParam( value = "medicine", required = true ) long id, @RequestParam( value = "consultation", required = true ) long cid){
+
+        Consultation currentConsultation = consultationRepo.findById(cid).get();
+        Medicine selectedMedicine = medicineRepo.findById(id).get();
+        currentConsultation.getMedicines().remove(selectedMedicine);
+
+        medicineRepo.delete(selectedMedicine);
+        consultationRepo.save(currentConsultation);
+
+        return true;
+    }
+
     private User getCurrentUser(){
         User user = new User();
 
