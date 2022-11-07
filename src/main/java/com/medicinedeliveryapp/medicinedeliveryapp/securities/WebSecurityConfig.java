@@ -49,7 +49,7 @@ public class WebSecurityConfig {
             .loginPage("/login")
             .usernameParameter("email")
             .failureForwardUrl("/login-fail")
-            .defaultSuccessUrl("/dashboard")
+            .defaultSuccessUrl("/")
             .permitAll()
         .and().logout().logoutSuccessUrl("/").permitAll();
 
