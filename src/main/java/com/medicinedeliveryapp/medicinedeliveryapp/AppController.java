@@ -200,6 +200,33 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/product-search")
+    public List<Product> getProducts(@RequestParam( value = "keyword", required = false ) String keyword){
+        List<Product> products = productRepo.findAllByBrandNameContainingOrGenericNameContaining(keyword, keyword);
+        return products;
+    }
+
+    @GetMapping("/new-product")
+    public String newProduct(@RequestParam( value = "b", required = false ) String brand, @RequestParam( value = "g", required = false ) String generic, @RequestParam( value = "d", required = false ) String dosage, @RequestParam( value = "f", required = false ) String form, @RequestParam( value = "desc", required = false ) String description, @RequestParam( value = "p", required = false ) double price, @RequestParam( value = "s", required = false ) int stock){
+
+        Product product = new Product();
+        product.setBrandName(brand);
+        product.setGenericName(generic);
+        product.setDosageStrength(dosage);
+        product.setForm(form);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setStock(stock);
+
+        Product savedProduct = productRepo.save(product);
+
+        if(savedProduct.getBrandName().equals(brand)){
+            return "true";
+        }
+
+        return "false";
+    }
+
     @GetMapping("/product/{id}")
     public ModelAndView productPage(@PathVariable("id") long id){
         ModelAndView mav = new ModelAndView();

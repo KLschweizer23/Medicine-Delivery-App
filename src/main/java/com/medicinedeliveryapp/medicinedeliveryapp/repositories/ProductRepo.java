@@ -10,4 +10,8 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     
     List<Product> findAllByGenericNameContaining(String genericName);
 
+    List<Product> findAllByBrandNameContaining(String brandName);
+
+    List<Product> findAllByBrandNameContainingOrGenericNameContaining(String brandName, String genericName);
+
 }

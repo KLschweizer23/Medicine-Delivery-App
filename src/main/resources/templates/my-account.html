@@ -18,8 +18,8 @@
                         <a class="nav-link" id="v-pills-product-tab" data-toggle="pill" href="#v-pills-product" role="tab" aria-controls="v-pills-product" aria-selected="false">Manage Products</a>
                     </th:block>
                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
-                  </div>
-                  <div class="col-12 col-sm-9 tab-content" id="v-pills-tabContent">
+                </div>
+                <div class="col-12 col-sm-10 tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                         <div class="m-0 p-0">
                             <h3>My Profile</h3>
@@ -70,7 +70,38 @@
                             Manage Accounts
                         </div>
                         <div class="tab-pane fade" id="v-pills-product" role="tabpanel" aria-labelledby="v-pills-product-tab">
-                            Manage Products
+                            <div class="m-0 p-0 row">
+                                <div class="form-inline m-0 p-0 col-12 col-md-7">
+                                    <input class="form-control mr-sm-2 m-1" th:value="${keyword}" id="search"  style="width: auto;" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                                    <button class="btn btn-outline-dark my-2 my-sm-0 mr-1" type="button" onclick="loadData();">Search</button>
+                                </div>
+                                <div class="m-0 p-1 text-right col-12 col-md-5">
+                                    <button type="button" onclick="newRow();" class="btn btn-success">New Product</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="m-0 p-0">
+                                <table class="table table-responsive-lg">
+                                    <thead>
+                                    <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Brand Name</th>
+                                    <th scope="col">Generic Name</th>
+                                    <th scope="col">Dosage Strength</th>
+                                    <th scope="col">Form</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Stock</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <div class="m-0 p-1 text-right w-100 text-right">
+                                <button type="button" onclick="newRow();" class="btn btn-success">New Product</button>
+                            </div>
                         </div>
                     </th:block>
                     <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
@@ -80,4 +111,101 @@
             </div>
         </div>
     </body>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        var newRows = 0;
+        $(document).ready(function(){
+            loadData();
+        });
+        function elementFromHtml(html){
+            const template = document.createElement("template");
+            template.innerHTML = html.trim();
+            console.log(template.content.firstElementChild);
+            return template.content.firstElementChild;
+        }
+        function loadData(){
+            var keyword = $('#search').val();
+            var parameter = '?keyword=' + keyword
+            $('#tbody').empty();
+            $.get("/product-search" + parameter, function(data){
+                var template = '';
+                var count = 1;
+                data.forEach(x => {
+                    template =
+                        "<tr id=" + x['id'] +">" +
+                            "<th scope='row'>" + count + "</th>" +
+                            "<td>" + x['brandName'] + "</td>" +
+                            "<td>" + x['genericName'] + "</td>" +
+                            "<td>" + x['dosageStrength'] + "</td>" +
+                            "<td>" + x['form'] + "</td>" +
+                            "<td>" + x['description'] + "</td>" +
+                            "<td>₱ " + x['price'] + "</td>" +
+                            "<td>" + x['stock'] + "</td>" +
+                        "</tr>";
+                    count++;
+                    document.getElementById('tbody').appendChild(elementFromHtml(template));
+                });
+            });
+        }
+        function removeNew(id){
+            document.getElementById('tr' + id).remove();
+        }
+        function addNew(id){
+            var brandName = $('#brandName' + id).val();
+            var genericName = $('#genericName' + id).val();
+            var dosageStrength = $('#dosageStrength' + id).val();
+            var form = $('#form' + id).val();
+            var description = $('#description' + id).val();
+            var price = $('#price' + id).val();
+            var stock = $('#stock' + id).val();
+
+            var parameter = "?b=" + brandName + "&g=" + genericName + "&d=" + dosageStrength + "&f=" + form + "&desc=" + description + "&p=" + price + "&s=" + stock; 
+
+            $.get("/new-product" + parameter, function(data){
+                if(data == 'true'){
+                    applyData(id);
+                }else{
+                    alert('Something\'s wrong!')
+                }
+            });
+        }
+        function applyData(id){
+            var template = '';
+            template = 
+                    "<tr id='tr" + id + "'>" +
+                        "<th scope='row'>...</th>" +
+                        "<td>" + $('#brandName' + id).val() + "</td>" + 
+                        "<td>" + $('#genericName' + id).val() + "</td>" + 
+                        "<td>" + $('#dosageStrength' + id).val() + "</td>" + 
+                        "<td>" + $('#form' + id).val() + "</td>" + 
+                        "<td>" + $('#description' + id).val() + "</td>" + 
+                        "<td>₱ " + $('#price' + id).val() + "</td>" + 
+                        "<td>" + $('#stock' + id).val() + "</td>" +
+                    "</tr>"
+            ;
+            $('#tr' + id).replaceWith(elementFromHtml(template));
+            // document.getElementById('tr' + id).appendChild(elementFromHtml(template));
+        }
+        function newRow(){
+            newRows++;
+            var template = '';
+            template = 
+                "<tr id='tr" + newRows + "'>" +
+                    "<th scope='row'>" +
+                        "<button type='button' onclick='addNew(" + newRows + ");' class='btn btn-block btn-success'>+</button>" + 
+                        "<button type='button' onclick='removeNew("+ newRows + ");' class='btn btn-block btn-danger'>-</button>" + 
+                    "</th>" +
+                    "<td><input type='text' class='form-control form-control-sm mt-4' id='brandName" + newRows + "' placeholder='Enter brand name' name='brandName' required></td>" + 
+                    "<td><input type='text' class='form-control form-control-sm mt-4' id='genericName" + newRows + "' placeholder='Enter generic name' name='genericName' required></td>" + 
+                    "<td><input type='text' class='form-control form-control-sm mt-4' id='dosageStrength" + newRows + "' placeholder='Enter dosage strength' name='dosageStrength' required></td>" + 
+                    "<td><input type='text' class='form-control form-control-sm mt-4' id='form" + newRows + "' placeholder='Enter form' name='form' required></td>" + 
+                    "<td><input type='text' class='form-control form-control-sm mt-4' id='description" + newRows + "' placeholder='Enter description' name='description' required></td>" + 
+                    "<td><input type='number' class='form-control form-control-sm mt-4' id='price" + newRows + "' placeholder='Enter price' name='price' required></td>" + 
+                    "<td><input type='number' class='form-control form-control-sm mt-4' id='stock" + newRows + "' placeholder='Enter stock' name='stock' required></td>" + 
+                "</tr>"
+            ;
+            document.getElementById('tbody').append(elementFromHtml(template));
+        }
+    /*]]>*/
+    </script>
 </html>
