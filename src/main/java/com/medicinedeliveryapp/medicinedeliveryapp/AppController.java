@@ -101,13 +101,25 @@ public class AppController {
     }
 
     @GetMapping("/login")
-    public ModelAndView loginPage(Model model){
+    public ModelAndView loginPage(@RequestParam( value = "nc" , required = false) String noCredentials){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login.html");
 
-        model.addAttribute("user", new User());
+        mav.addObject("user", new User());
+        if(noCredentials != null){
+            mav.addObject("nc", noCredentials.equals("1"));
+        }
 
         return mav;
+    }
+
+    @PostMapping("/login-fail")
+    public RedirectView loginFail(){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/login?nc=1");
+
+        return rv;
     }
 
     @GetMapping("/register")

@@ -15,6 +15,11 @@
             <div class="m-0 p-0 text-center">
                 <h2>Login</h2>
             </div>
+            <th:block th:if="${nc}">
+                <div class="alert alert-danger" role="alert">
+                  No credentials found!
+                </div>
+            </th:block>
             <div class="m-0 p-0">
                 <form th:action="@{/login}" method="POST" th:object="${user}">
                     <div class="form-group text-left">
