@@ -15,6 +15,11 @@
             <div class="m-0 p-0 text-center">
                 <h2>Register</h2>
             </div>
+            <th:block th:if="${ue}">
+                <div class="alert alert-danger" role="alert">
+                  Email already exists! Try <a th:href="@{/login}" class="alert-link">logging in</a>.
+                </div>
+            </th:block>
             <div class="m-0 p-0">
                 <form th:action="@{/process-user}" method="POST">
                     <div class="form-group text-left">

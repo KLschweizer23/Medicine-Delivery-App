@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -123,16 +122,19 @@ public class AppController {
     }
 
     @GetMapping("/register")
-    public ModelAndView registerPage(Model model){
+    public ModelAndView registerPage(@RequestParam( value = "ue", required = false) String userExists){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("register.html");
 
-        model.addAttribute("user", new User());
-        model.addAttribute("buyer", new Buyer());
-        model.addAttribute("doctor", new Doctor());
-        model.addAttribute("pharmacist", new Pharmacist());
-        model.addAttribute("driver", new Driver());
-        
+        mav.addObject("user", new User());
+        mav.addObject("buyer", new Buyer());
+        mav.addObject("doctor", new Doctor());
+        mav.addObject("pharmacist", new Pharmacist());
+        mav.addObject("driver", new Driver());
+        if(userExists != null){
+            mav.addObject("ue", userExists.equals("1"));
+        }
+
         return mav;
     }
 
@@ -147,6 +149,11 @@ public class AppController {
         user.setPassword(encodedPassword);
 
         String finalAdminCode = "";
+
+        if(userRepo.findByEmail(user.getEmail()) != null){
+            rv.setUrl("/register?ue=1");
+            return rv;
+        }
 
         if(user.getRole().equals("buyer")){
 
