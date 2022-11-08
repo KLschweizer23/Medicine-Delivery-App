@@ -86,6 +86,8 @@ public class AppController {
 
     private double shippingFeeValue = 50.0;
 
+    private final String permanentAdminCode = "abc123";
+
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads";
 
     @GetMapping("")
@@ -123,7 +125,7 @@ public class AppController {
     }
 
     @PostMapping("/process-user")
-    public RedirectView processUserRegistration(User user, Buyer buyer, Doctor doctor, Pharmacist pharmacist, Driver driver){
+    public RedirectView processUserRegistration(User user, Buyer buyer, Doctor doctor, Pharmacist pharmacist, Driver driver, @RequestParam("admin_code") String adminCode){
         RedirectView rv = new RedirectView();
         rv.setContextRelative(true);
         rv.setUrl("/login");
@@ -131,7 +133,9 @@ public class AppController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        
+
+        String finalAdminCode = "";
+
         if(user.getRole().equals("buyer")){
 
             buyer.setUser(user);
@@ -143,27 +147,38 @@ public class AppController {
             doctor.setUser(user);
 
             doctor.setLicense_id(doctor.getLicense_id().split(",")[0]);
-
-            doctorRepo.save(doctor);
+            finalAdminCode = adminCode.split(",")[0];
+            if(finalAdminCode.equals(permanentAdminCode)){
+                doctorRepo.save(doctor);
+            }else{
+                rv.setUrl("/register");
+            }
             
         }else if(user.getRole().equals("pharmacist")){
 
             pharmacist.setUser(user);
 
             pharmacist.setLicense_id(pharmacist.getLicense_id().split(",")[1]);
-
-            pharmacistRepo.save(pharmacist);
+            finalAdminCode = adminCode.split(",")[1];
+            if(finalAdminCode.equals(permanentAdminCode)){
+                pharmacistRepo.save(pharmacist);
+            }else{
+                rv.setUrl("/register");
+            }
             
         }else if(user.getRole().equals("driver")){
 
             driver.setUser(user);
 
             driver.setLicense_id(driver.getLicense_id().split(",")[2]);
-
-            driverRepo.save(driver);
+            finalAdminCode = adminCode.split(",")[2];
+            if(finalAdminCode.equals(permanentAdminCode)){
+                driverRepo.save(driver);
+            }else{
+                rv.setUrl("/register");
+            }
             
         }
-
 
         return rv;
     }
