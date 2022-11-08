@@ -214,6 +214,17 @@ public class AppController {
         return mav;
     }
 
+    @PostMapping("/edit-product")
+    public RedirectView editProduct(Product product, @RequestParam( value = "product", required = true ) long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("product/" + id);
+
+        productRepo.save(product);
+
+        return rv;
+    }
+
     @GetMapping("/add-to-cart")
     public boolean addToCart(@RequestParam( value = "prod_id", required = true ) long prod_id, @RequestParam( value = "quantity", required = true ) int quantity){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

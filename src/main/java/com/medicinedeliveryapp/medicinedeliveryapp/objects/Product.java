@@ -23,9 +23,6 @@ public class Product {
     private Long id;
 
     @Column( nullable = false, length = 255 )
-    private String code;
-
-    @Column( nullable = false, length = 255 )
     private String genericName;
 
     @Column( nullable = false, length = 255 )

@@ -45,6 +45,13 @@
               Add to cart
             </button>
           </div>
+          <div th:if="${#request.userPrincipal} != null" class="w-100 mt-2">
+            <th:block th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist'">
+              <button type="button" onclick="edit();" class="btn btn-success" style="width: 150px;">
+                Edit Product
+              </button>
+            </th:block>
+          </div>
         </div>
       </div>
     </div>
@@ -67,6 +74,56 @@
         </div>
       </div>
     </div>
+    <th:block th:if="${#request.userPrincipal} != null">
+      <div th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist'" class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Product</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form th:action="@{/edit-product?product=} + ${product.id}" method="POST" th:object="${product}">
+              <div class="modal-body" id="editModalBody">
+                <div class="form-group text-left">
+                    <label for="brand">Brand name</label>
+                    <input th:field="*{brandName}" th:value="${product.brandName}" type="text" class="form-control form-control-sm" id="brand" placeholder="Enter brand name" required>
+                </div>
+                <div class="form-group text-left">
+                    <label for="generic">Generic name</label>
+                    <input th:field="*{genericName}" th:value="${product.genericName}" type="text" class="form-control form-control-sm" id="generic" placeholder="Enter generic name" required>
+                </div>
+                <div class="form-group text-left">
+                    <label for="dosage">Dosage Strength</label>
+                    <input th:field="*{dosageStrength}" th:value="${product.dosageStrength}" type="text" class="form-control form-control-sm" id="dosage" placeholder="Enter dosage strength" required>
+                </div>
+                <div class="form-group text-left">
+                    <label for="form">Form</label>
+                    <input th:field="*{form}" th:value="${product.form}" type="text" class="form-control form-control-sm" id="form" placeholder="Enter form" required>
+                </div>
+                <div class="form-group text-left">
+                    <label for="description">Description</label>
+                    <input th:field="*{description}" th:value="${product.description}" type="text" class="form-control form-control-sm" id="description" placeholder="Enter description" required>
+                </div>
+                <div class="form-group text-left">
+                    <label for="price">Price</label>
+                    <input th:field="*{price}" th:value="${product.price}" type="number" class="form-control form-control-sm" id="price" placeholder="Enter price" required>
+                </div>
+                <div class="form-group text-left">
+                    <label for="stock">Stock</label>
+                    <input th:field="*{stock}" th:value="${product.stock}" type="number" class="form-control form-control-sm" id="stock" placeholder="Enter stock" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Confirm Changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </th:block>
   </body>
   <script th:inline="javascript">
     /*<![CDATA[*/
@@ -117,6 +174,10 @@
           $('#exampleModal').modal({ show: true });
         }
       });
+    }
+
+    function edit(){
+      $('#editModal').modal({ show: true });
     }
 
     $(document).ready(function () {
