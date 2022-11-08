@@ -744,6 +744,27 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/check-password")
+    public boolean passwordChecker(@RequestParam( value = "pass", required = true) String pass){
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(pass, getCurrentUser().getPassword());
+    }
+
+    @GetMapping("/change-password")
+    public boolean passwordChanger(@RequestParam( value = "pass", required = true) String pass){
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(pass);
+
+        User currentUser = getCurrentUser();
+        currentUser.setPassword(encodedPassword);
+
+        User savedUser = userRepo.save(currentUser);
+
+        return encoder.matches(pass, savedUser.getPassword());
+    }
+
     private User getCurrentUser(){
         User user = new User();
 

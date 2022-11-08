@@ -101,7 +101,36 @@
                         </div>
                     </th:block>
                     <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                        Settings
+                        <div class="m-0 p-2">
+                            <h3>Settings</h3>
+                            <hr>
+                            <div class="text-left m-0 p-0">
+                                <div class="m-0 p-0 row">
+                                    <h5 class="col-12">Change Password</h5>
+                                    <div class="form-group text-left col-12 col-md-4">
+                                        <label for="oldPassword">Old Password</label>
+                                        <input type="password" class="form-control form-control-sm" id="oldPassword" placeholder="Enter old password" required>
+                                    </div>
+                                </div>
+                                <div class="m-0 p-0 row">
+                                    <div class="form-group text-left col-12 col-md-4">
+                                        <label for="newPassword">New Password</label>
+                                        <input type="password" class="form-control form-control-sm" id="newPassword" placeholder="Enter new password" required>
+                                    </div>
+                                </div>
+                                <div class="m-0 p-0 row">
+                                    <div class="form-group text-left col-12 col-md-4">
+                                        <label for="retype">Retype Password</label>
+                                        <input type="password" class="form-control form-control-sm" id="retype" placeholder="Retype Password" required>
+                                    </div>
+                                </div>
+                                <div class="ml-3 mt-0">
+                                    <p id="error" class="text-danger" style="font-size: 0.8rem;" hidden="true">Wrong password or password doesn't match!</p>
+                                    <button type="button" onclick="changePass();" class="btn btn-dark">Change Password</button>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
                     </div>
                   </div>
             </div>
@@ -113,6 +142,31 @@
         $(document).ready(function(){
             loadData();
         });
+
+        function changePass(){
+            var oldPass = $('#oldPassword').val();
+            var newPass = $('#newPassword').val();
+            var retypePass = $('#retype').val();
+            var errorMessage = document.getElementById("error");
+            
+            if(newPass == retypePass){
+                errorMessage.setAttribute("hidden", true);
+                var param = '?pass=' + oldPass;
+                $.get('/check-password' + param, function(data){
+                    if(data == true){
+                        var newParam = '?pass=' + newPass;
+                        $.get('/change-password' + newParam, function(data){
+                            location.reload();
+                        });
+                    }else{
+                        errorMessage.removeAttribute("hidden");
+                    }
+                });
+            }else{
+                errorMessage.removeAttribute("hidden");
+            }
+        }
+
         function elementFromHtml(html){
             const template = document.createElement("template");
             template.innerHTML = html.trim();
