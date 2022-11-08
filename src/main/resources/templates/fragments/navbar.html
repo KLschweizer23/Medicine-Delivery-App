@@ -45,7 +45,7 @@
         </th:block>
         <div th:switch="${#request.userPrincipal.principal.getRole}" class="dropdown-menu dropdown-position" aria-labelledby="navbarDropdown">
           <a th:if="${#request.userPrincipal.principal.getRole} == 'doctor' or ${#request.userPrincipal.principal.getRole} == 'pharmacist'" class="dropdown-item" th:href="@{/dashboard}">Dashboard</a>
-          <a class="dropdown-item" th:href="@{/profile}">My Profile</a>
+          <a class="dropdown-item" th:href="@{/my-account}">My Account</a>
           <th:block th:case="buyer">
             <a class="dropdown-item" th:href="@{/cart}">My Cart</a>
             <a class="dropdown-item" th:href="@{/my-order}">My Order</a>

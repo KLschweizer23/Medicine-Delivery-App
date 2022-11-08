@@ -689,10 +689,10 @@ public class AppController {
         return rv;
     }
 
-    @GetMapping("/profile")
-    public ModelAndView profilePage(){
+    @GetMapping("/my-account")
+    public ModelAndView myAccountPage(){
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("profile.html");
+        mav.setViewName("my-account.html");
 
         mav.addObject("notif_count", getDriverNotifCount());
         if(getCurrentUser().getRole().equals("driver")){
