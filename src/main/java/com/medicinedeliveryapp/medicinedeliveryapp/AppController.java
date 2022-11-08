@@ -2,6 +2,10 @@ package com.medicinedeliveryapp.medicinedeliveryapp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -80,6 +85,8 @@ public class AppController {
     private MedicineRepo medicineRepo;
 
     private double shippingFeeValue = 50.0;
+
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads";
 
     @GetMapping("")
     public ModelAndView homePage(){
@@ -217,6 +224,7 @@ public class AppController {
         product.setDescription(description);
         product.setPrice(price);
         product.setStock(stock);
+        product.setUrl("none.jpg");
 
         Product savedProduct = productRepo.save(product);
 
@@ -763,6 +771,29 @@ public class AppController {
         User savedUser = userRepo.save(currentUser);
 
         return encoder.matches(pass, savedUser.getPassword());
+    }
+
+    @PostMapping("/upload-image")
+    public RedirectView uploadImage(@RequestParam( value = "id", required = true) long id, @RequestParam("image") MultipartFile file) throws IOException{
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/product/" + id);
+
+        StringBuilder fileNames = new StringBuilder();
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, file.getOriginalFilename());
+        fileNames.append(file.getOriginalFilename());
+        Files.write(fileNameAndPath, file.getBytes());
+
+        Product product = productRepo.findById(id).get();
+
+        if(!product.getUrl().equals("none.jpg")){
+            Files.delete(Paths.get(UPLOAD_DIRECTORY, product.getUrl()));
+        }
+
+        product.setUrl(file.getOriginalFilename());
+        productRepo.save(product);
+        
+        return rv;
     }
 
     private User getCurrentUser(){

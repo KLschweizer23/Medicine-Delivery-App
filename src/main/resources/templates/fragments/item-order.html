@@ -1,7 +1,7 @@
 <div th:fragment="item-order" class="p-0 m-0 mb-1" style="border-bottom: 1px solid rgb(184, 184, 184);">
     <div class="row m-0 p-0">
         <div class="col-12 col-md-2 m-0 p-0 bg-secondary" style="height: 150px;">
-            
+            <img th:src="'/uploads/' + ${order.product.url}" th:alt="${order.product.brandName}" style="height:100%;width:100%;object-fit: cover;">
         </div>
         <div class="col-12 col-md-10 m-0 p-0 px-2 pt-1 text-left">
             <h5 th:text="${order.product.brandName}">Brand</h5>

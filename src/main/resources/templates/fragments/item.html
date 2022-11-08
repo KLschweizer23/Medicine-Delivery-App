@@ -1,9 +1,10 @@
 <div th:fragment="item" class="bg-white col-lg-2 col-md-3 col-sm-4 col-12 m-0 p-0 item-card border">
     <a th:href="@{/product/} + ${product.id}" style="text-decoration: none;">
         <div class="m-0 p-0 bg-secondary" style="width: 100%; height: 200px;">
-            
+            <img th:src="'/uploads/' + ${product.url}" th:alt="${product.brandName}" style="height:100%;width:100%;object-fit: cover;">
         </div>
         <div class="item-card-description text-dark">
+            <h6 class="m-0 p-0" th:text="${product.brandName}">Brand Name</h6>
             <p class="m-0 p-0" th:text="${product.genericName}">Generic Name</p>
         </div>
         <div th:text="₱ + ${product.price}" class="item-card-price text-dark">

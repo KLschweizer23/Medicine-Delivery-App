@@ -3,7 +3,7 @@
         <div class="col-12 col-lg-2 col-md-3 col-sm-4 bg-secondary p-0" style="height: 200px;">
             <a th:href="@{/product/} + ${cartProduct.product.id}">
                 <div class="m-0 p-0 w-100" style="height: 200px;">
-
+                    <img th:src="'/uploads/' + ${cartProduct.product.url}" th:alt="${cartProduct.product.brandName}" style="height:100%;width:100%;object-fit: cover;">
                 </div>
             </a>
         </div>
