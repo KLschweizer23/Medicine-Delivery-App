@@ -99,6 +99,16 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/about")
+    public ModelAndView aboutUs(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("about.html");
+
+        mav.addObject("notif_count", getDriverNotifCount());
+
+        return mav;
+    }
+
     @GetMapping("/login")
     public ModelAndView loginPage(@RequestParam( value = "nc" , required = false) String noCredentials){
         ModelAndView mav = new ModelAndView();
