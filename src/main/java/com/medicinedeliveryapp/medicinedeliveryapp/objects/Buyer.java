@@ -1,6 +1,7 @@
 package com.medicinedeliveryapp.medicinedeliveryapp.objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,9 @@ public class Buyer{
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long buyer_id;
+
+    @Column( nullable = false )
+    private double discount;
 
     @OneToOne( cascade = CascadeType.ALL )
     private Cart cart;

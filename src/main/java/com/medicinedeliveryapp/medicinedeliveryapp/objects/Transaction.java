@@ -39,6 +39,9 @@ public class Transaction {
     @Column( nullable = false )
     private double shippingTotal;
 
+    @Column( nullable = false )
+    private double discount;
+
     @ManyToOne( cascade = CascadeType.ALL )
     private OrderList orderList;
 

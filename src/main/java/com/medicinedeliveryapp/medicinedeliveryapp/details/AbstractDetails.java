@@ -44,5 +44,6 @@ public abstract class AbstractDetails implements UserDetails{
     public abstract String getAddress();
     public abstract String getRole();
     public abstract String getPhoneNumber();
+    public abstract String getBirthday();
     
 }

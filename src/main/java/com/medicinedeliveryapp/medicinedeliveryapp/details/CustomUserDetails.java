@@ -1,5 +1,8 @@
 package com.medicinedeliveryapp.medicinedeliveryapp.details;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import com.medicinedeliveryapp.medicinedeliveryapp.objects.User;
 
 public class CustomUserDetails extends AbstractDetails{
@@ -58,6 +61,14 @@ public class CustomUserDetails extends AbstractDetails{
     @Override
     public String getPhoneNumber() {
         return user.getPhoneNumber();
+    }
+
+    @Override
+    public String getBirthday() {
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        String bday = LocalDate.parse(user.getBirthday()).format(formatters);
+        
+        return bday;
     }
     
 }

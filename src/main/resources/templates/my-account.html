@@ -45,6 +45,10 @@
                                     <h6 th:text="${#request.userPrincipal.principal.getAddress}">Address</h6>
                                 </div>
                                 <div class="col-12 col-md-4">
+                                    <h5>Birthday</h5>
+                                    <h6 th:text="${#request.userPrincipal.principal.getBirthday}">Birthday</h6>
+                                </div>
+                                <div class="col-12 col-md-4">
                                     <h5>Phone Number</h5>
                                     <h6 th:text="'+63' + ${#request.userPrincipal.principal.getPhoneNumber}">Phone Number</h6>
                                 </div>

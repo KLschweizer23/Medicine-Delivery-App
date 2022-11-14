@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -84,6 +86,7 @@ public class AppController {
     private MedicineRepo medicineRepo;
 
     private double shippingFeeValue = 50.0;
+    private double seniorDiscount = 25.0;
 
     private final String permanentAdminCode = "abc123";
 
@@ -167,6 +170,11 @@ public class AppController {
 
         if(user.getRole().equals("buyer")){
 
+            LocalDate bday = LocalDate.parse(user.getBirthday());
+            int age = Period.between(bday, LocalDate.now()).getYears();
+            if(age >= 60){
+                buyer.setDiscount(seniorDiscount);
+            }
             buyer.setUser(user);
             buyer.setCart(new Cart());
             buyerRepo.save(buyer);
@@ -453,12 +461,19 @@ public class AppController {
 
         currentBuyer.getCart().setCartProducts(cartProductsCopy);
 
+        double discount = 0;
+
+        if(currentBuyer.getDiscount() != 0){
+            discount = totalPrice * (currentBuyer.getDiscount() / 100.0);
+        }
 
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("buyer", currentBuyer);
         mav.addObject("count", currentBuyer.getCart().getCartProducts().size());
         mav.addObject("total", totalPrice);
         mav.addObject("shippingTotal", shippingFeeValue);
+        mav.addObject("discount", discount);
+        mav.addObject("discountValue", seniorDiscount);
         mav.addObject("cart", false);
         mav.addObject("transaction", new Transaction());
 
@@ -496,9 +511,15 @@ public class AppController {
             total += order.getFixedPrice() * order.getQuantity();
         }
 
+        double discount = 0;
+
+        if(transaction.getDiscount() != 0){
+            discount = total * (transaction.getDiscount() / 100.0);
+        }
 
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("transaction", transaction);
+        mav.addObject("discount", discount);
         mav.addObject("total", total);
 
         return mav;
@@ -537,6 +558,7 @@ public class AppController {
         transaction.setDateTransaction(dateTime);
         transaction.setDeliveryStatus("To deliver and pay");
         transaction.setShippingTotal(shippingFeeValue);
+        transaction.setDiscount(getBuyer(user).getDiscount());
 
         Cart currentCart = getBuyer(user).getCart();
         currentCart.getCartProducts().clear();

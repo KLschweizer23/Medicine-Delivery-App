@@ -44,6 +44,9 @@ public class User {
     @Column( nullable = false, length = 10)
     private String phoneNumber;
 
+    @Column( nullable = false, length = 255)
+    private String birthday;
+
     @Column( nullable = false, length = 255 )
     private String role;
 
