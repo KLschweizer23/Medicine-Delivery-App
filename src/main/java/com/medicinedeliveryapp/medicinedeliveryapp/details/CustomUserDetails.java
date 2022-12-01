@@ -66,6 +66,9 @@ public class CustomUserDetails extends AbstractDetails{
     @Override
     public String getBirthday() {
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        if(user.getBirthday() == ""){
+            return "None";
+        }
         String bday = LocalDate.parse(user.getBirthday()).format(formatters);
         
         return bday;
