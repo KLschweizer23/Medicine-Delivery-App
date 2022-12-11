@@ -1,58 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <th:block th:replace="components/header :: header"></th:block>
-        <title>Store - Medicine Delivery Site</title>
-    </head>
-    <body>
-        <div class="site-wrap">
-            <nav th:replace="fragments/new_navbar :: navbar"></nav>
-            <div class="bg-light py-3">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md-12 mb-0"><a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Store</strong></div>
-                  </div>
-                </div>
-              </div>
-            <div class="py-5 px-5 w-100">
-                <div class="w-100 m-0 p-0 bg-secondary">
-                    <div class="bg-dark w-100 p-0 m-0 row" style="height: 50px; width:100%;">
-                        <div class="col-12 col-md-6 m-0 p-0">
-                            <form class="form-inline m-0 p-0">
-                                <input class="form-control mr-sm-2 m-1" th:value="${keyword}" style="width: 50%;" name="keyword" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-light my-2 my-sm-0 mr-1" type="submit" onclick="search(keyword);">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div th:if="${count > 0}" class="row w-100 m-0 p-0">
-                        <th:block th:each="product : ${products}">
-                            <div th:replace="fragments/item :: item"></div>
-                        </th:block>
-                    </div>
-                    <div th:if="${count == 0}" class="w-100 m-0 p-5 text-center text-white">
-                        <h1>No available product</h1>
-                    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="components/header :: header"></th:block>
+    <title>Store - Medicine Delivery Site</title>
+  </head>
+  <body>
+    <div class="site-wrap">
+        <nav th:replace="fragments/new_navbar :: navbar"></nav>
+        <div class="bg-light py-3">
+            <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-0">
+                <a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span>
+                <strong class="text-black">Store</strong>
                 </div>
             </div>
+            </div>
         </div>
+        <div class="container pt-4">
+            <div th:if="${count > 0}" class="row">
+                <th:block th:each="product : ${products}">
+                <div th:replace="fragments/item :: item"></div>
+                </th:block>
+            </div>
+            <div th:if="${count == 0}" class="w-100 m-0 p-5 text-center text-white">
+                <h1>No available product</h1>
+            </div>
+        </div>
+    </div>
 
-        <script src="/js/jquery-3.3.1.min.js"></script>
-        <script src="/js/jquery-ui.js"></script>
-        <script src="/js/popper.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/owl.carousel.min.js"></script>
-        <script src="/js/jquery.magnific-popup.min.js"></script>
-        <script src="/js/aos.js"></script>
-    
-        <script src="/js/main.js"></script>
-    </body>
-    <script th:inline="javascript">
-        function search(keyword){
-            var parameter = "?keyword="+keyword;
-            $.get("/store" + parameter);
-        }
-    </script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/aos.js"></script>
+
+    <script src="/js/main.js"></script>
+  </body>
+  <script th:inline="javascript">
+    function search(keyword) {
+      var parameter = "?keyword=" + keyword;
+      $.get("/store" + parameter);
+    }
+  </script>
 </html>

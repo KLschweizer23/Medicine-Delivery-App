@@ -9,32 +9,32 @@
   </head>
   <body>
     <div class="site-wrap">
-      <div th:replace="fragments/new_navbar :: navbar"></div>
-      <div
-        class="site-blocks-cover"
-        style="background-image: url('img/hero_1.jpg')"
-      >
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-7 mx-auto order-lg-2 align-self-center">
-              <div class="site-block-cover-content text-center">
-                <img
-                  src="/img/logo.png"
-                  alt="Leonardia Pharmacy Logo"
-                  style="width: 140px"
-                />
-                <h1>LEONARDIA PHARMACY</h1>
-                <h2 class="sub-title">We're here because we care. . .</h2>
-                <p>
-                  <a th:href="@{/store}" class="btn btn-primary px-5 py-3"
-                    >Shop Now</a
-                  >
-                </p>
+        <div th:replace="fragments/new_navbar :: navbar"></div>
+        <div
+          class="site-blocks-cover"
+          style="background-image: url('img/hero_1.jpg')"
+        >
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-7 mx-auto order-lg-2 align-self-center">
+                <div class="site-block-cover-content text-center">
+                  <img
+                    src="/img/logo.png"
+                    alt="Leonardia Pharmacy Logo"
+                    style="width: 140px"
+                  />
+                  <h1>LEONARDIA PHARMACY</h1>
+                  <h2 class="sub-title">We're here because we care. . .</h2>
+                  <p>
+                    <a th:href="@{/store}" class="btn btn-primary px-5 py-3"
+                      >Shop Now</a
+                    >
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
     </div>
 
     <script src="/js/jquery-3.3.1.min.js"></script>
