@@ -1,19 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <th:block th:replace="components/header :: header"></th:block>
-        <title>Medicine Delivery Site</title>
-    </head>
-    <body class="bg-primary-theme" style="background-color: black;">
-        <nav th:replace="fragments/navbar :: navbar"></nav>
-        <div class="text-center py-5">
-            <img src="/img/logo.png" alt="Leonardia Pharmacy Logo" style="width: 140px; margin-bottom: -50px;">
-            <h1 class="text-white mt-5 h3-header pulse-font">LEONARDIA</h1>
-            <h1 class="text-secondary-theme h1-header pulse-font">PHARMACY</h1>
-            <p class="text-white allura-font p-header">We're here because we care. . .</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="components/header :: header"></th:block>
+    <title>Medicine Delivery Site</title>
+  </head>
+  <body>
+    <div class="site-wrap">
+      <div th:replace="fragments/new_navbar :: navbar"></div>
+      <div
+        class="site-blocks-cover"
+        style="background-image: url('img/hero_1.jpg')"
+      >
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-7 mx-auto order-lg-2 align-self-center">
+              <div class="site-block-cover-content text-center">
+                <img
+                  src="/img/logo.png"
+                  alt="Leonardia Pharmacy Logo"
+                  style="width: 140px"
+                />
+                <h1>LEONARDIA PHARMACY</h1>
+                <h2 class="sub-title">We're here because we care. . .</h2>
+                <p>
+                  <a th:href="@{/store}" class="btn btn-primary px-5 py-3"
+                    >Shop Now</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-    </body>
+      </div>
+    </div>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/aos.js"></script>
+
+    <script src="/js/main.js"></script>
+  </body>
 </html>

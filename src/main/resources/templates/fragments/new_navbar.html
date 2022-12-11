@@ -1,0 +1,101 @@
+<div th:fragment="navbar" class="site-navbar py-2">
+  <div class="search-wrap">
+    <div class="container">
+      <a href="#" class="search-close js-search-close"
+        ><span class="icon-close2"></span
+      ></a>
+      <form action="#" method="post">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search keyword and hit enter..."
+        />
+      </form>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="logo">
+        <div class="site-logo">
+          <!-- <a href="index.html" class="js-logo-clone">Pharma</a> -->
+          <a
+            class="navbar-brand text-light pr-3"
+            th:href="@{/}"
+            style="border-right: 1px solid white"
+          >
+            <div class="row">
+              <div class="col ml-0 pl-2 pt-1">
+                <div class="">Leonardia</div>
+                <div class="text-center" style="margin-top: -10px">
+                  Pharmacy
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="main-nav d-none d-lg-block">
+        <nav
+          class="site-navigation text-right text-md-center"
+          role="navigation"
+        >
+          <ul
+            class="site-menu js-clone-nav d-none d-lg-block"
+            th:switch="${#request.userPrincipal}"
+          >
+            <li class="active"><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/store}">Store</a></li>
+            <li><a th:href="@{/about}">About Us</a></li>
+            <li th:case="null"><a th:href="@{/login}">Login</a></li>
+            <li th:case="*" class="has-children">
+              <a href="#" class="icons-btn d-inline-block bag">
+                <div th:text="${#request.userPrincipal.principal.getFirstName}">
+                  Me
+                </div>
+                <th:block th:if="${notif_count} > 0">
+                  <span
+                    th:if="${#request.userPrincipal.principal.getRole} == 'driver'"
+                    th:text="${notif_count}"
+                    class="number"
+                    >2</span
+                  >
+                </th:block>
+              </a>
+              <ul
+                th:switch="${#request.userPrincipal.principal.getRole}"
+                class="dropdown"
+              >
+                <li
+                  th:if="${#request.userPrincipal.principal.getRole} == 'doctor' or ${#request.userPrincipal.principal.getRole} == 'pharmacist'"
+                >
+                  <a th:href="@{/dashboard}">Dashboard</a>
+                </li>
+                <li><a th:href="@{/my-account}">My Account</a></li>
+                <th:block th:case="buyer">
+                  <li><a th:href="@{/cart}">My Cart</a></li>
+                  <li><a th:href="@{/my-order}">My Order</a></li>
+                </th:block>
+                <li th:case="driver"><a th:href="@{/deliveries}">Deliveries</a></li>
+                <div class="dropdown-divider m-0"></div>
+                <form th:action="@{/logout}" method="POST">
+                  <button class="dropdown-item btn" type="submit">Log out</butt>
+                </form>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="icons">
+        <a href="#" class="icons-btn d-inline-block js-search-open"
+          ><span class="icon-search"></span
+        ></a>
+        <a
+          href="#"
+          class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"
+          ><span class="icon-menu"></span
+        ></a>
+      </div>
+    </div>
+  </div>
+</div>
