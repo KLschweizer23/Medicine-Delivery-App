@@ -247,9 +247,8 @@ public class AppController {
         List<Product> products = productRepo.findAll();
         
         if(keyword != null && !keyword.equals("")){
-            products = productRepo.findAllByGenericNameContaining(keyword);
+            products = productRepo.findAllByBrandNameContainingOrGenericNameContaining(keyword, keyword);
         }
-
 
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("products", products);
