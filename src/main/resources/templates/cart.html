@@ -1,71 +1,169 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <th:block th:replace="components/header :: header"></th:block>
-        <title>My cart</title>
-    </head>
-    <body class="bg-primary-theme" style="background-color: black;">
-        <nav th:replace="fragments/navbar :: navbar"></nav>
-        <div class="text-center py-5 px-3">
-            <div class="m-0 p-2 bg-dark ">
-                <div class="w-10 m-2 p-2 text-right">
-                    <h4 th:text="'Total: ₱' + ${total}" class="text-white">₱0.0</h4>
-                </div>
-                <th:block th:if="${buyer.cart.cartProducts.size > 0}" th:each="cartProduct : ${buyer.cart.cartProducts}">
-                    <div th:replace="fragments/item-cart :: item-cart"></div>
-                </th:block>
-                <th:block th:if="${buyer.cart.cartProducts.size == 0}">
-                    <h1 class="text-white mb-5">No products to check out . . .</h1>
-                </th:block>
-                <div class="w-10 m-2 p-2 text-right">
-                    <button type="button" onclick="checkout();" class="btn btn-success">
-                        Check out
-                    </button>
-                    <button type="button" onclick="removeProduct(0);" class="btn btn-danger">
-                        Remove all
-                    </button>
-                </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="components/header :: header"></th:block>
+    <title>My cart</title>
+  </head>
+  <body>
+    <div class="site-wrap">
+      <nav th:replace="fragments/new_navbar :: navbar"></nav>
+
+      <div class="bg-light py-3">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 mb-0">
+              <a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span>
+              <strong class="text-black">Cart</strong>
             </div>
+          </div>
         </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Success!</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body" id="exampleModalBody">
-                  Product added to cart!
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+
+      <div class="site-section">
+        <div class="container">
+          <div class="row mb-5">
+            <div class="site-blocks-table col-md-12">
+              <button
+                type="button"
+                onclick="removeProduct(0);"
+                class="btn btn-primary mb-2"
+              >
+                Remove All
+              </button>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">Image</th>
+                    <th class="product-name">Product</th>
+                    <th class="product-price">Price</th>
+                    <th class="product-quantity">Quantity</th>
+                    <th class="product-total">Total</th>
+                    <th class="product-remove">Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <th:block
+                    th:if="${buyer.cart.cartProducts.size > 0}"
+                    th:each="cartProduct : ${buyer.cart.cartProducts}"
+                  >
+                    <div th:replace="fragments/item-cart :: item-cart"></div>
+                  </th:block>
+                  <th:block th:if="${buyer.cart.cartProducts.size == 0}">
+                    <tr class="text-white mb-5">
+                      <td colspan="100%">No products to check out . . .</td>
+                    </tr>
+                  </th:block>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6 pl-5">
+              <div class="row justify-content-end">
+                <div class="col-md-7">
+                  <div class="row">
+                    <div class="col-md-12 text-right border-bottom mb-5">
+                      <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <span class="text-black">Subtotal</span>
+                    </div>
+                    <div class="col-md-6 text-right">
+                      <strong class="text-black" th:text="₱ + ${total}"
+                        >$230.00</strong
+                      >
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button
+                        class="btn btn-primary btn-lg btn-block"
+                        onclick="checkout()"
+                      >
+                        Proceed To Checkout
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-    </body>
-    <script th:inline="javascript">
-        function removeProduct(id){
-            var parameter = "?prod_id=" + id;
-            $.get("/remove-product" + parameter, function(data){
-                window.location.assign("/cart");
-            });
-        }
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Success!</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="exampleModalBody">
+              Product added to cart!
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        function checkout(){
-            var hasNoStocks = '[[${hasOutOfStock}]]';
-            if(hasNoStocks == "true"){
-                $("#exampleModalLabel").text("Invalid order!");
-                $("#exampleModalBody").text("Please remove products with no stocks available!");
-                $('#exampleModal').modal({ show: true });
-                return;
-            }
-            window.location.assign("/checkout");
-        }
-    </script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/aos.js"></script>
+
+    <script src="/js/main.js"></script>
+  </body>
+  <script th:inline="javascript">
+    async function removeProduct(id) {
+      var parameter = "?prod_id=" + id;
+      var data = await $.get("/remove-product" + parameter, (data) => {
+        location.reload();
+      });
+    }
+
+    function checkout() {
+      var hasNoStocks = "[[${hasOutOfStock}]]";
+      if (hasNoStocks == "true") {
+        $("#exampleModalLabel").text("Invalid order!");
+        $("#exampleModalBody").text(
+          "Please remove products with no stocks available!"
+        );
+        $("#exampleModal").modal({ show: true });
+        return;
+      }
+      window.location.assign("/checkout");
+    }
+  </script>
 </html>

@@ -1,22 +1,88 @@
-<div th:fragment="item-cart" class="p-2 m-0 w-100">
-    <div class="row m-0 p-0">
-        <div class="col-12 col-lg-2 col-md-3 col-sm-4 bg-secondary p-0" style="height: 200px;">
-            <a th:href="@{/product/} + ${cartProduct.product.id}">
-                <div class="m-0 p-0 w-100" style="height: 200px;">
-                    <img th:src="'/uploads/' + ${cartProduct.product.url}" th:alt="${cartProduct.product.brandName}" style="height:100%;width:100%;object-fit: cover;">
-                </div>
-            </a>
+<div class="p-2 m-0 w-100">
+  <div class="row m-0 p-0">
+    <div
+      class="col-12 col-lg-2 col-md-3 col-sm-4 bg-secondary p-0"
+      style="height: 200px"
+    >
+      <a th:href="@{/product/} + ${cartProduct.product.id}">
+        <div class="m-0 p-0 w-100" style="height: 200px">
+          <img
+            th:src="'/uploads/' + ${cartProduct.product.url}"
+            th:alt="${cartProduct.product.brandName}"
+            style="height: 100%; width: 100%; object-fit: cover"
+          />
         </div>
-        <div class="col-12 col-lg-8 col-md-6 col-sm-4 bg-white text-left py-2">
-            <h4 th:text="${cartProduct.product.brandName}" class="text-dark">Brand name</h4>
-            <h5 th:text="${cartProduct.product.genericName}" class="text-dark">Generic name</h5>
-            <h5 th:text="${cartProduct.product.dosageStrength} + ':' + ${cartProduct.product.form}" class="text-dark">Dosage:Form</h5>
-            <h4 th:text="₱ + ${cartProduct.product.price}" class="text-dark">Price</h4>
-            <h6 th:text="${cartProduct.quantity} + ' item/s = ' + ₱ + (${cartProduct.quantity} * ${cartProduct.product.price}) + ' total'">Quantity</h6>
-        </div>
-        <button th:if="${cart}" th:id="${cartProduct.product.id}" onclick="removeProduct(id);" class="btn btn-danger col-12 col-lg-2 col-md-3 col-sm-4">
-            Remove product
-        </button>
-        <div th:if="${!cart}" class="bg-white col-12 col-lg-2 col-md-3 col-sm-4"></div>
+      </a>
     </div>
+    <div class="col-12 col-lg-8 col-md-6 col-sm-4 bg-white text-left py-2">
+      <h4 th:text="${cartProduct.product.brandName}" class="text-dark">
+        Brand name
+      </h4>
+      <h5 th:text="${cartProduct.product.genericName}" class="text-dark">
+        Generic name
+      </h5>
+      <h5
+        th:text="${cartProduct.product.dosageStrength} + ':' + ${cartProduct.product.form}"
+        class="text-dark"
+      >
+        Dosage:Form
+      </h5>
+      <h4 th:text="₱ + ${cartProduct.product.price}" class="text-dark">
+        Price
+      </h4>
+      <h6
+        th:text="${cartProduct.quantity} + ' item/s = ' + ₱ + (${cartProduct.quantity} * ${cartProduct.product.price}) + ' total'"
+      >
+        Quantity
+      </h6>
+    </div>
+    <button
+      th:if="${cart}"
+      th:id="${cartProduct.product.id}"
+      onclick="removeProduct(id);"
+      class="btn btn-danger col-12 col-lg-2 col-md-3 col-sm-4"
+    >
+      Remove product
+    </button>
+    <div
+      th:if="${!cart}"
+      class="bg-white col-12 col-lg-2 col-md-3 col-sm-4"
+    ></div>
+  </div>
 </div>
+<!--  -->
+<tr th:fragment="item-cart">
+  <td class="product-thumbnail">
+    <a th:href="@{/product/} + ${cartProduct.product.id}">
+      <img
+        th:src="'/uploads/' + ${cartProduct.product.url}"
+        th:alt="${cartProduct.product.brandName}"
+        class="img-fluid"
+      />
+    </a>
+  </td>
+  <td class="product-name">
+    <h2
+      class="h5 text-black"
+      th:text="${cartProduct.product.brandName} + ', ' + ${cartProduct.product.dosageStrength}"
+    >
+      Ibuprofen
+    </h2>
+  </td>
+  <td th:text="₱ + ${cartProduct.product.price}">$55.00</td>
+  <td th:text="${cartProduct.quantity}">quantity</td>
+  <td th:text="₱ + (${cartProduct.quantity} * ${cartProduct.product.price})">
+    $49.00
+  </td>
+  <td>
+    <button
+      type="button"
+      onclick="removeProduct(id);"
+      th:if="${cart}"
+      th:id="${cartProduct.product.id}"
+      class="btn btn-primary height-auto btn-sm"
+    >
+      X
+    </button>
+  </td>
+</tr>

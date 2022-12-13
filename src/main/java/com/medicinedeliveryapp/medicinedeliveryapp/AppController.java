@@ -391,7 +391,7 @@ public class AppController {
     @GetMapping("/remove-product")
     public RedirectView removeProduct(@RequestParam( value = "prod_id", required = true ) long id){
         RedirectView rv = new RedirectView();
-        rv.setContextRelative(true);
+        rv.setContextRelative(false);
         rv.setUrl("/cart");
 
         Buyer currentBuyer = getBuyer(getCurrentUser());
@@ -418,7 +418,6 @@ public class AppController {
         }
 
         buyerRepo.save(currentBuyer);
-
         return rv;
     }
 
