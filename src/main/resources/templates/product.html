@@ -7,57 +7,63 @@
     <th:block th:replace="components/header :: header"></th:block>
     <title th:text="${product.genericName} + ' ' + product">Product Name</title>
   </head>
-  <body class="bg-primary-theme" style="background-color: black">
-    <nav th:replace="fragments/navbar :: navbar"></nav>
-    <div class="py-5 px-5">
-      <div class="m-0 p-3 row bg-white" style="height: auto">
-        <div class="col-md-5 col-12 m-0 p-0 bg-secondary">
-          <img th:src="'/uploads/' + ${product.url}" th:alt="${product.brandName}" style="height:100%;width:100%;object-fit: cover;">
-        </div>
-        <div class="col-md-7 col-12 m-0 p-0 pl-4" style="font-size: 1.2rem">
-          <h3 th:text="${product.brandName}">Brand Name</h3>
-          <h4 th:text="${product.genericName}">Generic Name</h4>
-          <h4 th:text="${product.dosageStrength} + ':' + ${product.form}">Dosage Strength:Form</h4>
-          <h4 th:text="${product.description}">Description</h4>
-          <br />
-          <h1 th:text="₱ + ${product.price}">Price</h1>
-          <div class="input-group custom-quantity-size mt-5">
-            <span class="input-group-btn">
-              <button type="button" class="quantity-left-minus btn btn-secondary btn-number" data-type="minus" data-field="">
-              -
-              </button>
-            </span>
-            <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100"/>
-            <span class="input-group-btn">
-              <button type="button" class="quantity-right-plus btn btn-secondary btn-number" data-type="plus" data-field="">
-              +
-              </button>
-            </span>
-          </div>
-          <span class="input-group-btn">
-              <p class="text-secondary" style="font-size: 1rem;"><th:block th:text="${product.stock}">1</th:block> available left</p>
-          </span>
-          <div class="w-100">
-            <button type="button" onclick="buy();" class="btn btn-danger btn-number" style="width: 150px;">
-              Buy now
-            </button>
-            <button type="button" onclick="addToCart();" class="btn btn-outline-danger btn-number mt-1" style="width: 150px;">
-              Add to cart
-            </button>
-          </div>
-          <th:block th:if="${#request.userPrincipal} != null">
-            <div th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist'" class="w-100 mt-2">
-              <button type="button" onclick="edit();" class="btn btn-success" style="width: 150px;">
-                Edit Product
-              </button>
-              <button type="button" onclick="changeImage();" class="btn btn-outline-success" style="width: 150px;">
-                Change Image
-              </button>
+  <body>
+    <div class="site-wrap">
+      <nav th:replace="fragments/new_navbar :: navbar"></nav>
+      <div class="bg-light py-3">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 mb-0"><a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span> <a
+                  th:href="@{/store}">Store</a> <span class="mx-2 mb-0">/</span> <strong class="text-black"><span th:text="${product.brandName} + ', ' + ${product.dosageStrength}">Ibuprofen Tablets, 200mg</span></strong></div>
             </div>
-          </th:block>
+          </div>
+      </div>
+      <!--  -->
+      <div class="site-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-5 mr-auto">
+              <div class="border text-center">
+                <img th:src="'../uploads/' + ${product.url}" th:alt="${product.brandName}" class="img-fluid p-5">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h2 class="text-black" th:text="${product.brandName} + ', ' + ${product.dosageStrength}">Ibuprofen Tablets, 200mg</h2>
+              <p th:text="${product.genericName} + ' - ' + ${product.form}">Generic - Form</p>
+              <p th:text="${product.description}">Description</p>
+
+              <p><strong class="text-primary h4" th:text="₱ + ${product.price}">$55.00</strong></p>
+
+              <div class="mb-5">
+                <div class="input-group mb-3" style="max-width: 220px;">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                  </div>
+                  <input type="text" id="quantity" name="quantity" class="form-control text-center" value="1" placeholder=""
+                    aria-label="Example text with button addon" aria-describedby="button-addon1">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                  </div>
+                </div>      
+                <span class="input-group-btn">
+                    <p style="font-size: 1rem;"><th:block th:text="${product.stock}">1</th:block> available left</p>
+                </span>
+              </div>
+              <p style="display: inline;"><a onclick="buy()" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Buy</a></p>
+              <p style="display: inline;"><a onclick="addToCart()" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Add To Cart</a></p>
+
+              <th:block th:if="${#request.userPrincipal} != null">
+                <div th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist'" class="w-100 mt-2">
+                  <p>Options: </p>
+                  <p style="display: inline;"><a onclick="edit()" class="buy-now btn btn-sm height-auto px-4 py-3 btn-outline-primary">Edit Product</a></p>
+                  <p style="display: inline;"><a onclick="changeImage()" class="buy-now btn btn-sm height-auto px-4 py-3 btn-outline-primary">Change Image</a></p>
+                </div>
+              </th:block>
+
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -108,7 +114,7 @@
                   </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Confirm</button>
+                <button type="submit" class="btn btn-primary">Confirm</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </form>
@@ -156,7 +162,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Confirm Changes</button>
+                <button type="submit" class="btn btn-primary">Confirm Changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </form>
@@ -164,6 +170,7 @@
         </div>
       </div>
     </th:block>
+  </div>
   </body>
   <script th:inline="javascript">
     /*<![CDATA[*/
@@ -225,7 +232,8 @@
     }
 
     $(document).ready(function () {
-      $(".quantity-right-plus").click(function (e) {
+      // $(".quantity-right-plus").click(function (e) {
+      $(".js-btn-plus").click(function (e) {
         // Stop acting like a button
         e.preventDefault();
         // Get the field name
@@ -246,7 +254,8 @@
         // Increment
       });
 
-      $(".quantity-left-minus").click(function (e) {
+      // $(".quantity-left-minus").click(function (e) {
+      $(".js-btn-minus").click(function (e) {
         // Stop acting like a button
         e.preventDefault();
         // Get the field name
