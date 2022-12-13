@@ -398,9 +398,21 @@ public class AppController {
 
         if(id == 0){
             Cart cart = currentBuyer.getCart();
-            cart.getCartProducts().clear();
+            cartRepo.deleteById(cart.getId());
+            List<CartProduct> cartProducts = cart.getCartProducts();
+            List<Long> ids = new ArrayList<>();
+            for(int i = 0; i < cartProducts.size(); i++){
+                ids.add(cartProducts.get(i).getId());
+            }
+            while(cartProducts.size() != 0){
+                cartProducts.remove(0);
+            }
+            cart.setCartProducts(cartProducts);
             currentBuyer.setCart(cart);
-            cartProductRepo.deleteAll();
+
+            for(Long idCopy : ids){
+                cartProductRepo.deleteById(idCopy);
+            }
         }else{
             Cart currentCart = currentBuyer.getCart();
             List<CartProduct> cartProducts = currentCart.getCartProducts();
@@ -551,19 +563,29 @@ public class AppController {
         LocalDateTime dateTime = LocalDateTime.now();
 
         transaction.setUser(user);
-        transaction.setAddress(user.getAddress());
         transaction.setOrderList(orderList);
         transaction.setDateTransaction(dateTime);
         transaction.setDeliveryStatus("To deliver and pay");
         transaction.setShippingTotal(shippingFeeValue);
         transaction.setDiscount(getBuyer(user).getDiscount());
-
-        Cart currentCart = getBuyer(user).getCart();
-        currentCart.getCartProducts().clear();
         
         transactionRepo.save(transaction);
-        cartRepo.save(currentCart);
-        cartProductRepo.deleteAll();
+
+        Cart currentCart = getBuyer(user).getCart();
+        cartRepo.deleteById(currentCart.getId());
+        List<CartProduct> cartProducts2 = currentCart.getCartProducts();
+        List<Long> ids = new ArrayList<>();
+        for(int i = 0; i < cartProducts2.size(); i++){
+            ids.add(cartProducts2.get(i).getId());
+        }
+        while(cartProducts2.size() != 0){
+            cartProducts2.remove(0);
+        }
+
+        currentCart.setCartProducts(cartProducts2);
+        for(Long id : ids){
+            cartProductRepo.deleteById(id);
+        }
 
         return rv;
     }

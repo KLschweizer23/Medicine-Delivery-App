@@ -7,111 +7,239 @@
     <th:block th:replace="components/header :: header"></th:block>
     <title>Checkout Page</title>
   </head>
-  <body class="bg-primary-theme" style="background-color: black">
-    <nav th:replace="fragments/navbar :: navbar"></nav>
-    <div class="py-5 px-3">
-      <form th:action="@{/place-order}" th:object="${transaction}" method="POST">
-      <div class="m-0 p-0 p-3 bg-dark">
-        <h4 class="text-white">Delivery Address</h4>
-        <div class="text-left text-white w-100 m-0 p-2">
+  <body>
+    <div class="site-wrap">
+      <nav th:replace="fragments/new_navbar :: navbar"></nav>
+
+      <div class="bg-light py-3">
+        <div class="container">
           <div class="row">
-            <div class="col-12 col-md-4">
-              <h6 th:text="${buyer.user.firstName} + ' ' + ${buyer.user.lastName}" class="m-0 p-0"><b>Name</b></h6>
-              <h6 th:text="'+63' + ${buyer.user.phoneNumber}" class="m-0 p-0"><b>Number</b></h6>
-            </div>
-            <div class="col-12 col-md-8">
-              <h6 th:text="${buyer.user.address}" class="m-0 p-0">Address</h6>
+            <div class="col-md-12 mb-0">
+              <a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span>
+              <strong class="text-black">Checkout</strong>
             </div>
           </div>
         </div>
-        <hr class="bg-white" />
-        <h4 class="text-white">Products Ordered</h4>
-        <th:block th:if="${buyer.cart.cartProducts.size > 0}" th:each="cartProduct : ${buyer.cart.cartProducts}">
-          <div th:replace="fragments/item-cart :: item-cart"></div>
-        </th:block>
-        <div class="text-right text-white mt-2">
-          <h6 class="text-white">Order Total:</h6>
-          <h4 th:text="₱ + ${total}">₱0.0</h4>
-        </div>
-        <hr class="bg-white" />
-          <h4 class="text-white">Payment Method</h4>
-          <div class="w-100 m-0 p-0 text-white">
-            <div class="form-check form-check-inline">
-              <input th:field="*{paymentMethod}" onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cod"/>
-              <label class="form-check-label" for="exampleRadios1">
-                Cash On Delivery
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input th:field="*{paymentMethod}" onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="ewallet" /><label class="form-check-label" for="exampleRadios2">
-                Payment Center / e-Wallet
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input th:field="*{paymentMethod}" onchange="show(value);"  class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="card" /><label class="form-check-label" for="exampleRadios3">
-                Credit / Debit Card
-              </label>
-            </div>
-            <div class="w-100 m-0 px-5 py-3">
-              <div id="cod">
-                  Cash on Delivery
-              </div>
-              <div id="ewallet" hidden="true">
-                  E-WALLET
-              </div>
-              <div id="card" hidden="true">
-                  CARD
-              </div>
-            </div>
-            <hr class="bg-white" />
-            <div class="text-right w-100 m-0 p-2 text-white">
-              <div class="row m-0 p-0">
-                <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-                <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                  <h6 style="float: left">Order Subtotal: </h6>
-                  <h6 th:text="'₱ ' + ${total}" style="float: right">₱ 0.0</h6>
-                </div>
-                <th:block th:if="${buyer.discount} != 0">
-                  <hr />
-                  <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-                  <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                    <h6 th:text="'Senior Discount (' + ${discountValue} + '%)'" style="float: left">Senior Discount: </h6>
-                    <h6 th:value="${discount}" th:text="'- ₱ ' + ${discount}" style="float: right">₱ 0.0</h6>
+      </div>
+      <!--  -->
+      <div class="site-section">
+        <div class="container">
+          <form th:action="@{/place-order}" th:object="${transaction}" method="POST">
+            <div class="row">
+              <div class="col-md-6 mb-5 mb-md-0">
+                <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                <div class="p-3 p-lg-5 border">
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <label for="c_fname" class="text-black">Full Name <span class="text-danger">*</span></label>
+                      <input type="text" th:field="*{name}" class="form-control" id="fname" name="fullname" placeholder="Full Name" required>
+                    </div>
                   </div>
-                </th:block>
-                <hr />
-                <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-                <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                  <h6 style="float: left">Shipping total: </h6>
-                  <h6 th:value="${shippingTotal}" th:text="'₱ ' + ${shippingTotal}" style="float: right">₱ 0.0</h6>
+        
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                      <input type="text" th:field="*{address}" class="form-control" id="address" name="address" placeholder="Complete Address">
+                    </div>
+                  </div>
+
+                  <div class="form-group row mb-5">
+                    <div class="col-md-6">
+                      <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                      <input type="text" th:field="*{phoneNumber}" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
+                    </div>
+                  </div>
+        
+                  <div class="form-group">
+                    <label for="c_order_notes" class="text-black">Order Notes</label>
+                    <textarea name="order_notes" th:field="*{note}" id="order_notes" cols="30" rows="5" class="form-control"
+                      placeholder="Write your notes here..."></textarea>
+                  </div>
+        
                 </div>
-                <hr />
-                <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-                <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                  <h6 style="float: left">Total Payment: </h6>
-                  <h4 th:text="'₱ ' + ((${total} - ${discount}) + ${shippingTotal})" style="float: right">₱ 0.0</h4>
+              </div>
+              <div class="col-md-6">      
+                <div class="row mb-5">
+                  <div class="col-md-12">
+                    <h2 class="h3 mb-3 text-black">Your Order</h2>
+                    <div class="p-3 p-lg-5 border">
+                      <table class="table site-block-order-table mb-5">
+                        <thead>
+                          <th>Product</th>
+                          <th>Total</th>
+                        </thead>
+                        <tbody>
+                          <th:block th:if="${buyer.cart.cartProducts.size > 0}" th:each="cartProduct : ${buyer.cart.cartProducts}">
+                            <tr>
+                              <td><span th:text="${cartProduct.product.brandName}">Brand Name</span><strong class="mx-2">x</strong> <span th:text="${cartProduct.quantity}">quantity</span></td>
+                              <td th:text="₱ + (${cartProduct.quantity} * ${cartProduct.product.price})">Total</td>
+                            </tr>
+                          </th:block>
+                          <tr>
+                            <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                            <td class="text-black" th:text="'₱ ' + ${total}">Cart Total</td>
+                          </tr>
+                          
+                          <th:block th:if="${buyer.discount} != 0">
+                            <tr>
+                              <td class="text-black font-weight-bold"><strong>Senior Discount (25%)</strong></td>
+                              <td class="text-black" th:value="${discount}" th:text="'- ₱ ' + ${discount}">Senior Total</td>
+                            </tr>
+                          </th:block>
+
+                          <tr>
+                            <td class="text-black font-weight-bold"><strong>Delivery Fee</strong></td>
+                            <td class="text-black" th:text="'₱ ' + ${shippingTotal}">Shipping Total</td>
+                          </tr>
+                          <tr>
+                            <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                            <td class="text-black font-weight-bold" th:text="'₱ ' + ((${total} - ${discount}) + ${shippingTotal})"><strong>Order Total</strong></td>
+                          </tr>
+                        </tbody>
+                      </table>
+        
+                      <div class="border mb-3">
+                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button"
+                          aria-expanded="false" aria-controls="collapsebank"> <input id="cod" th:field="*{paymentMethod}" value="cod" type="radio" checked="true"> Cash On Delivery</a></h3>
+        
+                        <div class="collapse" id="collapsebank">
+                          <div class="py-2 px-4">
+                            <p class="mb-0">Make your payment when the order arrives at your location. <br><br> This is only the available 
+                            option as of now. Online Transaction will be available soon...</p>
+                          </div>
+                        </div>
+                      </div>
+        
+                      <div class="form-group">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Place
+                          Order</button>
+                      </div>
+        
+                    </div>
+                  </div>
                 </div>
-                <hr />
+        
               </div>
             </div>
-            <div class="w-100 m-0 p-2 text-right">
-              <button type="submit" class="btn btn-success">Place Order</button>
+          </form>
+        </div>
+      </div>
+      <!--  -->
+      <!-- <div class="py-5 px-3">
+        <form th:action="@{/place-order}" th:object="${transaction}" method="POST">
+        <div class="m-0 p-0 p-3 bg-dark">
+          <h4 class="text-white">Delivery Address</h4>
+          <div class="text-left text-white w-100 m-0 p-2">
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <h6 th:text="${buyer.user.firstName} + ' ' + ${buyer.user.lastName}" class="m-0 p-0"><b>Name</b></h6>
+                <h6 th:text="'+63' + ${buyer.user.phoneNumber}" class="m-0 p-0"><b>Number</b></h6>
+              </div>
+              <div class="col-12 col-md-8">
+                <h6 th:text="${buyer.user.address}" class="m-0 p-0">Address</h6>
+              </div>
             </div>
           </div>
           <hr class="bg-white" />
-        </div>
-      </form>
+          <h4 class="text-white">Products Ordered</h4>
+          <th:block th:if="${buyer.cart.cartProducts.size > 0}" th:each="cartProduct : ${buyer.cart.cartProducts}">
+            <div th:replace="fragments/item-cart :: item-cart"></div>
+          </th:block>
+          <div class="text-right text-white mt-2">
+            <h6 class="text-white">Order Total:</h6>
+            <h4 th:text="₱ + ${total}">₱0.0</h4>
+          </div>
+          <hr class="bg-white" />
+            <h4 class="text-white">Payment Method</h4>
+            <div class="w-100 m-0 p-0 text-white">
+              <div class="form-check form-check-inline">
+                <input th:field="*{paymentMethod}" onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cod"/>
+                <label class="form-check-label" for="exampleRadios1">
+                  Cash On Delivery
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input th:field="*{paymentMethod}" onchange="show(value);" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="ewallet" /><label class="form-check-label" for="exampleRadios2">
+                  Payment Center / e-Wallet
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input th:field="*{paymentMethod}" onchange="show(value);"  class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="card" /><label class="form-check-label" for="exampleRadios3">
+                  Credit / Debit Card
+                </label>
+              </div>
+              <div class="w-100 m-0 px-5 py-3">
+                <div id="cod">
+                    Cash on Delivery
+                </div>
+                <div id="ewallet" hidden="true">
+                    E-WALLET
+                </div>
+                <div id="card" hidden="true">
+                    CARD
+                </div>
+              </div>
+              <hr class="bg-white" />
+              <div class="text-right w-100 m-0 p-2 text-white">
+                <div class="row m-0 p-0">
+                  <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                  <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                    <h6 style="float: left">Order Subtotal: </h6>
+                    <h6 th:text="'₱ ' + ${total}" style="float: right">₱ 0.0</h6>
+                  </div>
+                  <th:block th:if="${buyer.discount} != 0">
+                    <hr />
+                    <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                    <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                      <h6 th:text="'Senior Discount (' + ${discountValue} + '%)'" style="float: left">Senior Discount: </h6>
+                      <h6 th:value="${discount}" th:text="'- ₱ ' + ${discount}" style="float: right">₱ 0.0</h6>
+                    </div>
+                  </th:block>
+                  <hr />
+                  <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                  <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                    <h6 style="float: left">Shipping total: </h6>
+                    <h6 th:value="${shippingTotal}" th:text="'₱ ' + ${shippingTotal}" style="float: right">₱ 0.0</h6>
+                  </div>
+                  <hr />
+                  <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                  <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                    <h6 style="float: left">Total Payment: </h6>
+                    <h4 th:text="'₱ ' + ((${total} - ${discount}) + ${shippingTotal})" style="float: right">₱ 0.0</h4>
+                  </div>
+                  <hr />
+                </div>
+              </div>
+              <div class="w-100 m-0 p-2 text-right">
+                <button type="submit" class="btn btn-success">Place Order</button>
+              </div>
+            </div>
+            <hr class="bg-white" />
+          </div>
+        </form>
+      </div> -->
     </div>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/aos.js"></script>
+  
+    <script src="js/main.js"></script>
   </body>
   <script th:inline="javascript">
 
-    $("#exampleRadios1").attr('checked', 'checked');
+    $("#cod").attr('checked', 'checked');
 
     var codDiv = document.getElementById("cod");
     var ewalletDiv = document.getElementById("ewallet");
     var cardDiv = document.getElementById("card");
 
     function show(value){
+        alert(value)
         hide();
         var element = document.getElementById(value);
         element.removeAttribute("hidden");

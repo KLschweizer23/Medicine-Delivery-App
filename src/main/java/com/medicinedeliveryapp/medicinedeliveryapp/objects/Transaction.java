@@ -32,6 +32,15 @@ public class Transaction {
     
     @Column( nullable = false, length = 255 )
     private String address;
+    
+    @Column( nullable = false, length = 255 )
+    private String name;
+    
+    @Column( nullable = false, length = 255 )
+    private String note;
+    
+    @Column( nullable = false, length = 255 )
+    private String phoneNumber;
 
     @Column( nullable = false, length = 255 )
     private String paymentMethod;

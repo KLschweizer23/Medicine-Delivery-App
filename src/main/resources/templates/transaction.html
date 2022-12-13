@@ -11,15 +11,21 @@
         <nav th:replace="fragments/navbar :: navbar"></nav>
         <div class="text-center p-5">
             <div class="bg-white p-2">
-                <h4 class="text-dark text-left">Delivery Address</h4>
+                <h4 class="text-dark text-left">Billing Information</h4>
                 <div class="text-left text-dark w-100 m-0 mb-5 p-2">
                   <div class="row">
                     <div class="col-12 col-md-4">
-                      <h6 th:text="${transaction.user.firstName} + ' ' + ${transaction.user.lastName}" class="m-0 p-0"><b>Name</b></h6>
-                      <h6 th:text="'+63' + ${transaction.user.phoneNumber}" class="m-0 p-0"><b>Number</b></h6>
+                        <h5>Person Details:</h5>
+                      <h6 th:text="${transaction.name}" class="m-0 p-0"><b>Name</b></h6>
+                      <h6 th:text="'+63' + ${transaction.phoneNumber}" class="m-0 p-0"><b>Number</b></h6>
                     </div>
                     <div class="col-12 col-md-8">
+                        <h5>Address:</h5>
                       <h6 th:text="${transaction.address}" class="m-0 p-0">Address</h6>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <h5 class="m-0 p-0">Note:</h5>
+                      <h6 th:text="${transaction.note}" class="m-0 p-0">Note</h6>
                     </div>
                   </div>
                 </div>
