@@ -1,52 +1,89 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="components/header :: header"></th:block>
+    <title>Login - Medicine Delivery Site</title>
+  </head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <th:block th:replace="components/header :: header"></th:block>
-        <title>Login - Medicine Delivery Site</title>
-    </head>
-    
-    <body class="bg-primary-theme" style="background-color: black;">
-        
-        <div class="bg-primary-theme text-white small-card" style="margin-top: 100px;">
-            <div class="m-0 p-0 text-center">
-                <h2>Login</h2>
+  <body>
+    <div class="site-wrap">
+      <nav th:replace="fragments/new_navbar :: navbar"></nav>
+
+      <div class="bg-light py-3">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 mb-0">
+              <a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span>
+              <strong class="text-black">Login</strong>
             </div>
-            <th:block th:if="${nc}">
-                <div class="alert alert-danger" role="alert">
-                  No credentials found!
-                </div>
-            </th:block>
-            <div class="m-0 p-0">
-                <form th:action="@{/login}" method="POST" th:object="${user}">
-                    <div class="form-group text-left">
-                        <label for="email">Email</label>
-                        <input th:field="*{email}" type="text" class="form-control form-control-sm" id="email" placeholder="Enter email" required>
-                    </div>
-                    <div class="form-group text-left">
-                        <label for="password">Password</label>
-                        <input th:field="*{password}" type="password" class="form-control form-control-sm" id="password" placeholder="Enter password" required>
-                    </div>
-                    <div class="mt-5">
-                        <button type="submit" class="btn btn-primary btn-block">Login</button>
-                    </div>
-                </form>
-                <div class="mt-2">
-                    <a th:href="@{/}">
-                        <button class="btn btn-secondary btn-block">
-                            Cancel
-                        </button>
-                    </a>
-                </div>
-                <hr class="bg-white">
-                <div class="text-center">
-                    <p>First time? Click <a th:href="@{/register}">here</a> to Register!</p>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
 
-    </body>
+      <div class="w-50 mx-auto mt-5">
+        <div class="p-3 p-lg-5 border">
+          <div class="w-100 m-0 p-0 text-center">
+            <h2 class="h3 mb-3 text-black">Login</h2>
+          </div>
+          <th:block th:if="${nc}">
+            <div class="alert alert-danger" role="alert">
+              No credentials found!
+            </div>
+          </th:block>
+          <form th:action="@{/login}" method="POST" th:object="${user}">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label for="email" class="text-black">Email</label>
+                <input
+                  th:field="*{email}"
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Enter email"
+                  required
+                />
+              </div>
+
+              <div class="col-md-12">
+                <label for="password" class="text-black">Password</label>
+                <input
+                  th:field="*{password}"
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Enter password"
+                  required
+                />
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block mt-5">
+                Login
+              </button>
+              <button
+                onclick="window.location.assign('/')"
+                class="btn btn-secondary btn-block"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+          <hr class="bg-white" />
+          <div class="text-center">
+            <p style="display: inline">
+              First time? Click
+              <a th:href="@{/register}" class="m-0 p-0" style="display: inline"
+                >here</a
+              >
+              to Register!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

@@ -122,6 +122,8 @@ public class AppController {
             mav.addObject("nc", noCredentials.equals("1"));
         }
 
+        mav.addObject("notif_count", getDriverNotifCount());
+
         return mav;
     }
 
@@ -148,6 +150,8 @@ public class AppController {
             mav.addObject("ue", userExists.equals("1"));
         }
 
+        mav.addObject("notif_count", getDriverNotifCount());
+        
         return mav;
     }
 
