@@ -539,7 +539,7 @@ public class AppController {
     public RedirectView orderProcess(Transaction transaction){
         RedirectView rv = new RedirectView();
         rv.setContextRelative(true);
-        rv.setUrl("/my-order");
+        rv.setUrl("/thank-you?data=true");
 
         User user = getCurrentUser();
         OrderList orderList = new OrderList();
@@ -588,6 +588,17 @@ public class AppController {
         }
 
         return rv;
+    }
+
+    @GetMapping("/thank-you")
+    public ModelAndView thankYou(@RequestParam( value = "data", required = false ) String data){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("thankyou.html");
+        
+        mav.addObject("data", data);
+        mav.addObject("notif_count", getDriverNotifCount());
+
+        return mav;
     }
 
     @GetMapping("/cancel-order")
