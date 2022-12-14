@@ -36,7 +36,7 @@ public class Transaction {
     @Column( nullable = false, length = 255 )
     private String name;
     
-    @Column( nullable = false, length = 255 )
+    @Column( nullable = true, length = 255 )
     private String note;
     
     @Column( nullable = false, length = 255 )
