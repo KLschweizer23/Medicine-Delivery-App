@@ -7,12 +7,25 @@
         <th:block th:replace="components/header :: header"></th:block>
         <title>My Dashboard</title>
     </head>
-    <body class="bg-primary-theme" style="background-color: black;">
-        <nav th:replace="fragments/navbar :: navbar"></nav>
-        <div class="text-center py-5">
+    <body>
+      <div class="site-wrap">
+        <nav th:replace="fragments/new_navbar :: navbar"></nav>
+                
+        <div class="bg-light py-3">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 mb-0">
+                <a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span>
+                <strong class="text-black">Dashboard</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center py-2">
             <div class="bg-white p-2">
-                <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
-                  <div class="text-right m-0 p-0">
+              <th:block th:if="${#request.userPrincipal.principal.getRole} == 'doctor'">
+                <div class="text-right m-0 p-0">
                     <a th:href="@{/dashboard/consultation}">
                       <button type="button" class="btn btn-success">+ New Consult</button>
                     </a>
@@ -65,5 +78,6 @@
                 </div>
             </div>
         </div>
+      </div>
     </body>
 </html>

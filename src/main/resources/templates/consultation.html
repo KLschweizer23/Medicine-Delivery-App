@@ -7,11 +7,22 @@
         <th:block th:replace="components/header :: header"></th:block>
         <title>Consultation</title>
     </head>
-    <body class="bg-primary-theme" style="background-color: black;">
-        <nav th:replace="fragments/navbar :: navbar"></nav>
-        <div class="text-center py-5">
-            <div class="bg-white p-2 mx-3">
-                <h3>Consultation Details</h3>
+    <body>
+        <div class="site-wrap">
+            <nav th:replace="fragments/new_navbar :: navbar"></nav>
+
+            <div class="bg-light py-3">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-12 mb-0"><a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span> <a
+                        th:href="@{/dashboard}">Dashboard</a> <span class="mx-2 mb-0">/</span> <strong class="text-black"><span>Consultation</span></strong></div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="text-center py-5">
+                <div class="bg-white p-2 mx-3">
+                    <h3>Consultation Details</h3>
                 <hr>
                 <div class="text-left row m-0 p-0">
                     <div class="col-12 col-md-4">
@@ -193,6 +204,8 @@
                 </div>
             </div>
         </div>
+            
+    </div>
     </body>
     <script th:inline="javascript">
         function addMedicine(){
