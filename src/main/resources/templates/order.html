@@ -1,39 +1,107 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <th:block th:replace="components/header :: header"></th:block>
-        <title>My Orders</title>
-    </head>
-    <body class="bg-primary-theme" style="background-color: black;">
-        <nav th:replace="fragments/navbar :: navbar"></nav>
-        <div class="text-center p-5">
-            <div class="bg-white p-2">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="delivery-tab" data-toggle="tab" href="#delivery" role="tab" aria-controls="delivery" aria-selected="true">To Deliver & Pay</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="received-tab" data-toggle="tab" href="#received" role="tab" aria-controls="received" aria-selected="false">Received</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="cancelled-tab" data-toggle="tab" href="#cancelled" role="tab" aria-controls="cancelled" aria-selected="false">Cancelled</a>
-                  </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
-                      <div th:replace="fragments/store-delivery-tab :: store-delivery-tab"></div>
-                  </div>
-                  <div class="tab-pane fade" id="received" role="tabpanel" aria-labelledby="received-tab">
-                      <div th:replace="fragments/received-tab :: received-tab"></div>
-                  </div>
-                  <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
-                      <div th:replace="fragments/cancelled-tab :: cancelled-tab"></div>
-                  </div>
-                </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="components/header :: header"></th:block>
+    <title>My Orders</title>
+  </head>
+  <body>
+    <div class="site-wrap">
+      <nav th:replace="fragments/new_navbar :: navbar"></nav>
+
+      <div class="bg-light py-3">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 mb-0">
+              <a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span>
+              <strong class="text-black">My Order</strong>
             </div>
+          </div>
         </div>
-    </body>
+      </div>
+
+      <div class="text-center p-5">
+        <div class="bg-white p-2">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                id="delivery-tab"
+                data-toggle="tab"
+                href="#delivery"
+                role="tab"
+                aria-controls="delivery"
+                aria-selected="true"
+                >To Deliver & Pay</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="received-tab"
+                data-toggle="tab"
+                href="#received"
+                role="tab"
+                aria-controls="received"
+                aria-selected="false"
+                >Received</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="cancelled-tab"
+                data-toggle="tab"
+                href="#cancelled"
+                role="tab"
+                aria-controls="cancelled"
+                aria-selected="false"
+                >Cancelled</a
+              >
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div
+              class="tab-pane fade show active"
+              id="delivery"
+              role="tabpanel"
+              aria-labelledby="delivery-tab"
+            >
+              <div
+                th:replace="fragments/store-delivery-tab :: store-delivery-tab"
+              ></div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="received"
+              role="tabpanel"
+              aria-labelledby="received-tab"
+            >
+              <div th:replace="fragments/received-tab :: received-tab"></div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="cancelled"
+              role="tabpanel"
+              aria-labelledby="cancelled-tab"
+            >
+              <div th:replace="fragments/cancelled-tab :: cancelled-tab"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/aos.js"></script>
+
+    <script src="/js/main.js"></script>
+  </body>
 </html>

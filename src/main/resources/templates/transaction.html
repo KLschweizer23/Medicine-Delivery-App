@@ -7,73 +7,96 @@
         <th:block th:replace="components/header :: header"></th:block>
         <title>Transaction - My Orders</title>
     </head>
-    <body class="bg-primary-theme" style="background-color: black;">
-        <nav th:replace="fragments/navbar :: navbar"></nav>
-        <div class="text-center p-5">
-            <div class="bg-white p-2">
-                <h4 class="text-dark text-left">Billing Information</h4>
-                <div class="text-left text-dark w-100 m-0 mb-5 p-2">
+    <body>
+        <div class="site-wrap">
+            <nav th:replace="fragments/new_navbar :: navbar"></nav>
+
+            <div class="bg-light py-3">
+                <div class="container">
                   <div class="row">
-                    <div class="col-12 col-md-4">
-                        <h5>Person Details:</h5>
-                      <h6 th:text="${transaction.name}" class="m-0 p-0"><b>Name</b></h6>
-                      <h6 th:text="'+63' + ${transaction.phoneNumber}" class="m-0 p-0"><b>Number</b></h6>
-                    </div>
-                    <div class="col-12 col-md-8">
-                        <h5>Address:</h5>
-                      <h6 th:text="${transaction.address}" class="m-0 p-0">Address</h6>
-                    </div>
-                    <div class="col-12 mt-3">
-                        <h5 class="m-0 p-0">Note:</h5>
-                      <h6 th:text="${transaction.note}" class="m-0 p-0">Note</h6>
-                    </div>
+                    <div class="col-md-12 mb-0"><a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span> <a
+                        th:href="@{/}">Dashboard</a> <span class="mx-2 mb-0">/</span> <strong class="text-black"><span>Transaction</span></strong></div>
                   </div>
                 </div>
-                <hr>
-                <h4 class="text-dark text-left">Item/s</h4>
-                <th:block th:each="order : ${transaction.orderList.orders}">
-                    <div th:replace="fragments/item-order :: item-order"></div>
-                </th:block>
-                <div class="text-right w-100 m-0 p-2 text-dark">
-                    <div class="row m-0 p-0">
-                        <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-                        <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                            <h6 style="float: left">Order Subtotal: </h6>
-                            <h6 th:text="₱ + ' ' + ${total}" style="float: right">₱ 0.0</h6>
+            </div>
+
+            <div class="text-center p-5">
+                <div class="bg-white p-2">
+                    <h4 class="text-dark text-left">Billing Information</h4>
+                    <div class="text-left text-dark w-100 m-0 mb-5 p-2">
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <h5>Person Details:</h5>
+                        <h6 th:text="${transaction.name}" class="m-0 p-0"><b>Name</b></h6>
+                        <h6 th:text="'+63' + ${transaction.phoneNumber}" class="m-0 p-0"><b>Number</b></h6>
                         </div>
-                        <th:block th:if="${transaction.discount} != 0">
+                        <div class="col-12 col-md-8">
+                            <h5>Address:</h5>
+                        <h6 th:text="${transaction.address}" class="m-0 p-0">Address</h6>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <h5 class="m-0 p-0">Note:</h5>
+                        <h6 th:text="${transaction.note}" class="m-0 p-0">Note</h6>
+                        </div>
+                    </div>
+                    </div>
+                    <hr>
+                    <h4 class="text-dark text-left">Item/s</h4>
+                    <th:block th:each="order : ${transaction.orderList.orders}">
+                        <div th:replace="fragments/item-order :: item-order"></div>
+                    </th:block>
+                    <div class="text-right w-100 m-0 p-2 text-dark">
+                        <div class="row m-0 p-0">
+                            <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                            <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                                <h6 style="float: left">Order Subtotal: </h6>
+                                <h6 th:text="₱ + ' ' + ${total}" style="float: right">₱ 0.0</h6>
+                            </div>
+                            <th:block th:if="${transaction.discount} != 0">
+                                <hr />
+                                <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                                <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                                    <h6 th:text="'Senior Discount (' + ${transaction.discount} + '%)'" style="float: left">Shpping total: </h6>
+                                    <h6 th:text="'- ₱ ' + ${discount}" style="float: right">0.0</h6>
+                                </div>
+                            </th:block>
                             <hr />
                             <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
                             <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                                <h6 th:text="'Senior Discount (' + ${transaction.discount} + '%)'" style="float: left">Shpping total: </h6>
-                                <h6 th:text="'- ₱ ' + ${discount}" style="float: right">0.0</h6>
+                                <h6 style="float: left">Shipping total: </h6>
+                                <h6 th:text="₱ + ' ' + ${transaction.shippingTotal}" style="float: right">0.0</h6>
                             </div>
-                        </th:block>
-                        <hr />
-                        <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-                        <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                            <h6 style="float: left">Shipping total: </h6>
-                            <h6 th:text="₱ + ' ' + ${transaction.shippingTotal}" style="float: right">0.0</h6>
-                        </div>
-                        <hr />
-                        <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
-                        <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
-                            <h6 style="float: left">Total Payment: </h6>
-                            <h4 th:text="₱ + ' ' + ((${total} - ${discount}) + ${transaction.shippingTotal})" style="float: right">₱ 0.0</h4>
+                            <hr />
+                            <div class="m-0 p-0 col-12 col-lg-9 col-md-6 col-sm-3"></div>
+                            <div class="m-0 p-1 col-12 col-lg-3 col-md-6 col-sm-9" style="clear: both">
+                                <h6 style="float: left">Total Payment: </h6>
+                                <h4 th:text="₱ + ' ' + ((${total} - ${discount}) + ${transaction.shippingTotal})" style="float: right">₱ 0.0</h4>
+                            </div>
                         </div>
                     </div>
+                    <hr>
+                    <th:block th:switch="${#request.userPrincipal.principal.getRole}">
+                        <div th:if="${transaction.deliveryStatus} == 'To deliver and pay'" th:case="buyer" class="w-100 text-right m-0 p-3">
+                            <button type="button" onclick="cancelOrder(id)" th:id="${transaction.id}" class="btn btn-danger">Cancel Order</button>
+                        </div>
+                        <div th:if="${transaction.deliveryStatus} == 'To deliver and pay'" th:case="driver" class="w-100 text-right m-0 p-3">
+                            <button type="button" onclick="deliveredOrder(id)" th:id="${transaction.id}" class="btn btn-success">Order Delivered</button>
+                        </div>
+                    </th:block>
                 </div>
-                <hr>
-                <th:block th:switch="${#request.userPrincipal.principal.getRole}">
-                    <div th:if="${transaction.deliveryStatus} == 'To deliver and pay'" th:case="buyer" class="w-100 text-right m-0 p-3">
-                        <button type="button" onclick="cancelOrder(id)" th:id="${transaction.id}" class="btn btn-danger">Cancel Order</button>
-                    </div>
-                    <div th:if="${transaction.deliveryStatus} == 'To deliver and pay'" th:case="driver" class="w-100 text-right m-0 p-3">
-                        <button type="button" onclick="deliveredOrder(id)" th:id="${transaction.id}" class="btn btn-success">Order Delivered</button>
-                    </div>
-                </th:block>
             </div>
+            
         </div>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+        <script src="/js/jquery-ui.js"></script>
+        <script src="/js/popper.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/owl.carousel.min.js"></script>
+        <script src="/js/jquery.magnific-popup.min.js"></script>
+        <script src="/js/aos.js"></script>
+    
+        <script src="/js/main.js"></script>
     </body>
     <script th:inline="javascript">
         function cancelOrder(id){
