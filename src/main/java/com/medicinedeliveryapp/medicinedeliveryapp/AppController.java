@@ -98,6 +98,7 @@ public class AppController {
         mav.setViewName("index.html");
 
         mav.addObject("notif_count", getDriverNotifCount());
+        mav.addObject("nav_loc", "Home");
 
         return mav;
     }
@@ -108,6 +109,7 @@ public class AppController {
         mav.setViewName("about.html");
 
         mav.addObject("notif_count", getDriverNotifCount());
+        mav.addObject("nav_loc", "About");
 
         return mav;
     }
@@ -123,6 +125,7 @@ public class AppController {
         }
 
         mav.addObject("notif_count", getDriverNotifCount());
+        mav.addObject("nav_loc", "Login");
 
         return mav;
     }
@@ -151,6 +154,7 @@ public class AppController {
         }
 
         mav.addObject("notif_count", getDriverNotifCount());
+        mav.addObject("nav_loc", "Login");
         
         return mav;
     }
@@ -239,6 +243,7 @@ public class AppController {
         mav.addObject("pendingConsultations", pendingConsultations);
         mav.addObject("confirmedConsultations", confirmedConsultations);
         mav.addObject("deliveredConsultations", deliveredConsultations);
+        mav.addObject("nav_loc", "Me");
 
         return mav;
     }
@@ -258,6 +263,7 @@ public class AppController {
         mav.addObject("products", products);
         mav.addObject("count", products.size());
         mav.addObject("keyword", keyword);
+        mav.addObject("nav_loc", "Store");
 
         return mav;
     }
@@ -300,6 +306,7 @@ public class AppController {
 
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("product", product);
+        mav.addObject("nav_loc", "Store");
 
         return mav;
     }
@@ -388,6 +395,7 @@ public class AppController {
         mav.addObject("total", totalPrice);
         mav.addObject("cart", true);
         mav.addObject("hasOutOfStock", hasOutOfStock);
+        mav.addObject("nav_loc", "Me");
 
         return mav;
     }
@@ -490,6 +498,7 @@ public class AppController {
         mav.addObject("discountValue", seniorDiscount);
         mav.addObject("cart", false);
         mav.addObject("transaction", new Transaction());
+        mav.addObject("nav_loc", "Store");
 
         return mav;
     }
@@ -508,6 +517,7 @@ public class AppController {
         mav.addObject("deliveries", deliveries);
         mav.addObject("received", received);
         mav.addObject("cancelled", cancelled);
+        mav.addObject("nav_loc", "Me");
 
         return mav;
     }
@@ -535,6 +545,7 @@ public class AppController {
         mav.addObject("transaction", transaction);
         mav.addObject("discount", discount);
         mav.addObject("total", total);
+        mav.addObject("nav_loc", "Me");
 
         return mav;
     }
@@ -601,6 +612,7 @@ public class AppController {
         
         mav.addObject("data", data);
         mav.addObject("notif_count", getDriverNotifCount());
+        mav.addObject("nav_loc", "Store");
 
         return mav;
     }
@@ -651,6 +663,7 @@ public class AppController {
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("deliveries", deliveries);
         mav.addObject("confirmedConsultations", confirmedConsultations);
+        mav.addObject("nav_loc", "Me");
 
         return mav;
     }
@@ -662,6 +675,7 @@ public class AppController {
         
         mav.addObject("notif_count", getDriverNotifCount());
         mav.addObject("consult", new Consultation());
+        mav.addObject("nav_loc", "Me");
 
         return mav;
     }
@@ -701,6 +715,7 @@ public class AppController {
         mav.addObject("total", consultation.getTotal());
         mav.addObject("new_consultation", new Consultation());
         mav.addObject("ready", ready && consultation.getTotal() > 0 && consultation.getShippingFee() > 0);
+        mav.addObject("nav_loc", "Me");
 
         return mav;
     }
@@ -849,6 +864,7 @@ public class AppController {
         }else if(getCurrentUser().getRole().equals("pharmacist")){
             mav.addObject("license_id", pharmacistRepo.findByUser(getCurrentUser()).getLicense_id());
         }
+        mav.addObject("nav_loc", "Me");
 
         return mav;
     }

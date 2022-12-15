@@ -46,10 +46,10 @@
             class="site-menu js-clone-nav d-none d-lg-block"
             th:switch="${#request.userPrincipal}"
           >
-            <li class="active"><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/store}">Store</a></li>
-            <li><a th:href="@{/about}">About Us</a></li>
-            <li th:case="null"><a th:href="@{/login}">Login</a></li>
+            <li th:class="${nav_loc} == 'Home' ? 'active' : ''"><a th:href="@{/}">Home</a></li>
+            <li th:class="${nav_loc} == 'Store' ? 'active' : ''"><a th:href="@{/store}">Store</a></li>
+            <li th:class="${nav_loc} == 'About' ? 'active' : ''"><a th:href="@{/about}">About Us</a></li>
+            <li th:class="${nav_loc} == 'Login' ? 'active' : ''" th:case="null"><a th:href="@{/login}">Login</a></li>
             <li th:case="*" class="has-children">
               <a href="#" class="icons-btn d-inline-block bag">
                 <div th:text="${#request.userPrincipal.principal.getFirstName}">
