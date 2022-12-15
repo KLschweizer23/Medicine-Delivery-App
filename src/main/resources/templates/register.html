@@ -1,154 +1,306 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="components/header :: header"></th:block>
+    <title>Register - Medicine Delivery Site</title>
+  </head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <th:block th:replace="components/header :: header"></th:block>
-        <title>Register - Medicine Delivery Site</title>
-    </head>
-    
-    <body class="bg-primary-theme" style="background-color: black;">
-        
-        <div class="bg-primary-theme text-white small-card" style="margin-top: 100px;">
-            <div class="m-0 p-0 text-center">
-                <h2>Register</h2>
+  <body>
+    <div class="site-wrap">
+      <nav th:replace="fragments/new_navbar :: navbar"></nav>
+
+      <div class="bg-light py-3">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 mb-0">
+              <a th:href="@{/}">Home</a> <span class="mx-2 mb-0">/</span>
+              <a th:href="@{/login}">Login</a> <span class="mx-2 mb-0">/</span>
+              <strong class="text-black">Register</strong>
             </div>
-            <th:block th:if="${ue}">
-                <div class="alert alert-danger" role="alert">
-                  Email already exists! Try <a th:href="@{/login}" class="alert-link">logging in</a>.
-                </div>
-            </th:block>
-            <div class="m-0 p-0">
-                <form th:action="@{/process-user}" method="POST">
-                    <div class="form-group text-left">
-                        <label for="firstName">First Name</label>
-                        <input th:field="${user.firstName}" type="text" class="form-control form-control-sm" id="firstName" placeholder="Enter firstname" required>
-                    </div>
-                    <div class="form-group text-left">
-                        <label for="lastnName">Last Name</label>
-                        <input th:field="${user.lastName}" type="text" class="form-control form-control-sm" id="lastName" placeholder="Enter lastname" required>
-                    </div>
-                    <div class="form-group text-left">
-                        <label for="email">Email</label>
-                        <input th:field="${user.email}" type="text" class="form-control form-control-sm" id="email" placeholder="Enter email" required>
-                    </div>
-                    <div class="form-group text-left">
-                        <label for="password">Password</label>
-                        <input th:field="${user.password}" type="password" class="form-control form-control-sm" id="password" placeholder="Enter password" required>
-                    </div>
-                    <div class="form-group text-left">
-                        <label for="address">Address</label>
-                        <input th:field="${user.address}" type="text" class="form-control form-control-sm" id="address" placeholder="Enter address" required>
-                    </div>
-                    <div class="form-group text-left">
-                        <label for="date">Birth date</label><br>
-                        <input th:field="${user.birthday}" type="date" id="date" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="phoneNumber">Phone Number</label>
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="phoneNumber">+63</label>
-                          <input th:field="${user.phoneNumber}" type="text" class="form-control form-control-sm" id="phoneNumber" placeholder="9123456789" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 col-12">
-                            <label for="">Sex</label><br>
-                            <div class="form-check form-check-inline">
-                                <input th:field="${user.sex}" type="radio" class="form-check-input" name="sexOptions" id="male" value="male" required>
-                                <label class="form-check-label" for="male">Male</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input th:field="${user.sex}" type="radio" class="form-check-input" name="sexOptions" id="female" value="female" required>
-                                <label class="form-check-label" for="female">Female</label>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">Account Type</label>
-                        </div>
-                        <select th:field="${user.role}" class="custom-select" id="inputGroupSelect01" onchange="showInput(value);">
-                          <option selected value="buyer">I'm a buyer</option>
-                          <option value="doctor">I'm a Doctor</option>
-                          <option value="pharmacist">I'm a Pharmacist</option>
-                          <option value="driver">I'm a Driver</option>
-                        </select>
-                    </div>
-                    <div class="text-white">
-                        <div id="doctorDiv" hidden>
-                            <div class="form-group text-left">
-                                <label for="doctorlicense">Doctor License ID Number</label>
-                                <input th:field="${doctor.license_id}" type="text" class="form-control form-control-sm" id="doctorlicense" placeholder="Enter license number">
-                            </div>
-                            <div class="form-group text-left">
-                                <label for="admin">Admin Code</label>
-                                <input type="text" name="admin_code" class="form-control form-control-sm" id="admin" placeholder="Enter admin code">
-                            </div>
-                        </div>
-                        <div id="pharmacistDiv" hidden>
-                            <div class="form-group text-left">
-                                <label for="pharmacistlicense">Pharmacist License ID Number</label>
-                                <input th:field="${pharmacist.license_id}" type="text" class="form-control form-control-sm" id="pharmacistlicense" placeholder="Enter license number">
-                            </div>
-                            <div class="form-group text-left">
-                                <label for="admin">Admin Code</label>
-                                <input type="text" name="admin_code" class="form-control form-control-sm" id="admin" placeholder="Enter admin code">
-                            </div>
-                        </div>
-                        <div id="driverDiv" hidden>
-                            <div class="form-group text-left">
-                                <label for="driverlicense">Driver License ID Number</label>
-                                <input th:field="${driver.license_id}" type="text" class="form-control form-control-sm" id="driverlicense" placeholder="Enter license number">
-                            </div>
-                            <div class="form-group text-left">
-                                <label for="admin">Admin Code</label>
-                                <input type="text" name="admin_code" class="form-control form-control-sm" id="admin" placeholder="Enter admin code">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-5">
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
-                    </div>
-                </form>
-                <div class="mt-2">
-                    <a th:href="@{/}">
-                        <button class="btn btn-secondary btn-block">
-                            Cancel
-                        </button>
-                    </a>
-                </div>
-                <hr class="bg-white">
-                <div class="text-center">
-                    <p>Already have an account? Click <a th:href="@{/register}">here</a> to Login!</p>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
 
-    </body>
-    <script type="text/javascript" th:inline="javascript">
-        
-        var doctorDiv = document.getElementById("doctorDiv");
-        var pharmacistDiv = document.getElementById("pharmacistDiv");
-        var driverDiv = document.getElementById("driverDiv");
+      <div class="w-50 mx-auto mt-5">
+        <div class="p-3 p-lg-5 border">
+          <div class="w-100 m-0 p-0 text-center">
+            <h2 class="h3 mb-3 text-black">Register</h2>
+          </div>
+          <th:block th:if="${ue}">
+            <div class="alert alert-danger" role="alert">
+              Email already exists! Try
+              <a
+                th:href="@{/login}"
+                class="alert-link m-0 p-0"
+                style="display: inline"
+                >logging in</a
+              >.
+            </div>
+          </th:block>
+          <form th:action="@{/process-user}" method="POST">
+            <div class="form-group row">
+              <div class="col-md-12">
+                <label for="firstname" class="text-black">First Name</label>
+                <input
+                  th:field="${user.firstName}"
+                  type="text"
+                  class="form-control"
+                  id="firstname"
+                  name="firstName"
+                  placeholder="Enter firstname"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="lastname" class="text-black">Last Name</label>
+                <input
+                  th:field="${user.lastName}"
+                  type="text"
+                  class="form-control"
+                  id="lastname"
+                  name="lastname"
+                  placeholder="Enter lastname"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="email" class="text-black">Email</label>
+                <input
+                  th:field="${user.email}"
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Enter email"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="password" class="text-black">Password</label>
+                <input
+                  th:field="${user.password}"
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Enter password"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="address" class="text-black">Address</label>
+                <input
+                  th:field="${user.address}"
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  name="address"
+                  placeholder="Enter address"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="birthday" class="text-black">Birth date</label>
+                <input
+                  th:field="${user.birthday}"
+                  type="date"
+                  class="form-control"
+                  id="birthday"
+                  name="birthday"
+                  placeholder="Enter birthday"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="phoneNumber" class="text-black">Phone Number</label>
+                <div class="input-group-prepend">
+                  <label for="phoneNumber" class="input-group-text">+63</label>
+                  <input
+                    th:field="${user.phoneNumber}"
+                    type="text"
+                    class="form-control"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    placeholder="9123456789"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-3 col-12">
+                    <label for="sex" class="text-black">Sex</label>
+                    <div class="form-check">
+                      <input
+                        th:field="${user.sex}"
+                        type="radio"
+                        class="form-check-input"
+                        name="sexOptions"
+                        id="male"
+                        value="male"
+                        required
+                      />
+                      <label for="male" class="form-check-label">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input
+                        th:field="${user.sex}"
+                        type="radio"
+                        class="form-check-input"
+                        name="sexOptions"
+                        id="female"
+                        value="female"
+                        required
+                      />
+                      <label for="female" class="form-check-label"
+                        >Female</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01"
+                      >Account Type</label
+                    >
+                  </div>
+                  <select
+                    th:field="${user.role}"
+                    class="custom-select"
+                    id="inputGroupSelect01"
+                    onchange="showInput(value);"
+                  >
+                    <option selected value="buyer">I'm a buyer</option>
+                    <option value="doctor">I'm a Doctor</option>
+                    <option value="pharmacist">I'm a Pharmacist</option>
+                    <option value="driver">I'm a Driver</option>
+                  </select>
+                </div>
+              </div>
+              <div class="text-dark col-md-12">
+                <div id="doctorDiv" hidden>
+                  <div class="form-group text-left">
+                    <label for="doctorlicense">Doctor License ID Number</label>
+                    <input
+                      th:field="${doctor.license_id}"
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="doctorlicense"
+                      placeholder="Enter license number"
+                    />
+                  </div>
+                  <div class="form-group text-left">
+                    <label for="admin">Admin Code</label>
+                    <input
+                      type="text"
+                      name="admin_code"
+                      class="form-control form-control-sm"
+                      id="admin"
+                      placeholder="Enter admin code"
+                    />
+                  </div>
+                </div>
+                <div id="pharmacistDiv" hidden>
+                  <div class="form-group text-left">
+                    <label for="pharmacistlicense"
+                      >Pharmacist License ID Number</label
+                    >
+                    <input
+                      th:field="${pharmacist.license_id}"
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="pharmacistlicense"
+                      placeholder="Enter license number"
+                    />
+                  </div>
+                  <div class="form-group text-left">
+                    <label for="admin">Admin Code</label>
+                    <input
+                      type="text"
+                      name="admin_code"
+                      class="form-control form-control-sm"
+                      id="admin"
+                      placeholder="Enter admin code"
+                    />
+                  </div>
+                </div>
+                <div id="driverDiv" hidden>
+                  <div class="form-group text-left">
+                    <label for="driverlicense">Driver License ID Number</label>
+                    <input
+                      th:field="${driver.license_id}"
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="driverlicense"
+                      placeholder="Enter license number"
+                    />
+                  </div>
+                  <div class="form-group text-left">
+                    <label for="admin">Admin Code</label>
+                    <input
+                      type="text"
+                      name="admin_code"
+                      class="form-control form-control-sm"
+                      id="admin"
+                      placeholder="Enter admin code"
+                    />
+                  </div>
+                </div>
+              </div>
 
-        function showInput(value){
-            hideAnything();
-            if(value == "doctor"){
-                doctorDiv.removeAttribute("hidden");
-            }else if(value == "pharmacist"){
-                pharmacistDiv.removeAttribute("hidden");
-            }else if(value == "driver"){
-                driverDiv.removeAttribute("hidden");
-            }
-        }
-        function hideAnything(){
-            doctorDiv.setAttribute("hidden", true);
-            pharmacistDiv.setAttribute("hidden", true);
-            driverDiv.setAttribute("hidden", true);
-        }
-    </script>
+              <div class="m-0 p-0 w-100">
+                <button type="submit" class="btn btn-primary btn-block mt-5">
+                  Register
+                </button>
+                <button
+                  onclick="window.location.assign('/')"
+                  class="btn btn-secondary btn-block"
+                >
+                  Cancel
+                </button>
+              </div>
+              <div class="text-center w-100 mt-3">
+                <hr />
+                <p>
+                  Already have an account? Click
+                  <a th:href="@{/login}" class="m-0 p-0" style="display: inline"
+                    >here</a
+                  >
+                  to Login!
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" th:inline="javascript">
+    var doctorDiv = document.getElementById("doctorDiv");
+    var pharmacistDiv = document.getElementById("pharmacistDiv");
+    var driverDiv = document.getElementById("driverDiv");
+
+    $("#male").attr("checked", "checked");
+
+    function showInput(value) {
+      hideAnything();
+      if (value == "doctor") {
+        doctorDiv.removeAttribute("hidden");
+      } else if (value == "pharmacist") {
+        pharmacistDiv.removeAttribute("hidden");
+      } else if (value == "driver") {
+        driverDiv.removeAttribute("hidden");
+      }
+    }
+    function hideAnything() {
+      doctorDiv.setAttribute("hidden", true);
+      pharmacistDiv.setAttribute("hidden", true);
+      driverDiv.setAttribute("hidden", true);
+    }
+  </script>
 </html>
