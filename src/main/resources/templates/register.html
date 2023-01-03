@@ -40,7 +40,7 @@
               >.
             </div>
           </th:block>
-          <form th:action="@{/process-user}" method="POST">
+          <form id="processUser" th:action="@{/process-user}" method="POST" enctype="multipart/form-data">
             <div class="form-group row">
               <div class="col-md-12">
                 <label for="firstname" class="text-black">First Name</label>
@@ -111,8 +111,33 @@
                   id="birthday"
                   name="birthday"
                   placeholder="Enter birthday"
+                  onchange="checkIfSenior(value);"
                   required
                 />
+              </div>
+              <div class="m-0 p-0">
+                <div class="col-md-12" id="checkID">
+                  <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input mt-2" id="exampleCheck1" onchange="hasID(checked)">
+                    <label class="form-check-label" for="exampleCheck1">I have Senior Citizen ID (buyer only)</label>
+                  </div>
+                </div>
+                <div class="form-group pl-3" id="uploadID">
+                  <p>Upload Senior Citizen ID</p>
+                  <input type="file" accept="image/*" name="image" class="form-control-file" onchange="loadFileID(event)">
+                  <div class="text-center m-0 p-0 mt-2">
+                    <img id="outputID" style="width: 400px;"/>
+                  </div>
+                  <script>
+                    var loadFileID = function(event) {
+                      var output = document.getElementById('outputID');
+                      output.src = URL.createObjectURL(event.target.files[0]);
+                      output.onload = function() {
+                        URL.revokeObjectURL(output.src) // free memory
+                      }
+                    };
+                  </script>
+                </div>
               </div>
               <div class="col-md-12">
                 <label for="phoneNumber" class="text-black">Phone Number</label>
@@ -254,7 +279,7 @@
               </div>
 
               <div class="m-0 p-0 w-100">
-                <button type="submit" class="btn btn-primary btn-block mt-5">
+                <button type="button" onclick="submitForm();" class="btn btn-primary btn-block mt-5">
                   Register
                 </button>
                 <button
@@ -294,6 +319,10 @@
     var doctorDiv = document.getElementById("doctorDiv");
     var pharmacistDiv = document.getElementById("pharmacistDiv");
     var driverDiv = document.getElementById("driverDiv");
+    var checkID = document.getElementById('checkID');
+    var uploadID = document.getElementById('uploadID')
+    checkID.hidden = true
+    uploadID.hidden = true
 
     $("#male").attr("checked", "checked");
 
@@ -311,6 +340,57 @@
       doctorDiv.setAttribute("hidden", true);
       pharmacistDiv.setAttribute("hidden", true);
       driverDiv.setAttribute("hidden", true);
+    }
+    function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+    function checkIfSenior(value){
+      var age = getAge(value)
+      checkID.hidden = !(age >= 60)
+    }
+    function hasID(value){
+      uploadID.hidden = !value
+    }
+    function areAllFilled(){
+
+      var required = [
+        document.getElementById('firstname'),
+        document.getElementById('lastname'),
+        document.getElementById('email'),
+        document.getElementById('password'),
+        document.getElementById('address'),
+        document.getElementById('birthday'),
+        document.getElementById('phoneNumber'),
+      ]
+
+      for (var i = 0; i < required.length; i++) {
+        if (!required[i].value) {
+          alert('Please fill out all required fields');
+          return false;
+        }
+      }
+
+      return true;
+
+    }
+    function submitForm(){
+      
+      var allFilled = areAllFilled()
+      if(allFilled){
+        var status = document.getElementById('exampleCheck1').checked
+        $('#processUser').attr('action', '/process-user?status=' + status)
+        $('#processUser').submit()
+      }else{
+        alert('Not yet!')
+      }
+
     }
   </script>
 </html>

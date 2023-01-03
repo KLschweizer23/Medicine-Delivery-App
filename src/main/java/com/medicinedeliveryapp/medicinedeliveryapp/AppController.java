@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -160,7 +158,7 @@ public class AppController {
     }
 
     @PostMapping("/process-user")
-    public RedirectView processUserRegistration(User user, Buyer buyer, Doctor doctor, Pharmacist pharmacist, Driver driver, @RequestParam("admin_code") String adminCode){
+    public RedirectView processUserRegistration(User user, Buyer buyer, Doctor doctor, Pharmacist pharmacist, Driver driver, @RequestParam("admin_code") String adminCode, @RequestParam(name = "status", required = true) boolean status, @RequestParam(name = "image", required = false) MultipartFile file) throws IOException{
         RedirectView rv = new RedirectView();
         rv.setContextRelative(true);
         rv.setUrl("/login");
@@ -177,12 +175,16 @@ public class AppController {
         }
 
         if(user.getRole().equals("buyer")){
-
-            LocalDate bday = LocalDate.parse(user.getBirthday());
-            int age = Period.between(bday, LocalDate.now()).getYears();
-            if(age >= 60){
-                buyer.setDiscount(seniorDiscount);
+            buyer.setStatus("Regular");
+            if(status){
+                buyer.setStatus("Pending");
+                String idName = "ID_" + user.getFirstName() + user.getLastName() + ".jpg";
+                StringBuilder fileNames = new StringBuilder();
+                Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, idName);
+                fileNames.append(fileNames);
+                Files.write(fileNameAndPath, file.getBytes());
             }
+            buyer.setDiscount(0);
             buyer.setUser(user);
             buyer.setCart(new Cart());
             buyerRepo.save(buyer);

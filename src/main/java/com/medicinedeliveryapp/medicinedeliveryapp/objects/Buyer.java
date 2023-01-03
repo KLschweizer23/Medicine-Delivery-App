@@ -27,6 +27,9 @@ public class Buyer{
     @Column( nullable = false )
     private double discount;
 
+    @Column( nullable = false )
+    private String status;
+
     @OneToOne( cascade = CascadeType.ALL )
     private Cart cart;
     
