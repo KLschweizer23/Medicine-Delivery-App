@@ -270,6 +270,39 @@ public class AppController {
         return mav;
     }
 
+    @GetMapping("/approve-senior")
+    public RedirectView approveSeniors(@RequestParam( value = "id", required = true) Long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/my-account");
+
+        Buyer buyer = buyerRepo.findById(id).get();
+        buyer.setStatus("Senior");
+        buyerRepo.save(buyer);
+
+        return rv;
+    }
+
+    @GetMapping("/decline-senior")
+    public RedirectView declineSenior(@RequestParam( value = "id", required = true) Long id){
+        RedirectView rv = new RedirectView();
+        rv.setContextRelative(true);
+        rv.setUrl("/my-account");
+
+        Buyer buyer = buyerRepo.findById(id).get();
+        buyer.setStatus("Regular");
+        buyerRepo.save(buyer);
+
+        return rv;
+    }
+
+    @GetMapping("/get-seniors")
+    public List<Buyer> getSeniors(){
+        List<Buyer> buyers = buyerRepo.findAllByStatus("Pending");
+
+        return buyers;
+    }
+
     @GetMapping("/product-search")
     public List<Product> getProducts(@RequestParam( value = "keyword", required = false ) String keyword){
         List<Product> products = productRepo.findAllByBrandNameContainingOrGenericNameContaining(keyword, keyword);

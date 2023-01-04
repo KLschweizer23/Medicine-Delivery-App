@@ -28,6 +28,7 @@
                         <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
                         <th:block th:if="${#request.userPrincipal.principal.getRole} == 'pharmacist'">
                             <a class="nav-link" id="v-pills-product-tab" data-toggle="pill" href="#v-pills-product" role="tab" aria-controls="v-pills-product" aria-selected="false">Manage Products</a>
+                            <a class="nav-link" id="v-pills-senior-tab" data-toggle="pill" href="#v-pills-senior" role="tab" aria-controls="v-pills-senior" aria-selected="false">Manage Seniors</a>
                         </th:block>
                         <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
                     </div>
@@ -116,6 +117,23 @@
                                     <button type="button" onclick="newRow();" class="btn btn-success">New Product</button>
                                 </div>
                             </div>
+
+                            <div class="tab-pane fade" id="v-pills-senior" role="tabpanel" aria-labelledby="v-pills-senior-tab">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Birthday</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-senior">
+                                    </tbody>
+                                </table>
+                            </div>
                         </th:block>
                         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                             <div class="m-0 p-2">
@@ -169,7 +187,48 @@
         var newRows = 0;
         $(document).ready(function(){
             loadData();
+            loadSeniors();
         });
+
+        async function loadSeniors(){
+            $.get('/get-seniors', async (data) => {
+                var template = '';
+                var count = 1;
+                data.forEach(x => {
+                    template =
+                        "<tr id=" + x['buyer_id'] + ">" +
+                            "<th scope='row'>" + count + "</th>" +
+                            "<td>" + x['user']['firstName'] + "</td>" + 
+                            "<td>" + x['user']['lastName'] + "</td>" +
+                            "<td>" + x['user']['birthday'] + "</td>" +
+                            "<td>" +
+                                "<a href='./uploads/ID_" + x['user']['firstName'] + x['user']['lastName'] + ".jpg'>" +
+                                    "<img src='./uploads/ID_" + x['user']['firstName'] + x['user']['lastName'] + ".jpg' alt='ID' width='100px'>" +
+                                "</a>" +
+                            "</td>" +
+                            "<td>" +
+                                "<button type='button' class='btn btn-success' onclick='approve(" + x['buyer_id'] +")'>Approve</button>" + 
+                                "<button type='button' class='btn btn-danger' onclick='decline(" + x['buyer_id'] +")'>Decline</button>" +
+                            "</td>" +
+                        "</tr>";
+                    count++;
+                    document.getElementById('tbody-senior').appendChild(elementFromHtml(template))
+                })
+            })
+
+        }
+
+        function approve(id){
+            $.get('/approve-senior?id=' + id, () => {
+                location.reload()
+            })
+            location.reload()
+        }
+
+        function decline(id){
+            $.get('/decline-senior?id=' + id)
+            location.reload()
+        }
 
         function changePass(){
             var oldPass = $('#oldPassword').val();
