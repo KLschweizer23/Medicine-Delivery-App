@@ -109,6 +109,11 @@ body {
     top: 3px;
     left: -8px;
 }
+
+.resize-form{
+    width: 100%;
+}
+
 @media (min-width: 768px){
     .h3-header{
         font-size: 5rem;
@@ -119,6 +124,10 @@ body {
 
     .small-card {
         width: 40%;
+    }
+
+    .resize-form{
+        width: 50%;
     }
 }
 

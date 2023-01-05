@@ -90,6 +90,9 @@ public class AppController {
 
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads";
 
+    private String latitude = "";
+    private String longitude = "";
+
     @GetMapping("")
     public ModelAndView homePage(){
         ModelAndView mav = new ModelAndView();
@@ -555,6 +558,17 @@ public class AppController {
         mav.addObject("nav_loc", "Me");
 
         return mav;
+    }
+
+    @GetMapping("/save-position")
+    public void saveDriverPosition(@RequestParam(name = "latitude", required = true) String latitude, @RequestParam(name = "longitude", required = true) String longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    @GetMapping("/get-position")
+    public String getDriverPosition(){
+        return latitude + "," + longitude;
     }
 
     @GetMapping("/transaction/{id}")

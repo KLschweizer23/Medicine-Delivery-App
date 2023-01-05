@@ -82,6 +82,13 @@
                             <button type="button" onclick="deliveredOrder(id)" th:id="${transaction.id}" class="btn btn-success">Order Delivered</button>
                         </div>
                     </th:block>
+                    <th:block th:if="${transaction.deliveryStatus} == 'To deliver and pay'">
+                        <hr>
+                        <h3 class="text-dark text-center">Delivery Location</h3>
+                        <div id="parent">
+                            <div id="map" style="width: 100%; height: 300px;" class="bg-dark" ></div>
+                        </div>
+                    </th:block>
                 </div>
             </div>
             
@@ -98,6 +105,33 @@
         <script src="/js/main.js"></script>
     </body>
     <script th:inline="javascript">
+        $(document).ready(() => {
+            setInterval(showMapPosition, 5000)
+        })
+        async function showMapPosition(){
+            $.get('/get-position', async (data) => {
+                var lat = data.split(",")[0]
+                var lng = data.split(",")[1]
+
+                var child = document.getElementById('map')
+                var parent = document.getElementById('parent')
+                var newChild = document.createElement('div')
+                newChild.setAttribute("id", "map")
+                newChild.setAttribute("style", "bg-dark")
+                newChild.setAttribute("style", "width: 100%; height: 300px;")
+
+                parent.removeChild(child)
+                parent.appendChild(newChild)
+
+                var map = L.map('map').setView([lat, lng], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+                }).addTo(map);
+
+                var marker = L.marker([lat, lng]).addTo(map);
+            })
+        }
         function cancelOrder(id){
             var parameter = "?transaction=" + id;
             $.get("/cancel-order" + parameter, function(data){
